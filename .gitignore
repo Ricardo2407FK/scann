@@ -39,3 +39,23 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# deploy artifacts
+/deploy/
+deploy.zip
+
+# test/sample files
+*.pdf
+*.docx
+
+# docker (not needed for Vercel)
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# backups
+.backup-neumorphic/
+
+# scratch
+/scratch/
+
