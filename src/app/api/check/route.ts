@@ -772,9 +772,10 @@ export async function POST(req: Request) {
       } catch (err) {
         clearTimeout(globalTimer);
         if (!aborted) {
-          log.error('Engine error during analysis', { error: err instanceof Error ? err.message : String(err) });
+          log.error('Engine error during analysis', { error: err instanceof Error ? err.message : String(err), stack: err instanceof Error ? err.stack : undefined });
           try {
-            send({ type: 'error', message: 'Internal server error during analysis' });
+            const errMsg = err instanceof Error ? err.message : String(err);
+            send({ type: 'error', message: `Internal server error during analysis: ${errMsg}` });
             controller.close();
           } catch { /* stream already closed */ }
         }
