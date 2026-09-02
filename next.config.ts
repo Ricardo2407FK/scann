@@ -4,11 +4,6 @@ const nextConfig: NextConfig = {
   serverExternalPackages: [
     'pdf2json',
     'mammoth',
-    'natural',
-    'jsdom',
-    'cheerio',
-    'axios',
-    '@mozilla/readability',
   ],
   allowedDevOrigins: ['[::1]'],
 };
