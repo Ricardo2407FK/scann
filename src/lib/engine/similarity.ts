@@ -3,7 +3,7 @@
 // v6.0: Best-match tracking, 6/7-gram shingling, false positive suppression
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { PorterStemmer } from 'natural';
+import { getPorterStemmer } from './natural-loader';
 import stringSimilarity from 'string-similarity';
 import { STOP_WORDS, buildTfVector, getNGrams, getStemmedWords, countWords } from './text-utils';
 
@@ -77,18 +77,19 @@ export function jaccardSimilarity(setA: Set<string>, setB: Set<string>): number 
  * Calculates overlap ratio weighted by IDF — rare/unique words contribute more.
  * Uses O(1) STOP_WORDS Set instead of O(n) array scan.
  */
-export function idfWeightedOverlap(
+export async function idfWeightedOverlap(
   wordsA: string[],
   wordsB: string[],
   idfMap?: Map<string, number>,
-): number {
+): Promise<number> {
+  const stemmer = await getPorterStemmer();
   const stemsA = wordsA
     .filter(w => w.length > 2 && !STOP_WORDS.has(w.toLowerCase()))
-    .map(w => PorterStemmer.stem(w.toLowerCase()));
+    .map(w => stemmer.stem(w.toLowerCase()));
   const stemsB = new Set(
     wordsB
       .filter(w => w.length > 2 && !STOP_WORDS.has(w.toLowerCase()))
-      .map(w => PorterStemmer.stem(w.toLowerCase()))
+      .map(w => stemmer.stem(w.toLowerCase()))
   );
 
   if (stemsA.length === 0 || stemsB.size === 0) return 0;
@@ -205,11 +206,11 @@ export function normalizedEditDistance(wordsA: string[], wordsB: string[]): numb
 /**
  * Detects plagiarism that spans across sentence boundaries in the source.
  */
-export function slidingWindowMatch(
+export async function slidingWindowMatch(
   lowerSentence: string,
   sentenceStems: Set<string>,
   sourceSentences: string[],
-): { matched: boolean; snippet: string; confidence: number } {
+): Promise<{ matched: boolean; snippet: string; confidence: number }> {
   const NO_MATCH = { matched: false, snippet: '', confidence: 0 };
 
   if (sourceSentences.length < 2 || sentenceStems.size < 4) return NO_MATCH;
@@ -222,7 +223,7 @@ export function slidingWindowMatch(
       const compositeText = windowSentences.join(' ');
       if (countWords(compositeText) < 5) continue;
 
-      const compositeStems = getStemmedWords(compositeText);
+      const compositeStems = await getStemmedWords(compositeText);
       const jaccard = jaccardSimilarity(sentenceStems, compositeStems);
 
       if (jaccard >= THRESHOLDS.SLIDING_WINDOW_JACCARD) {
@@ -275,26 +276,26 @@ export function ensembleScore(
 }
 
 // ─── Paragraph-Level Comparison ─────────────────────────────────────────────
-export function paragraphSimilarity(paraSentences: string[], srcSentences: string[]): number {
+export async function paragraphSimilarity(paraSentences: string[], srcSentences: string[]): Promise<number> {
   const paraText = paraSentences.join(' ');
   const srcText = srcSentences.join(' ');
-  const paraVec = buildTfVector(paraText);
-  const srcVec = buildTfVector(srcText);
+  const paraVec = await buildTfVector(paraText);
+  const srcVec = await buildTfVector(srcText);
   return cosineSimilarity(paraVec, srcVec);
 }
 
 // ─── Sentence Reorder Detection ─────────────────────────────────────────────
-export function sentenceReorderScore(
+export async function sentenceReorderScore(
   inputSentences: string[],
   sourceSentences: string[],
-): number {
+): Promise<number> {
   if (inputSentences.length === 0 || sourceSentences.length === 0) return 0;
 
-  const srcStems = sourceSentences.map(s => getStemmedWords(s));
+  const srcStems = await Promise.all(sourceSentences.map(s => getStemmedWords(s)));
   let matchedCount = 0;
 
   for (const inputSent of inputSentences) {
-    const inputStems = getStemmedWords(inputSent);
+    const inputStems = await getStemmedWords(inputSent);
     if (inputStems.size < 4) continue;
 
     for (const srcStemSet of srcStems) {
@@ -421,7 +422,7 @@ function rankSourcesByRelevance(
  * - Edit Distance, IDF Overlap, Stemmed Jaccard now track best-match (not first-match)
  * - Added 6-gram and 7-gram for near-exact detection on longer sentences
  */
-export function matchSentenceToSource(
+export async function matchSentenceToSource(
   lowerSentence: string,
   sentenceTfVec: Map<string, number>,
   sentenceStems: Set<string>,
@@ -430,7 +431,7 @@ export function matchSentenceToSource(
   sourceStemmedSets: Set<string>[],
   sourceTfVecs: Map<string, number>[],
   idfMap?: Map<string, number>,
-): SentenceMatchResult {
+): Promise<SentenceMatchResult> {
   const NO_MATCH: SentenceMatchResult = { matched: false, bestSnippet: '', matchType: '', confidence: 0, algorithm: '' };
 
   if (!sourcePageText || sourcePageText.length < 50) return NO_MATCH;
@@ -584,7 +585,7 @@ export function matchSentenceToSource(
   }
 
   // ── 6. Sliding Window Cross-Boundary Detection ───────────────────────
-  const slideResult = slidingWindowMatch(lowerSentence, sentenceStems, sourceSentences);
+  const slideResult = await slidingWindowMatch(lowerSentence, sentenceStems, sourceSentences);
   if (slideResult.matched) {
     return {
       matched: true,
@@ -674,7 +675,7 @@ export function matchSentenceToSource(
   const idfLimit = Math.min(sourceSentences.length, LOOP_CAP_CHEAP);
   for (let j = 0; j < idfLimit; j++) {
     if (!eligible[j]) continue;
-    const overlap = idfWeightedOverlap(
+    const overlap = await idfWeightedOverlap(
       lowerSentence.split(/\s+/),
       sourceSentences[j].split(/\s+/),
       idfMap,

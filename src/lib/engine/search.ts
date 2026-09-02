@@ -5,7 +5,11 @@
 
 import * as cheerio from 'cheerio';
 import axios, { type AxiosResponse } from 'axios';
-import { JSDOM } from 'jsdom';
+// Dynamic import: 'jsdom' has ESM-only deps that crash on Vercel Node v24
+async function getJSDOM() {
+  const { JSDOM } = await import('jsdom');
+  return JSDOM;
+}
 import { Readability } from '@mozilla/readability';
 import { lookup } from 'node:dns/promises';
 import { isIP } from 'node:net';
@@ -453,6 +457,7 @@ export async function fetchPageText(url: string): Promise<string> {
 
     // Parse with a 10-second timeout — prevents a malformed page from blocking a slot
     let parseTimer: ReturnType<typeof setTimeout> | undefined;
+    const JSDOM = await getJSDOM();
     const parsePromise = new Promise<string>((resolve) => {
       try {
         const dom = new JSDOM(res.data, { url });

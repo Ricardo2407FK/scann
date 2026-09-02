@@ -3,10 +3,29 @@
 // v6.0: Expanded homoglyphs, Markdown/LaTeX stripping, Unicode boundaries
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { PorterStemmer, stopwords } from 'natural';
+import { initNatural, getPorterStemmer } from './natural-loader';
 
-// ─── O(1) Stop-Word Lookup (was O(n) array scan on every call) ──────────────
-export const STOP_WORDS: ReadonlySet<string> = new Set(stopwords);
+// ─── O(1) Stop-Word Lookup — lazy initialized ──────────────────────────────
+let _STOP_WORDS: ReadonlySet<string> | null = null;
+export async function getStopWords(): Promise<ReadonlySet<string>> {
+  if (!_STOP_WORDS) {
+    const { stopwords } = await initNatural();
+    _STOP_WORDS = new Set(stopwords);
+  }
+  return _STOP_WORDS;
+}
+// Synchronous fallback for use after initialization
+export const STOP_WORDS: ReadonlySet<string> = new Set([
+  'i','me','my','myself','we','our','ours','ourselves','you','your','yours',
+  'yourself','yourselves','he','him','his','himself','she','her','hers',
+  'herself','it','its','itself','they','them','their','theirs','themselves',
+  'what','which','who','whom','this','that','these','those','am','is','are',
+  'was','were','be','been','being','have','has','had','having','do','does',
+  'did','doing','a','an','the','and','but','if','or','because','as','until',
+  'while','of','at','by','for','with','about','against','between','through',
+  'during','before','after','above','below','to','from','up','down','in',
+  'out','on','off','over','under','again','further','then','once',
+]);
 
 // ─── Expanded Homoglyph Table (60+ substitutions) ───────────────────────────
 const HOMOGLYPHS: Record<string, string> = {
@@ -137,12 +156,13 @@ export function countWords(text: string): number {
  * Extract stemmed, stop-word-filtered word set from text.
  * Uses O(1) Set lookup instead of O(n) array scan.
  */
-export function getStemmedWords(text: string): Set<string> {
+export async function getStemmedWords(text: string): Promise<Set<string>> {
   if (!text) return new Set();
+  const stemmer = await getPorterStemmer();
   return new Set(
     text.toLowerCase().split(/\s+/)
       .filter(w => w.length > 2 && !STOP_WORDS.has(w))
-      .map(w => PorterStemmer.stem(w))
+      .map(w => stemmer.stem(w))
   );
 }
 
@@ -150,11 +170,12 @@ export function getStemmedWords(text: string): Set<string> {
  * Build normalized TF vector (stemmed, stop-word-filtered).
  * Uses O(1) Set lookup instead of O(n) array scan.
  */
-export function buildTfVector(text: string): Map<string, number> {
+export async function buildTfVector(text: string): Promise<Map<string, number>> {
   if (!text) return new Map();
+  const stemmer = await getPorterStemmer();
   const words = text.toLowerCase().split(/\s+/)
     .filter(w => w.length > 2 && !STOP_WORDS.has(w))
-    .map(w => PorterStemmer.stem(w));
+    .map(w => stemmer.stem(w));
 
   const tf = new Map<string, number>();
   for (const w of words) tf.set(w, (tf.get(w) || 0) + 1);
@@ -168,8 +189,9 @@ export function buildTfVector(text: string): Map<string, number> {
  * Build IDF map from a corpus of documents (arrays of words).
  * Uses O(1) Set lookup instead of O(n) array scan.
  */
-export function buildIdfMap(documents: string[][]): Map<string, number> {
+export async function buildIdfMap(documents: string[][]): Promise<Map<string, number>> {
   if (!documents || documents.length === 0) return new Map();
+  const stemmer = await getPorterStemmer();
   const N = documents.length;
   const df = new Map<string, number>();
 
@@ -177,7 +199,7 @@ export function buildIdfMap(documents: string[][]): Map<string, number> {
     const seen = new Set<string>();
     for (const w of doc) {
       const lower = w.toLowerCase();
-      const stem = PorterStemmer.stem(lower);
+      const stem = stemmer.stem(lower);
       if (!seen.has(stem) && stem.length > 2 && !STOP_WORDS.has(lower)) {
         seen.add(stem);
         df.set(stem, (df.get(stem) || 0) + 1);

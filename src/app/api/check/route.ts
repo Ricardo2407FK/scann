@@ -3,7 +3,12 @@
 // v6.0: Word-weighted scoring, false positive suppression, 15-algorithm cascade
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { SentenceTokenizer, TfIdf } from 'natural';
+// Dynamic import: 'natural' has ESM-only sub-deps that crash on Vercel's Node v24
+let _natural: Awaited<typeof import('natural')> | null = null;
+async function getNatural() {
+  if (!_natural) _natural = await import('natural');
+  return _natural;
+}
 
 import type { StreamPayload, Report, SourceText, AlgorithmContribution, SentenceMatch } from '@/lib/engine/types';
 import { STOP_WORDS, sanitizeEvasions, filterCitations, escapeHtml, countWords, getStemmedWords, buildTfVector, buildIdfMap, generateQueryVariants, groupIntoParagraphs } from '@/lib/engine/text-utils';
@@ -44,16 +49,24 @@ const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
  */
 const yieldEventLoop = () => new Promise<void>(resolve => setImmediate(resolve));
 
-// Reuse a single SentenceTokenizer instance (avoids repeated construction)
-const sentenceTokenizer = new SentenceTokenizer([]);
+// Lazy SentenceTokenizer — initialized on first use
+let _sentenceTokenizer: InstanceType<(typeof import('natural'))['SentenceTokenizer']> | null = null;
+async function getSentenceTokenizer() {
+  if (!_sentenceTokenizer) {
+    const natural = await getNatural();
+    _sentenceTokenizer = new natural.SentenceTokenizer([]);
+  }
+  return _sentenceTokenizer;
+}
 
 /**
  * Safe sentence tokenization — falls back to regex splitting if the NLP
  * tokenizer throws on malformed Unicode / control characters.
  */
-function safeTokenize(text: string): string[] {
+async function safeTokenize(text: string): Promise<string[]> {
   try {
-    return sentenceTokenizer.tokenize(text).map(s => s.trim()).filter(Boolean);
+    const tokenizer = await getSentenceTokenizer();
+    return tokenizer.tokenize(text).map(s => s.trim()).filter(Boolean);
   } catch (err) {
     logger.warn('SentenceTokenizer crashed, using regex fallback', { error: err instanceof Error ? err.message : String(err) });
     // Regex fallback: split on period/question/exclamation followed by whitespace + uppercase
@@ -65,10 +78,11 @@ function safeTokenize(text: string): string[] {
 }
 
 // ─── Probe Sentence Selection (TF-IDF + diversity) ─────────────────────────
-function selectProbes(sentences: string[]): string[] {
+async function selectProbes(sentences: string[]): Promise<string[]> {
   if (sentences.length <= MAX_PROBES) return sentences;
 
-  const tfidf = new TfIdf();
+  const natural = await getNatural();
+  const tfidf = new natural.TfIdf();
   sentences.forEach(s => tfidf.addDocument(s));
 
   const scored = sentences.map((sentence, idx) => {
@@ -261,7 +275,7 @@ export async function POST(req: Request) {
         // STEP 2: TOKENIZATION
         // ════════════════════════════════════════════════════════════════════
         status(`Processing ${wordCount.toLocaleString()} words...`, 2);
-        const sentences = safeTokenize(cleanText);
+        const sentences = await safeTokenize(cleanText);
 
         const emptyReport = (): Report => ({
           score: 0, aiScore: 0, originalityScore: 100,
@@ -296,7 +310,7 @@ export async function POST(req: Request) {
         // STEP 4: PROBE SELECTION & QUERY REFORMULATION
         // ════════════════════════════════════════════════════════════════════
         status('Identifying key passages...', 4);
-        const probes = selectProbes(sentences);
+        const probes = await selectProbes(sentences);
 
         // Generate query variants for each probe
         const allQueries: string[] = [];
@@ -431,7 +445,7 @@ export async function POST(req: Request) {
 
         for (const src of sourceTexts) {
           // Use safeTokenize (not raw sentenceTokenizer) — source HTML can have malformed chars
-          const allSrcSents = safeTokenize(src.pageText);
+          const allSrcSents = await safeTokenize(src.pageText);
           // Cap source sentences — a Wikipedia page can have 300+ sentences, which causes O(n²) blowup
           const srcSents = allSrcSents.length > MAX_SOURCE_SENTS ? allSrcSents.slice(0, MAX_SOURCE_SENTS) : allSrcSents;
           srcSentencesMap.set(src.url, srcSents);
@@ -442,8 +456,8 @@ export async function POST(req: Request) {
 
           for (let j = 0; j < srcSents.length; j++) {
             if (countWords(srcSents[j]) >= 5) {
-              stems[j] = getStemmedWords(srcSents[j]);
-              tfVecs[j] = buildTfVector(srcSents[j]);
+              stems[j] = await getStemmedWords(srcSents[j]);
+              tfVecs[j] = await buildTfVector(srcSents[j]);
             } else {
               stems[j] = new Set();
               tfVecs[j] = new Map();
@@ -463,7 +477,7 @@ export async function POST(req: Request) {
         }
 
         // Build IDF map from all source documents for IDF-weighted overlap
-        const idfMap = buildIdfMap(allSourceWordArrays);
+        const idfMap = await buildIdfMap(allSourceWordArrays);
 
         // Yield after heavy pre-computation
         await yieldEventLoop();
@@ -528,11 +542,11 @@ export async function POST(req: Request) {
 
           if (wc >= MIN_MATCH_WORDS) {
             eligibleCount++;
-            const tfVec = buildTfVector(lower);
-            const stems = getStemmedWords(lower);
+            const tfVec = await buildTfVector(lower);
+            const stems = await getStemmedWords(lower);
 
             for (const src of sourceTexts) {
-              const result = matchSentenceToSource(
+              const result = await matchSentenceToSource(
                 lower, tfVec, stems, src.pageText,
                 srcSentencesMap.get(src.url) || [],
                 srcStemsMap.get(src.url) || [],
@@ -660,7 +674,7 @@ export async function POST(req: Request) {
 
           for (const inputPara of inputSample) {
             for (const srcPara of srcSample) {
-              const paraSim = paragraphSimilarity(inputPara, srcPara);
+              const paraSim = await paragraphSimilarity(inputPara, srcPara);
               if (paraSim > 0.45) paraBoost += 0.02;
             }
           }
@@ -669,7 +683,7 @@ export async function POST(req: Request) {
           const reorderInput = sentences.length <= MAX_REORDER_SENTENCES
             ? sentences
             : sentences.slice(0, MAX_REORDER_SENTENCES);
-          const reorderScore = sentenceReorderScore(reorderInput, srcSents);
+          const reorderScore = await sentenceReorderScore(reorderInput, srcSents);
           if (reorderScore > 0.3) paraBoost += reorderScore * 0.05;
         }
 
