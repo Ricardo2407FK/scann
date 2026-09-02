@@ -17,7 +17,7 @@ import { getAvailableEngineCount } from '@/lib/engine/circuit-breaker';
 import { config } from '@/lib/config';
 import { logger, generateRequestId } from '@/lib/logger';
 
-export const maxDuration = 120;
+export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 

@@ -97,12 +97,12 @@ export default function PlagiarismChecker() {
     setStatus('checking'); setReport(null); setCurrentStep(0); setPartialMatches(0);
     setStreamStatus('Initializing Scanterity engine...');
 
-    // Client-side timeout: 180s (generous buffer over server's 150s)
+    // Client-side timeout: 75s (buffer over server's 60s Vercel limit)
     const clientTimeout = setTimeout(() => {
       controller.abort();
       setStatus('error');
       setStreamStatus('Scan timed out. This can happen with slow network or heavy server load. Please try again.');
-    }, 180_000);
+    }, 75_000);
 
     try {
       const res = await fetch('/api/check', {

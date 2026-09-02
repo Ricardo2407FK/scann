@@ -28,9 +28,9 @@ export const config = {
   MAX_FILE_BYTES: envInt('Scanterity_MAX_FILE_BYTES', 15 * 1024 * 1024),
 
   // Probe & source limits
-  MAX_PROBES: envInt('Scanterity_MAX_PROBES', 20),             // v6.0: was 14
-  MAX_SOURCE_URLS: envInt('Scanterity_MAX_SOURCE_URLS', 18),   // v6.0: was 12
-  MAX_SOURCE_SENTS: envInt('Scanterity_MAX_SOURCE_SENTS', 180), // v6.0: was 150
+  MAX_PROBES: envInt('Scanterity_MAX_PROBES', 10),             // Vercel: reduced for 60s limit
+  MAX_SOURCE_URLS: envInt('Scanterity_MAX_SOURCE_URLS', 8),    // Vercel: reduced for 60s limit
+  MAX_SOURCE_SENTS: envInt('Scanterity_MAX_SOURCE_SENTS', 100), // Vercel: reduced for 60s limit
   MIN_MATCH_WORDS: envInt('Scanterity_MIN_MATCH_WORDS', 6),
 
   // Search
@@ -39,7 +39,7 @@ export const config = {
   ENABLE_SCRAPING_ENGINES: envBool('Scanterity_ENABLE_SCRAPING_ENGINES', true),
 
   // Timeouts
-  GLOBAL_TIMEOUT_MS: envInt('Scanterity_GLOBAL_TIMEOUT_MS', 150_000),
+  GLOBAL_TIMEOUT_MS: envInt('Scanterity_GLOBAL_TIMEOUT_MS', 55_000),  // Vercel: 60s max, leave 5s buffer
   SEARCH_TIMEOUT_MS: envInt('Scanterity_SEARCH_TIMEOUT_MS', 8000),
   PAGE_FETCH_TIMEOUT_MS: envInt('Scanterity_PAGE_FETCH_TIMEOUT_MS', 8000),
   PAGE_PARSE_TIMEOUT_MS: envInt('Scanterity_PAGE_PARSE_TIMEOUT_MS', 10_000),
@@ -57,7 +57,7 @@ export const config = {
   // Scan queue
   SCAN_QUEUE_MAX_CONCURRENT: envInt('Scanterity_SCAN_QUEUE_MAX_CONCURRENT', 3),
   SCAN_QUEUE_MAX_DEPTH: envInt('Scanterity_SCAN_QUEUE_MAX_DEPTH', 20),
-  SCAN_QUEUE_TIMEOUT_MS: envInt('Scanterity_SCAN_QUEUE_TIMEOUT_MS', 120_000),
+  SCAN_QUEUE_TIMEOUT_MS: envInt('Scanterity_SCAN_QUEUE_TIMEOUT_MS', 55_000),  // Vercel: fit within 60s
 
   // Cache
   PAGE_CACHE_CAPACITY: envInt('Scanterity_PAGE_CACHE_CAPACITY', 500),
