@@ -325,6 +325,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         {/* Google AdSense Verification Tag */}
+        <meta name="google-adsense-account" content="ca-pub-1479131350625812" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1479131350625812" crossOrigin="anonymous"></script>
       </head>
       <body>
