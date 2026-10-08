@@ -324,6 +324,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Google AdSense Verification Tag */}
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1479131350625812" crossOrigin="anonymous"></script>
       </head>
       <body>
         <Script
@@ -339,11 +341,7 @@ export default function RootLayout({
             gtag('config', 'G-WTK9E3WPSX');
           `}
         </Script>
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1479131350625812"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-        />
+        </Script>
         {children}
       </body>
     </html>
