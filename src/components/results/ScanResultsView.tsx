@@ -202,23 +202,7 @@ export default function ScanResultsView({ report, onNewScan, onExport, container
         </div>
       </main>
 
-      {/* Footer — Neo-Brutalist */}
-      <footer className={styles.customFooter}>
-          <div className={styles.customFooterInner}>
-            <div className={styles.customFooterTopRow}>
-              <img src="/Scanterity.png" alt="Scanterity Logo" className={styles.scanterityLogo} />
-              <div className={styles.customFooterLinks}>
-                <Link href="/privacy" style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>Privacy Policy</Link>
-                <Link href="/terms" style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>Terms of Service</Link>
-                <Link href="/compliance" style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>Compliance</Link>
-                <Link href="/contact" style={{ cursor: 'pointer', textDecoration: 'none', color: 'inherit' }}>Contact</Link>
-              </div>
-            </div>
-            <div className={styles.customFooterBottomRow}>
-              <p className={styles.customFooterText}>© {new Date().getFullYear()} Scanterity Forensic Systems. All rights reserved.</p>
-            </div>
-          </div>
-        </footer>
+
     </div>
   );
 }
