@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter, Outfit, JetBrains_Mono, Plus_Jakarta_Sans, Hanken_Grotesk } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -121,6 +120,7 @@ export const metadata: Metadata = {
     'apple-mobile-web-app-title': 'Scanterity',
     'application-name': 'Scanterity',
     'msapplication-TileColor': '#000000',
+    'google-adsense-account': 'ca-pub-1479131350625812',
   },
   icons: {
     icon: [
@@ -321,6 +321,7 @@ export default function RootLayout({
           }}
         />
         {/* Google AdSense */}
+        <meta name="google-adsense-account" content="ca-pub-1479131350625812" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1479131350625812" crossOrigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
         <link rel="icon" type="image/png" href="/favicon-32.png" sizes="32x32" />
