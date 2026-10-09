@@ -1,10 +1,12 @@
 import type { MetadataRoute } from 'next';
+import { HOME_DESCRIPTION } from '@/lib/seo';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Scanterity — Free Plagiarism Checker & AI Detector',
     short_name: 'Scanterity',
-    description: 'The #1 free plagiarism checker and AI content detector. Detect exact matches, deep paraphrasing, and AI-generated text with forensic precision. No sign-up required.',
+    description: HOME_DESCRIPTION,
+    lang: 'en',
     start_url: '/',
     display: 'standalone',
     background_color: '#f5f3f0',

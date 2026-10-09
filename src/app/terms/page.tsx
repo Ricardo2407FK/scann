@@ -1,19 +1,14 @@
-import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Scale, Shield, AlertTriangle, Users, Ban, RefreshCw, Globe, Gavel } from 'lucide-react';
 import styles from '../privacy/PrivacyPolicy.module.css';
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Terms of Service',
-  description: 'Scanterity Terms of Service — Read our terms governing the use of Scanterity forensic plagiarism detection, AI content analysis, and document scanning services.',
-  alternates: { canonical: '/terms' },
-  openGraph: {
-    title: 'Terms of Service | Scanterity',
-    description: 'Terms governing the use of Scanterity forensic plagiarism detection services.',
-    url: 'https://scanterity.com/terms',
-  },
-};
+  description: 'Read the Scanterity terms of service, including acceptable use, intellectual property, service limitations, and terms for plagiarism and AI writing analysis.',
+  path: '/terms',
+});
 
 export default function TermsOfService() {
   return (

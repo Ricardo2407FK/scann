@@ -1,19 +1,14 @@
-import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Shield, Globe, Database, Lock, Eye, FileCheck, Bell, Users, Scale, Cookie, Clock, Server } from 'lucide-react';
 import styles from '../privacy/PrivacyPolicy.module.css';
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'GDPR & Compliance',
-  description: 'Scanterity GDPR, CCPA & global data protection compliance — Your rights under EU General Data Protection Regulation, California Consumer Privacy Act, and ePrivacy Directive.',
-  alternates: { canonical: '/compliance' },
-  openGraph: {
-    title: 'GDPR & Compliance | Scanterity',
-    description: 'Full GDPR, CCPA & ePrivacy compliance documentation for Scanterity forensic plagiarism detection.',
-    url: 'https://scanterity.com/compliance',
-  },
-};
+  description: 'Read Scanterity documentation on GDPR and CCPA rights, data processing, retention, security measures, and how to submit a data protection request.',
+  path: '/compliance',
+});
 
 export default function CompliancePage() {
   return (

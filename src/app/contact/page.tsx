@@ -1,19 +1,14 @@
-import type { Metadata } from 'next';
+import { createPageMetadata } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Mail, Shield, Building2, MessageCircle, Scale, FileText } from 'lucide-react';
 import styles from '../privacy/PrivacyPolicy.module.css';
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Contact Us',
-  description: 'Contact Scanterity — Reach our Data Protection Officer, legal team, or support. Submit GDPR data requests, report issues, or get help with plagiarism detection.',
-  alternates: { canonical: '/contact' },
-  openGraph: {
-    title: 'Contact Us | Scanterity',
-    description: 'Contact Scanterity for support, legal inquiries, GDPR data requests, or partnership opportunities.',
-    url: 'https://scanterity.com/contact',
-  },
-};
+  description: 'Contact Scanterity for plagiarism checker support, technical issues, privacy requests, legal inquiries, or partnership opportunities.',
+  path: '/contact',
+});
 
 export default function ContactPage() {
   return (

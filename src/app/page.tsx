@@ -2,10 +2,21 @@ import PlagiarismChecker from "@/components/PlagiarismChecker";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ShieldCheck, Zap, FileText, Search, Target, Users, BookOpen, AlertTriangle } from "lucide-react";
 import Link from "next/link";
+import { createPageMetadata, HOME_DESCRIPTION, HOME_TITLE, homeJsonLd, serializeJsonLd } from "@/lib/seo";
+
+export const metadata = createPageMetadata({
+  title: HOME_TITLE,
+  description: HOME_DESCRIPTION,
+  path: '/',
+});
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#FAFAFA]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(homeJsonLd) }}
+      />
       {/* Main App Component */}
       <ErrorBoundary>
         <PlagiarismChecker />
@@ -54,7 +65,7 @@ export default function Home() {
               <Search className="w-12 h-12 text-[#FF9F43] mb-5" strokeWidth={2.5} />
               <h3 className="text-2xl font-bold mb-3">No Sign-up Required</h3>
               <p className="text-gray-900 text-lg">
-                We believe in frictionless access to essential academic tools. You don't need to create an account, verify an email, or enter credit card details. Just paste your text and <strong>check for plagiarism</strong> instantly.
+                We believe in frictionless access to essential academic tools. You don&apos;t need to create an account, verify an email, or enter credit card details. Just paste your text and <strong>check for plagiarism</strong> instantly.
               </p>
             </div>
           </div>
