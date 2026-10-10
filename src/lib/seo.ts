@@ -8,7 +8,7 @@ export const HOME_TITLE = 'Free Plagiarism Checker & AI Detector';
 export const HOME_DESCRIPTION =
   'Check text for plagiarism and AI writing with Scanterity. Upload PDF, DOCX or TXT files, review matched sources, and download PDF reports. Free, no sign-up.';
 
-export const PUBLIC_PATHS = ['/', '/privacy', '/terms', '/compliance', '/contact'] as const;
+export const PUBLIC_PATHS = ['/', '/privacy', '/terms', '/compliance', '/contact', '/why-choose-us'] as const;
 
 export function absoluteUrl(path: string): string {
   return new URL(path, `${SITE_URL}/`).href;
