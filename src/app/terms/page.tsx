@@ -1,4 +1,4 @@
-import { createPageMetadata } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Scale, Shield, AlertTriangle, Users, Ban, RefreshCw, Globe, Gavel } from 'lucide-react';
@@ -6,13 +6,21 @@ import styles from '../privacy/PrivacyPolicy.module.css';
 
 export const metadata = createPageMetadata({
   title: 'Terms of Service',
-  description: 'Read the Scanterity terms of service, including acceptable use, intellectual property, service limitations, and terms for plagiarism and AI writing analysis.',
+  description: 'Read the Scanterity terms of service for our free plagiarism checker and AI detector. Covers acceptable use, intellectual property, content ownership, service limitations, and privacy commitments.',
   path: '/terms',
 });
+
+const breadcrumbJsonLd = createBreadcrumbJsonLd([
+  { name: 'Terms of Service', path: '/terms' },
+]);
 
 export default function TermsOfService() {
   return (
     <div className={styles.container}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <div className={styles.contentWrapper}>
         <div className={styles.backButtonContainer}>
           <Link href="/" className={styles.backButton}>

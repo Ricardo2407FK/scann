@@ -1,4 +1,4 @@
-import { createPageMetadata } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Shield, Globe, Database, Lock, Eye, FileCheck, Bell, Users, Scale, Cookie, Clock, Server } from 'lucide-react';
@@ -6,13 +6,21 @@ import styles from '../privacy/PrivacyPolicy.module.css';
 
 export const metadata = createPageMetadata({
   title: 'GDPR & Compliance',
-  description: 'Read Scanterity documentation on GDPR and CCPA rights, data processing, retention, security measures, and how to submit a data protection request.',
+  description: 'Scanterity GDPR, CCPA, and ePrivacy compliance documentation. Learn about data processing, zero-retention scanning, your privacy rights, international data transfers, and security measures for our plagiarism checker.',
   path: '/compliance',
 });
+
+const breadcrumbJsonLd = createBreadcrumbJsonLd([
+  { name: 'GDPR & Compliance', path: '/compliance' },
+]);
 
 export default function CompliancePage() {
   return (
     <div className={styles.container}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <div className={styles.contentWrapper}>
         <div className={styles.backButtonContainer}>
           <Link href="/" className={styles.backButton}>

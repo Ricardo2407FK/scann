@@ -8,31 +8,37 @@ export default function manifest(): MetadataRoute.Manifest {
     description: HOME_DESCRIPTION,
     lang: 'en',
     start_url: '/',
+    id: '/',
     display: 'standalone',
     background_color: '#f5f3f0',
     theme_color: '#0a0a0a',
     orientation: 'portrait-primary',
     categories: ['education', 'productivity', 'utilities'],
+    prefer_related_applications: false,
     icons: [
       {
         src: '/favicon-192.png',
         sizes: '192x192',
         type: 'image/png',
+        purpose: 'any',
       },
       {
         src: '/apple-touch-icon.png',
         sizes: '180x180',
         type: 'image/png',
+        purpose: 'any',
       },
       {
         src: '/favicon-48.png',
         sizes: '48x48',
         type: 'image/png',
+        purpose: 'any',
       },
       {
         src: '/favicon-32.png',
         sizes: '32x32',
         type: 'image/png',
+        purpose: 'any',
       },
     ],
   };

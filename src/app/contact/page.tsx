@@ -1,4 +1,4 @@
-import { createPageMetadata } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Mail, Shield, Building2, MessageCircle, Scale, FileText } from 'lucide-react';
@@ -6,13 +6,21 @@ import styles from '../privacy/PrivacyPolicy.module.css';
 
 export const metadata = createPageMetadata({
   title: 'Contact Us',
-  description: 'Contact Scanterity for plagiarism checker support, technical issues, privacy requests, legal inquiries, or partnership opportunities.',
+  description: 'Contact Scanterity for plagiarism checker support, AI detector questions, technical issues, GDPR/CCPA privacy requests, legal inquiries, enterprise partnerships, or bug reports.',
   path: '/contact',
 });
+
+const breadcrumbJsonLd = createBreadcrumbJsonLd([
+  { name: 'Contact Us', path: '/contact' },
+]);
 
 export default function ContactPage() {
   return (
     <div className={styles.container}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <div className={styles.contentWrapper}>
         <div className={styles.backButtonContainer}>
           <Link href="/" className={styles.backButton}>

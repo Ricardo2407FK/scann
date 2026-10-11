@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Outfit, JetBrains_Mono, Plus_Jakarta_Sans, Hanken_Grotesk } from "next/font/google";
 import Script from "next/script";
-import { HOME_DESCRIPTION, HOME_TITLE, SITE_NAME, SITE_URL, serializeJsonLd, siteJsonLd } from "@/lib/seo";
+import { HOME_DESCRIPTION, HOME_TITLE, SITE_NAME, SITE_URL, SITE_KEYWORDS, serializeJsonLd, siteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -44,11 +44,24 @@ export const metadata: Metadata = {
     template: '%s | ' + SITE_NAME,
   },
   description: HOME_DESCRIPTION,
+  keywords: SITE_KEYWORDS as unknown as string[],
   applicationName: SITE_NAME,
   authors: [{ name: "Scanterity Forensic Systems", url: SITE_URL }],
   creator: SITE_NAME,
   publisher: "Scanterity Forensic Systems",
   category: "Education Technology",
+  alternates: {
+    canonical: SITE_URL,
+    languages: {
+      'en-US': SITE_URL,
+      'x-default': SITE_URL,
+    },
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   robots: {
     index: true,
     follow: true,
