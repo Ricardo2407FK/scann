@@ -6,7 +6,7 @@ import styles from '../privacy/PrivacyPolicy.module.css';
 
 export const metadata = createPageMetadata({
   title: 'Contact Us',
-  description: 'Contact Scanterity for plagiarism checker support, AI detector questions, technical issues, GDPR/CCPA privacy requests, legal inquiries, enterprise partnerships, or bug reports.',
+  description: 'Contact Scanterity for plagiarism checker support, AI detector questions, bug reports, privacy requests, legal inquiries or enterprise partnerships.',
   path: '/contact',
 });
 

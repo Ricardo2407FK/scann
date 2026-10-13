@@ -1,15 +1,11 @@
 import type { NextConfig } from "next";
 
-/**
- * Security and SEO headers that signal trust to crawlers and improve Core Web
- * Vitals. Google uses page experience signals (HTTPS, safe-browsing, no
- * intrusive interstitials) as ranking factors, and these headers contribute
- * to that signal.
- */
+// Existing security policy. These headers are not a substitute for SEO or
+// measured Core Web Vitals improvements.
 const securityHeaders = [
   // DNS prefetch speeds up external resource loading (fonts, analytics)
   { key: 'X-DNS-Prefetch-Control', value: 'on' },
-  // Prevent MIME-type sniffing (security + SEO trust signal)
+  // Prevent MIME-type sniffing
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   // Prevent click-jacking
   { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
@@ -38,6 +34,12 @@ const nextConfig: NextConfig = {
       {
         source: '/(.*)',
         headers: securityHeaders,
+      },
+      {
+        source: '/api/:path*',
+        // Also covers exported PDF responses without changing their content
+        // or Content-Disposition. robots.txt separately limits API crawling.
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, nosnippet' }],
       },
     ];
   },

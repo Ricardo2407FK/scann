@@ -3,7 +3,7 @@ import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/l
 export const metadata = createPageMetadata({
   title: 'Privacy Policy',
   description:
-    'Read Scanterity\'s privacy policy. Learn how we handle your documents with zero retention, ephemeral RAM-only processing, and full GDPR & CCPA compliance. Your documents are never stored, indexed, or shared.',
+    'Read Scanterity\'s privacy policy to understand document processing, data retention, cookies, third-party services and your privacy rights.',
   path: '/privacy',
 });
 

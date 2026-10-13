@@ -6,7 +6,7 @@ import styles from '../privacy/PrivacyPolicy.module.css';
 
 export const metadata = createPageMetadata({
   title: 'Terms of Service',
-  description: 'Read the Scanterity terms of service for our free plagiarism checker and AI detector. Covers acceptable use, intellectual property, content ownership, service limitations, and privacy commitments.',
+  description: 'Read the terms for using Scanterity\'s free plagiarism checker and AI detector, including acceptable use, content ownership and service limitations.',
   path: '/terms',
 });
 

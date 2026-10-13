@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Outfit, JetBrains_Mono, Plus_Jakarta_Sans, Hanken_Grotesk } from "next/font/google";
 import Script from "next/script";
-import { HOME_DESCRIPTION, HOME_TITLE, SITE_NAME, SITE_URL, SITE_KEYWORDS, serializeJsonLd, siteJsonLd } from "@/lib/seo";
+import { HOME_DESCRIPTION, HOME_TITLE, SITE_NAME, SITE_URL, serializeJsonLd, siteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -44,30 +44,22 @@ export const metadata: Metadata = {
     template: '%s | ' + SITE_NAME,
   },
   description: HOME_DESCRIPTION,
-  keywords: SITE_KEYWORDS as unknown as string[],
   applicationName: SITE_NAME,
   authors: [{ name: "Scanterity Forensic Systems", url: SITE_URL }],
   creator: SITE_NAME,
   publisher: "Scanterity Forensic Systems",
   category: "Education Technology",
-  alternates: {
-    canonical: SITE_URL,
-    languages: {
-      'en-US': SITE_URL,
-      'x-default': SITE_URL,
-    },
-  },
+  // Canonicals belong to individual pages. A global homepage canonical would
+  // otherwise leak onto missing pages and future routes without metadata.
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   robots: {
-    index: true,
-    follow: true,
+    // Public pages are indexable by default. Avoid an explicit global "index"
+    // directive that would conflict with Next.js's automatic 404 noindex tag.
     googleBot: {
-      index: true,
-      follow: true,
       'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,

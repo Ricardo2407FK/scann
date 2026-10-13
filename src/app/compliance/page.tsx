@@ -6,7 +6,7 @@ import styles from '../privacy/PrivacyPolicy.module.css';
 
 export const metadata = createPageMetadata({
   title: 'GDPR & Compliance',
-  description: 'Scanterity GDPR, CCPA, and ePrivacy compliance documentation. Learn about data processing, zero-retention scanning, your privacy rights, international data transfers, and security measures for our plagiarism checker.',
+  description: 'Learn about Scanterity\'s data processing, privacy rights, security measures and international data transfers in our GDPR and CCPA documentation.',
   path: '/compliance',
 });
 
