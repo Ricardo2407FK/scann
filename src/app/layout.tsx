@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Outfit, JetBrains_Mono, Plus_Jakarta_Sans, Hanken_Grotesk } from "next/font/google";
 import Script from "next/script";
-import { HOME_DESCRIPTION, HOME_TITLE, SITE_NAME, SITE_URL, serializeJsonLd, siteJsonLd } from "@/lib/seo";
+import { HOME_DESCRIPTION, HOME_TITLE, HOME_KEYWORDS, SITE_NAME, SITE_URL, serializeJsonLd, siteJsonLd } from "@/lib/seo";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -36,6 +36,7 @@ const hankenGrotesk = Hanken_Grotesk({
 
 const googleVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 const bingVerification = process.env.BING_SITE_VERIFICATION?.trim();
+const yandexVerification = process.env.YANDEX_SITE_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -44,6 +45,7 @@ export const metadata: Metadata = {
     template: '%s | ' + SITE_NAME,
   },
   description: HOME_DESCRIPTION,
+  keywords: HOME_KEYWORDS.join(', '),
   applicationName: SITE_NAME,
   authors: [{ name: "Scanterity Forensic Systems", url: SITE_URL }],
   creator: SITE_NAME,
@@ -51,15 +53,25 @@ export const metadata: Metadata = {
   category: "Education Technology",
   // Canonicals belong to individual pages. A global homepage canonical would
   // otherwise leak onto missing pages and future routes without metadata.
+  alternates: {
+    languages: {
+      'en': SITE_URL,
+      'x-default': SITE_URL,
+    },
+  },
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   robots: {
-    // Public pages are indexable by default. Avoid an explicit global "index"
-    // directive that would conflict with Next.js's automatic 404 noindex tag.
+    index: true,
+    follow: true,
+    nocache: false,
     googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
       'max-video-preview': -1,
       'max-image-preview': 'large',
       'max-snippet': -1,
@@ -69,6 +81,7 @@ export const metadata: Metadata = {
   verification: {
     ...(googleVerification ? { google: googleVerification } : {}),
     ...(bingVerification ? { other: { 'msvalidate.01': bingVerification } } : {}),
+    ...(yandexVerification ? { yandex: yandexVerification } : {}),
   },
   appleWebApp: {
     capable: true,
@@ -79,6 +92,13 @@ export const metadata: Metadata = {
     'mobile-web-app-capable': 'yes',
     'msapplication-TileColor': '#000000',
     'google-adsense-account': 'ca-pub-1479131350625812',
+    // Additional SEO hints
+    'rating': 'general',
+    'distribution': 'global',
+    'revisit-after': '3 days',
+    'language': 'English',
+    'coverage': 'Worldwide',
+    'target': 'all',
   },
   icons: {
     icon: [
@@ -115,6 +135,15 @@ export default function RootLayout({
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1479131350625812" crossOrigin="anonymous"></script>
         {/* eslint-disable-next-line @next/next/no-page-custom-font -- Material Symbols is not available via next/font; App Router layout applies to all routes */}
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+        {/* Preconnect hints for faster external resource loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        {/* DNS prefetch for search engines used by scanner */}
+        <link rel="dns-prefetch" href="https://html.duckduckgo.com" />
+        <link rel="dns-prefetch" href="https://en.wikipedia.org" />
+        <link rel="dns-prefetch" href="https://api.crossref.org" />
+        <link rel="dns-prefetch" href="https://api.semanticscholar.org" />
         {/* JSON-LD Structured Data for Google rich results */}
         <script
           type="application/ld+json"
