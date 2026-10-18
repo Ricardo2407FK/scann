@@ -1,4 +1,4 @@
-import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, COMPLIANCE_KEYWORDS } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Shield, Globe, Database, Lock, Eye, FileCheck, Bell, Users, Scale, Cookie, Clock, Server } from 'lucide-react';
@@ -8,6 +8,7 @@ export const metadata = createPageMetadata({
   title: 'GDPR & Compliance',
   description: 'Learn about Scanterity\'s data processing, privacy rights, security measures and international data transfers in our GDPR and CCPA documentation.',
   path: '/compliance',
+  keywords: COMPLIANCE_KEYWORDS,
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -248,8 +249,9 @@ export default function CompliancePage() {
               <div style={{ margin: 0 }}>
                 <strong>Data Protection Officer</strong><br />
                 Email: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
-                General Privacy: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
-                DPA Requests: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a>
+                Privacy Inquiries: <Link href="/privacy" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Read Privacy Policy</Link><br />
+                Service Terms: <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link><br />
+                Contact: <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Contact &amp; DPA Requests</Link>
               </div>
             </div>
           </section>

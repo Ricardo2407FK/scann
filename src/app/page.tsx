@@ -2,7 +2,7 @@ import PlagiarismChecker from "@/components/PlagiarismChecker";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ShieldCheck, Zap, FileText, Search, Target, Users, BookOpen, AlertTriangle, Globe, Cpu, Lock, Award, Clock, BarChart3, GraduationCap, Briefcase, PenTool, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { createPageMetadata, HOME_DESCRIPTION, HOME_TITLE, HOME_KEYWORDS, homeJsonLd, serializeJsonLd } from "@/lib/seo";
+import { createPageMetadata, HOME_DESCRIPTION, HOME_TITLE, HOME_KEYWORDS, homeJsonLd, serializeJsonLd, FAQS } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: HOME_TITLE,
@@ -46,6 +46,11 @@ export default function Home() {
               <p className="text-gray-800 text-lg">
                 Unlike basic <strong>free plagiarism checkers</strong> that only look for exact phrasing, Scanterity utilizes a proprietary multi-signal forensic engine with <strong>15 detection algorithms</strong>. It detects deep paraphrasing, structural similarities, and conceptual overlaps across billions of web pages and academic sources — making it the <strong>best free plagiarism checker</strong> available online.
               </p>
+              <div className="mt-4">
+                <Link href="/why-choose-us" className="text-[#9333ea] underline font-bold text-base hover:opacity-80 inline-flex items-center gap-1">
+                  Compare our 15 forensic algorithms &rarr;
+                </Link>
+              </div>
             </div>
 
             <div className="neumorphic-extruded p-8 bg-[#FFE0E0]">
@@ -129,6 +134,11 @@ export default function Home() {
               <Lock className="w-10 h-10 text-[#FF6B6B] mb-4" strokeWidth={2} />
               <h3 className="text-xl font-bold mb-2">Zero Data Retention</h3>
               <p className="text-[15px] text-gray-700">Your privacy matters. All documents are processed in volatile memory (RAM) and immediately wiped after analysis. We never store, index, or share your text with third parties. Unlike Turnitin, which adds your work to its database, Scanterity operates on a strict <strong>zero-retention policy</strong>.</p>
+              <div className="mt-3">
+                <Link href="/privacy" className="text-[#9333ea] underline font-bold text-[14px] hover:opacity-80 inline-flex items-center gap-1">
+                  Read our privacy &amp; security architecture &rarr;
+                </Link>
+              </div>
             </div>
           </div>
         </section>
@@ -236,9 +246,17 @@ export default function Home() {
               </tbody>
             </table>
           </div>
-          <p className="text-[14px] text-gray-500 mt-4 italic">
-            Comparison based on publicly available information as of October 2026. Features and pricing may vary.
-          </p>
+          <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <p className="text-[14px] text-gray-500 italic m-0">
+              Comparison based on publicly available information as of October 2026. Features and pricing may vary.
+            </p>
+            <Link
+              href="/why-choose-us"
+              className="inline-flex items-center justify-center gap-2 bg-[#B794F6] text-black font-bold px-5 py-2.5 rounded-lg border-2 border-black shadow-[3px_3px_0_0_#000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[5px_5px_0_0_#000] transition-all text-[14px] shrink-0"
+            >
+              See Full Why Scanterity Breakdown &rarr;
+            </Link>
+          </div>
         </section>
 
         {/* Statistics / Trust Signals */}
@@ -320,64 +338,20 @@ export default function Home() {
           </div>
         </section>
 
-        {/* FAQs — Expanded for more long-tail keyword coverage */}
+        {/* FAQs — Synchronized byte-for-byte with JSON-LD FAQPage Schema */}
         <section className="mb-20" id="faq">
           <h2 className="text-[32px] md:text-[48px] leading-tight font-black mb-10 border-b-[3px] border-black pb-4">
             Frequently Asked Questions About Scanterity
           </h2>
           <div className="space-y-6">
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3 flex items-center gap-3">
-                <AlertTriangle className="text-[#FF6B6B] w-7 h-7" />
-                Is this plagiarism checker actually free?
-              </h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Yes, Scanterity is a <strong>100% free plagiarism checker online</strong>. There are no paywalls, no daily limits for reasonable use, and we never ask for your credit card. You can scan documents up to 15,000 words per check, download forensic PDF reports, and use our AI detector — all completely free. We sustain the platform through optional premium features for enterprise users.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">Do you save or steal my documents?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Absolutely not. We care about your privacy. All scans are processed in volatile memory (RAM) and immediately wiped after the session ends. Your work is never indexed, stored, or shared with third parties. Unlike Turnitin, which adds submitted papers to its proprietary database, Scanterity operates on a strict zero-retention policy.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">Can Scanterity detect AI writing from ChatGPT?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Yes. The Scanterity <strong>AI content detector</strong> uses 16 statistical and linguistic signals specifically designed to catch text generated by large language models like ChatGPT, GPT-4, GPT-4o, Gemini, and Claude. It analyzes burstiness (sentence length uniformity), perplexity proxy, lexical diversity, passive voice ratios, formulaic sentence starters, contraction avoidance, and other markers of machine-generated writing.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">How accurate is Scanterity compared to Turnitin or Grammarly?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Scanterity uses a <strong>15-algorithm forensic cascade</strong> that is designed to be highly competitive with premium tools like Turnitin and Grammarly. Our engine uses TF-IDF cosine similarity, n-gram shingling, MinHash/LSH fingerprinting, SimHash, Winnowing, LCS analysis, edit distance, and IDF-weighted overlap to find paraphrased matches that basic <strong>online plagiarism checkers</strong> miss entirely. We search across 7 engines simultaneously including academic databases like CrossRef and Semantic Scholar.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">What file formats does Scanterity support?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Scanterity accepts <strong>PDF, DOCX (Microsoft Word), and TXT files</strong> up to 15MB in size. You can also paste text directly into the editor. The maximum document length is <strong>15,000 words per scan</strong>, which covers most essays, research papers, blog posts, and articles.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">Is Scanterity a good alternative to Turnitin?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Yes. Scanterity is widely used as a <strong>free Turnitin alternative</strong> by students and independent researchers who don&apos;t have institutional access to Turnitin. While Turnitin has a larger proprietary database of submitted papers, Scanterity searches 7 live search engines and academic APIs simultaneously, provides AI detection, and doesn&apos;t store your documents — making it ideal for self-checking before submission.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">How does Scanterity detect paraphrased content?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Our <strong>paraphrase detection</strong> goes beyond simple word matching. Scanterity uses stemmed Jaccard similarity (comparing word roots), TF-IDF cosine similarity (semantic meaning comparison), IDF-weighted word overlap (rare word matching), longest common subsequence analysis, edit distance calculation, and a weighted ensemble of all algorithms to detect when text has been reworded while preserving the original meaning.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">Can I use Scanterity for my research paper or thesis?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Absolutely. Scanterity is specifically designed for <strong>academic plagiarism checking</strong>. It searches across CrossRef (academic papers and DOIs), Semantic Scholar (research papers), Wikipedia, and four major web search engines. This means your research paper is checked against millions of published journal articles, conference papers, preprints, and academic publications — helping you maintain academic integrity before submission.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">How many words can I check at once?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Scanterity supports documents up to <strong>15,000 words per scan</strong>. This is sufficient for most essays (1,000-5,000 words), research papers (5,000-10,000 words), and blog posts. For longer documents like dissertations or books, you can split them into sections and check each part separately.</p>
-            </div>
-
-            <div className="neumorphic-extruded p-8 bg-white">
-              <h3 className="text-2xl font-bold mb-3">Does Scanterity work on mobile devices?</h3>
-              <p className="text-gray-800 text-lg leading-relaxed">Yes, Scanterity is fully responsive and works on smartphones, tablets, and desktop computers. You can <strong>check plagiarism online</strong> from any device with a modern web browser — no app installation required. The interface adapts seamlessly to all screen sizes for the best possible experience.</p>
-            </div>
+            {FAQS.map((faq, index) => (
+              <div key={index} className="neumorphic-extruded p-8 bg-white">
+                <h3 className="text-2xl font-bold mb-3">
+                  {faq.question}
+                </h3>
+                <p className="text-gray-800 text-lg leading-relaxed">{faq.answer}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -399,7 +373,37 @@ export default function Home() {
       <footer style={{ background: '#fff', borderTop: '1.5px solid #000', width: '100%', padding: '2.5rem 0', marginTop: 'auto', position: 'relative', zIndex: 10 }}>
         <div style={{ display: 'flex', flexDirection: 'column', padding: '0 2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: 'wrap', gap: '1.25rem' }}>
-            <img src="/Scanterity.png" alt="Scanterity Logo — Free Plagiarism Checker & AI Detector" style={{ height: '38px', width: 'auto', objectFit: 'contain' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+              <Link href="/" aria-label="Scanterity Home">
+                <img
+                  src="/Scanterity.png"
+                  alt="Scanterity Logo — Free Plagiarism Checker & AI Detector"
+                  width={114}
+                  height={38}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ height: '38px', width: 'auto', objectFit: 'contain' }}
+                />
+              </Link>
+              <div style={{ height: '22px', width: '1.5px', background: '#ccc' }} aria-hidden="true" />
+              <a
+                href="https://arbovane.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Arbovane website (arbovane.com)"
+                style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}
+              >
+                <img
+                  src="/arbovane.png"
+                  alt="Arbovane Logo"
+                  width={114}
+                  height={38}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ height: '34px', width: 'auto', objectFit: 'contain' }}
+                />
+              </a>
+            </div>
             <nav style={{ display: 'flex', gap: '2rem', justifyContent: 'flex-end', fontSize: '13px', fontWeight: 600, color: '#000', alignItems: 'center', flexWrap: 'wrap' }} aria-label="Footer navigation">
               <Link href="/why-choose-us" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Why Scanterity</Link>
               <Link href="/privacy" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Privacy Policy</Link>
@@ -407,16 +411,6 @@ export default function Home() {
               <Link href="/compliance" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Compliance</Link>
               <Link href="/contact" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Contact</Link>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <a href="https://discord.gg/" target="_blank" rel="noopener noreferrer" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Join our Discord">
-                  <svg style={{ width: '22px', height: '22px' }} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                  </svg>
-                </a>
-                <a href="https://t.me/" target="_blank" rel="noopener noreferrer" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Join our Telegram">
-                  <svg style={{ width: '22px', height: '22px' }} viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.479.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                  </svg>
-                </a>
                 <a href="mailto:hello@scanterity.com" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Contact us via Email">
                   <svg style={{ width: '22px', height: '22px' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
                     <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -426,8 +420,22 @@ export default function Home() {
               </div>
             </nav>
           </div>
-          <div style={{ marginTop: '1rem' }}>
-            <p style={{ fontSize: '13px', fontWeight: 600, color: '#888', margin: 0 }}>&copy; {new Date().getFullYear()} Scanterity Forensic Systems. All rights reserved. | Free Plagiarism Checker &amp; AI Detector</p>
+          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <p style={{ fontSize: '13px', fontWeight: 600, color: '#888', margin: 0 }}>
+              &copy; {new Date().getFullYear()} Scanterity Forensic Systems. All rights reserved. | Free Plagiarism Checker &amp; AI Detector
+            </p>
+            <p style={{ fontSize: '12px', fontWeight: 600, color: '#888', margin: 0 }}>
+              An{' '}
+              <a
+                href="https://arbovane.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#000', fontWeight: 700, textDecoration: 'underline' }}
+              >
+                Arbovane
+              </a>{' '}
+              Company
+            </p>
           </div>
         </div>
       </footer>

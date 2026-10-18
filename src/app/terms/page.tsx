@@ -1,4 +1,4 @@
-import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, TERMS_KEYWORDS } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Scale, Shield, AlertTriangle, Users, Ban, RefreshCw, Globe, Gavel } from 'lucide-react';
@@ -8,6 +8,7 @@ export const metadata = createPageMetadata({
   title: 'Terms of Service',
   description: 'Read the terms for using Scanterity\'s free plagiarism checker and AI detector, including acceptable use, content ownership and service limitations.',
   path: '/terms',
+  keywords: TERMS_KEYWORDS,
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -197,7 +198,7 @@ export default function TermsOfService() {
             <ul className={styles.list}>
               <li className={styles.listItem}><strong>Severability:</strong> If any provision of these Terms is held to be unenforceable, the remaining provisions shall continue in full force and effect.</li>
               <li className={styles.listItem}><strong>Waiver:</strong> Failure to enforce any right or provision of these Terms shall not constitute a waiver of such right or provision.</li>
-              <li className={styles.listItem}><strong>Entire Agreement:</strong> These Terms, together with our Privacy Policy and Compliance Policy, constitute the entire agreement between you and Scanterity regarding the Service.</li>
+              <li className={styles.listItem}><strong>Entire Agreement:</strong> These Terms, together with our <Link href="/privacy" style={{ color: 'var(--nb-purple)', textDecoration: 'underline' }}>Privacy Policy</Link> and <Link href="/compliance" style={{ color: 'var(--nb-purple)', textDecoration: 'underline' }}>Compliance Policy</Link>, constitute the entire agreement between you and Scanterity regarding the Service.</li>
               <li className={styles.listItem}><strong>Assignment:</strong> You may not assign or transfer these Terms without our prior written consent. We may assign our rights and obligations without restriction.</li>
               <li className={styles.listItem}><strong>Force Majeure:</strong> Scanterity shall not be liable for any failure or delay in performance resulting from circumstances beyond our reasonable control, including natural disasters, war, terrorism, pandemics, or government actions.</li>
             </ul>
@@ -210,14 +211,15 @@ export default function TermsOfService() {
               11. Contact Information
             </h2>
             <p className={styles.text}>
-              For questions regarding these Terms of Service, please contact us at:
+              For questions regarding these Terms of Service or to submit legal inquiries, please visit our <Link href="/contact" style={{ color: 'var(--nb-purple)', textDecoration: 'underline' }}>Contact Page</Link> or reach out directly:
             </p>
             <div className={styles.highlight}>
               <Shield className={styles.highlightIcon} size={24} strokeWidth={2.5} />
               <div style={{ margin: 0 }}>
                 <strong>Scanterity Legal Department</strong><br />
                 Email: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
-                Data Protection Officer: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a>
+                Data Protection Officer: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
+                Contact: <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Support &amp; Inquiries Form</Link>
               </div>
             </div>
           </section>

@@ -7,21 +7,23 @@ import { absoluteUrl, PUBLIC_PATHS } from '@/lib/seo';
  * and other engines still use them for crawl scheduling.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date().toISOString();
-
-  // Priority and change frequency per route
-  const routeConfig: Record<string, { priority: number; changeFrequency: 'daily' | 'weekly' | 'monthly' | 'yearly' }> = {
-    '/': { priority: 1.0, changeFrequency: 'daily' },
-    '/why-choose-us': { priority: 0.9, changeFrequency: 'weekly' },
-    '/privacy': { priority: 0.3, changeFrequency: 'monthly' },
-    '/terms': { priority: 0.3, changeFrequency: 'monthly' },
-    '/compliance': { priority: 0.3, changeFrequency: 'monthly' },
-    '/contact': { priority: 0.5, changeFrequency: 'monthly' },
+  // Stable lastModified dates reflecting actual content updates
+  // prevents crawlers from treating the entire domain as constantly mutating
+  const routeConfig: Record<
+    string,
+    { priority: number; changeFrequency: 'daily' | 'weekly' | 'monthly' | 'yearly'; lastModified: string }
+  > = {
+    '/': { priority: 1.0, changeFrequency: 'daily', lastModified: '2026-10-18T00:00:00.000Z' },
+    '/why-choose-us': { priority: 0.9, changeFrequency: 'weekly', lastModified: '2026-10-15T00:00:00.000Z' },
+    '/privacy': { priority: 0.3, changeFrequency: 'monthly', lastModified: '2026-08-18T00:00:00.000Z' },
+    '/terms': { priority: 0.3, changeFrequency: 'monthly', lastModified: '2026-08-18T00:00:00.000Z' },
+    '/compliance': { priority: 0.3, changeFrequency: 'monthly', lastModified: '2026-08-18T00:00:00.000Z' },
+    '/contact': { priority: 0.5, changeFrequency: 'monthly', lastModified: '2026-08-18T00:00:00.000Z' },
   };
 
   return PUBLIC_PATHS.map((path) => ({
     url: absoluteUrl(path),
-    lastModified: now,
+    lastModified: routeConfig[path]?.lastModified ?? '2026-10-18T00:00:00.000Z',
     priority: routeConfig[path]?.priority ?? 0.5,
     changeFrequency: routeConfig[path]?.changeFrequency ?? 'monthly',
   }));

@@ -37,8 +37,15 @@ export default function ScanResultsView({ report, onNewScan, onExport, container
       {/* TopNavBar — Neo-Brutalist */}
       <nav className="fixed top-0 w-full z-50 bg-white border-b-[1.5px] border-black">
         <div className="flex justify-between items-center px-4 md:px-10 py-2.5 max-w-[1200px] mx-auto">
-          <a onClick={onNewScan} className="text-[22px] font-black text-black tracking-tight flex items-center gap-2 cursor-pointer">
-            <img src="/Scanterity.png" alt="Scanterity Logo" className={styles.scanterityLogo} />
+          <a onClick={onNewScan} className="text-[22px] font-black text-black tracking-tight flex items-center gap-2 cursor-pointer" aria-label="Start new plagiarism scan">
+            <img
+              src="/Scanterity.png"
+              alt="Scanterity Logo — Free Plagiarism Checker & AI Detector"
+              width={144}
+              height={48}
+              decoding="async"
+              className={styles.scanterityLogo}
+            />
           </a>
           <div className="hidden md:flex space-x-8 items-center" role="navigation" aria-label="Main navigation">
             <button type="button" className="text-black hover:bg-[#B794F6] transition-colors font-semibold cursor-pointer text-[14px] bg-transparent border-0 px-3 py-1.5 rounded-full" aria-current="page">Scanner</button>

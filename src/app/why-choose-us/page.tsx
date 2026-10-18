@@ -212,7 +212,37 @@ export default function WhyChooseUsPage() {
       <footer style={{ background: '#fff', borderTop: '1.5px solid #000', width: '100%', padding: '2.5rem 0', marginTop: 'auto', position: 'relative', zIndex: 10 }}>
         <div style={{ display: 'flex', flexDirection: 'column', padding: '0 2.5rem', maxWidth: '1200px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: 'wrap', gap: '1.25rem' }}>
-            <img src="/Scanterity.png" alt="Scanterity Logo" style={{ height: '38px', width: 'auto', objectFit: 'contain' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem', flexWrap: 'wrap' }}>
+              <Link href="/" aria-label="Scanterity Home">
+                <img
+                  src="/Scanterity.png"
+                  alt="Scanterity Logo — Free Plagiarism Checker & AI Detector"
+                  width={114}
+                  height={38}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ height: '38px', width: 'auto', objectFit: 'contain' }}
+                />
+              </Link>
+              <div style={{ height: '22px', width: '1.5px', background: '#ccc' }} aria-hidden="true" />
+              <a
+                href="https://arbovane.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit Arbovane website (arbovane.com)"
+                style={{ display: 'inline-flex', alignItems: 'center', textDecoration: 'none' }}
+              >
+                <img
+                  src="/arbovane.png"
+                  alt="Arbovane Logo"
+                  width={114}
+                  height={38}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ height: '34px', width: 'auto', objectFit: 'contain' }}
+                />
+              </a>
+            </div>
             <nav style={{ display: 'flex', gap: '2rem', justifyContent: 'flex-end', fontSize: '13px', fontWeight: 600, color: '#000', alignItems: 'center', flexWrap: 'wrap' }} aria-label="Footer navigation">
               <Link href="/" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Scanner</Link>
               <Link href="/privacy" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Privacy</Link>
@@ -221,8 +251,22 @@ export default function WhyChooseUsPage() {
               <Link href="/contact" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Contact</Link>
             </nav>
           </div>
-          <div style={{ marginTop: '1rem' }}>
-            <p style={{ fontSize: '13px', fontWeight: 600, color: '#888', margin: 0 }}>&copy; {new Date().getFullYear()} Scanterity Forensic Systems. All rights reserved.</p>
+          <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <p style={{ fontSize: '13px', fontWeight: 600, color: '#888', margin: 0 }}>
+              &copy; {new Date().getFullYear()} Scanterity Forensic Systems. All rights reserved.
+            </p>
+            <p style={{ fontSize: '12px', fontWeight: 600, color: '#888', margin: 0 }}>
+              An{' '}
+              <a
+                href="https://arbovane.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: '#000', fontWeight: 700, textDecoration: 'underline' }}
+              >
+                Arbovane
+              </a>{' '}
+              Company
+            </p>
           </div>
         </div>
       </footer>

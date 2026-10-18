@@ -1,4 +1,4 @@
-import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, CONTACT_KEYWORDS } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Mail, Shield, Building2, MessageCircle, Scale, FileText } from 'lucide-react';
@@ -8,6 +8,7 @@ export const metadata = createPageMetadata({
   title: 'Contact Us',
   description: 'Contact Scanterity for plagiarism checker support, AI detector questions, bug reports, privacy requests, legal inquiries or enterprise partnerships.',
   path: '/contact',
+  keywords: CONTACT_KEYWORDS,
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -146,14 +147,15 @@ export default function ContactPage() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Building2 size={18} strokeWidth={2.5} /></div>
-              Company Information
+              Company Information &amp; Legal Links
             </h2>
             <div className={styles.highlight}>
               <Building2 className={styles.highlightIcon} size={24} strokeWidth={2.5} />
               <div style={{ margin: 0 }}>
                 <strong>Scanterity Forensic Systems</strong><br />
-                Website: <a href="https://scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>scanterity.com</a><br />
-                General: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a>
+                Website: <Link href="/" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>www.scanterity.com</Link><br />
+                General: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
+                Policies: <Link href="/privacy" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Privacy Policy</Link> | <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link> | <Link href="/compliance" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>GDPR &amp; Compliance</Link>
               </div>
             </div>
           </section>

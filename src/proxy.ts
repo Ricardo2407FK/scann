@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════════════════
-// Scanterity — Security Middleware
-// CORS, CSRF, Security Headers, Request Body Size Limits
+// Scanterity — Security Proxy (Next.js 16+ convention)
+// CORS, CSRF, Security Headers, CSP for Google Analytics & AdSense
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import { NextResponse, type NextRequest } from 'next/server';
@@ -11,17 +11,17 @@ const MAX_BODY_BYTES = 16 * 1024 * 1024;
 // Security headers applied to all responses
 const SECURITY_HEADERS: Record<string, string> = {
   'X-Content-Type-Options': 'nosniff',
-  'X-Frame-Options': 'DENY',
+  'X-Frame-Options': 'SAMEORIGIN',
   'X-XSS-Protection': '1; mode=block',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=(), payment=()',
-  'X-DNS-Prefetch-Control': 'off',
+  'X-DNS-Prefetch-Control': 'on',
 };
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip middleware for PDF export — Content-Disposition must not be interfered with
+  // Skip proxy for PDF export — Content-Disposition must not be interfered with
   if (pathname === '/api/export-pdf') {
     return NextResponse.next();
   }
@@ -83,20 +83,19 @@ export function middleware(request: NextRequest) {
     response.headers.set(key, value);
   }
 
-  // CSP: Allow self, inline styles (needed for dynamic styling), Google Fonts,
-  // unsafe-eval (required by React dev mode), and blob: for PDF downloads.
+  // CSP: Allow self, inline styles, Google Fonts, AdSense, and Google Analytics
   response.headers.set(
     'Content-Security-Policy',
     [
       "default-src 'self' blob: data:",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://adservice.google.com https://partner.googleadservices.com https://tpc.googlesyndication.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
-      "img-src 'self' data: blob:",
-      "connect-src 'self' blob:",
+      "img-src 'self' data: blob: https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://*.doubleclick.net https://*.google.com",
+      "connect-src 'self' blob: https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://pagead2.googlesyndication.com https://*.doubleclick.net https://*.google.com",
       "worker-src 'self' blob:",
       "object-src 'self' blob:",
-      "frame-src 'self' blob:",
+      "frame-src 'self' blob: https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com https://*.googlesyndication.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
@@ -109,7 +108,7 @@ export function middleware(request: NextRequest) {
   return response;
 }
 
-// Only run middleware on pages and API routes — skip static assets
+// Only run proxy on pages and API routes — skip static assets
 export const config = {
   matcher: [
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',

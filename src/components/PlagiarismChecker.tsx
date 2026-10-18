@@ -830,9 +830,17 @@ export default function PlagiarismChecker() {
       {(!report || status !== 'completed') && (
         <nav className={styles.customNav}>
           <div className={styles.customNavInner}>
-            <div className={styles.navLogo} style={{ cursor: 'pointer' }}>
-              <img src="/Scanterity.png" alt="Scanterity Logo" className={styles.scanterityLogo} />
-            </div>
+            <Link href="/" className={styles.navLogo} aria-label="Scanterity Home">
+              <img
+                src="/Scanterity.png"
+                alt="Scanterity Logo — Free Plagiarism Checker & AI Detector"
+                width={144}
+                height={48}
+                fetchPriority="high"
+                decoding="async"
+                className={styles.scanterityLogo}
+              />
+            </Link>
 
             <div className={styles.customNavLinks} role="navigation" aria-label="Main navigation">
               <button type="button" className={`${styles.customNavLink} ${styles.active}`} aria-current="page">Scanner</button>
@@ -1012,7 +1020,15 @@ export default function PlagiarismChecker() {
       {/* ─── Footer ────────────────────────────────────────────────────── */}
       {showHero && (
         <div className={styles.pointingGuyWrapper}>
-          <img src="/png1.png" alt="Pointing guy" className={styles.pointingGuy} />
+          <img
+            src="/png1.png"
+            alt="Scanterity plagiarism checker mascot pointing towards document scanner"
+            width={328}
+            height={400}
+            loading="lazy"
+            decoding="async"
+            className={styles.pointingGuy}
+          />
         </div>
       )}
 

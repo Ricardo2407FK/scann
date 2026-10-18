@@ -112,7 +112,7 @@ const variant = await get('/?utm_source=seo-audit');
 assert.equal(variant.status, 200);
 assert.equal(new URL(load(await variant.text())('link[rel="canonical"]').attr('href')).href, `${canonicalOrigin}/`);
 
-for (const path of ['/why-choose-us', '/seo-audit-missing-page']) {
+for (const path of ['/non-existent-page-test', '/seo-audit-missing-page']) {
   const missing = await get(path);
   assert.equal(missing.status, 404, `Missing page must not be a soft 404: ${path}`);
   const $ = load(await missing.text());

@@ -1,18 +1,38 @@
-'use client';
-
-import React, { useEffect } from 'react';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
+import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Shield, Database, Lock, Eye, AlertCircle } from 'lucide-react';
 import styles from './PrivacyPolicy.module.css';
+import ScrollToTop from '@/components/ScrollToTop';
+
+export const metadata = createPageMetadata({
+  title: 'Privacy Policy — How Scanterity Protects Your Data',
+  description: 'Learn how Scanterity protects your privacy. Zero data retention, no document storage, ephemeral RAM processing, GDPR & CCPA compliant. Your documents stay yours.',
+  path: '/privacy',
+  keywords: [
+    'Scanterity privacy policy',
+    'plagiarism checker privacy',
+    'data protection',
+    'zero data retention',
+    'GDPR compliant plagiarism checker',
+    'CCPA compliant',
+    'document security',
+    'Scanterity data policy',
+  ],
+});
+
+const breadcrumbJsonLd = createBreadcrumbJsonLd([
+  { name: 'Privacy Policy', path: '/privacy' },
+]);
 
 export default function PrivacyPolicy() {
-  // Smooth scroll to top on mount
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
   return (
     <div className={styles.container}>
+      <ScrollToTop />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
+      />
       <div className={styles.contentWrapper}>
         <div className={styles.backButtonContainer}>
           <Link href="/" className={styles.backButton}>
@@ -44,9 +64,9 @@ export default function PrivacyPolicy() {
             </p>
             <ul className={styles.list}>
               <li className={styles.listItem}><strong>Uploaded Content:</strong> Text or files you upload specifically for scanning. These are processed ephemerally in volatile memory (RAM).</li>
-              <li className={styles.listItem}><strong>Technical & Usage Data:</strong> Automatically collected information including IP addresses, browser types, device identifiers, and interaction metrics to optimize performance and prevent abuse.</li>
+              <li className={styles.listItem}><strong>Technical &amp; Usage Data:</strong> Automatically collected information including IP addresses, browser types, device identifiers, and interaction metrics to optimize performance and prevent abuse.</li>
               <li className={styles.listItem}><strong>Account Information:</strong> If you register, we securely store your email address, encrypted authentication credentials, and billing history (if applicable) through secure third-party payment processors.</li>
-              <li className={styles.listItem}><strong>Cookies & Local Storage:</strong> We use strictly necessary cookies to maintain session states and functional local storage for user preferences. We do not use intrusive third-party tracking cookies.</li>
+              <li className={styles.listItem}><strong>Cookies &amp; Local Storage:</strong> We use strictly necessary cookies to maintain session states and functional local storage for user preferences. We do not use intrusive third-party tracking cookies.</li>
             </ul>
           </section>
 
@@ -56,7 +76,7 @@ export default function PrivacyPolicy() {
               2. How We Process Your Data
             </h2>
             <p className={styles.text}>
-              Scanterity operates on a rigorous "process-and-discard" architecture designed to protect intellectual property:
+              Scanterity operates on a rigorous &quot;process-and-discard&quot; architecture designed to protect intellectual property:
             </p>
             <ul className={styles.list}>
               <li className={styles.listItem}><strong>Ephemeral Scanning:</strong> Documents uploaded by anonymous users are processed exclusively in RAM and instantly purged from our servers the millisecond a report is generated.</li>
@@ -68,7 +88,7 @@ export default function PrivacyPolicy() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Eye size={18} strokeWidth={2.5} /></div>
-              3. Data Sharing & Third Parties
+              3. Data Sharing &amp; Third Parties
             </h2>
             <p className={styles.text}>
               We maintain absolute confidentiality over your submissions. We have never sold, and will never sell, your personal data or your scanned content to data brokers or third parties. We only share data with:
@@ -82,14 +102,14 @@ export default function PrivacyPolicy() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><AlertCircle size={18} strokeWidth={2.5} /></div>
-              4. Global Privacy Rights (GDPR & CCPA)
+              4. Global Privacy Rights (GDPR &amp; CCPA)
             </h2>
             <p className={styles.text}>
               Depending on your jurisdiction, including the European Economic Area (GDPR) and California (CCPA), you are granted comprehensive rights regarding your personal data:
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Right to Access & Portability:</strong> Request a copy of the personal data we hold about you.</li>
-              <li className={styles.listItem}><strong>Right to Erasure ("Right to be Forgotten"):</strong> Request immediate deletion of your account and all associated personal data.</li>
+              <li className={styles.listItem}><strong>Right to Access &amp; Portability:</strong> Request a copy of the personal data we hold about you.</li>
+              <li className={styles.listItem}><strong>Right to Erasure (&quot;Right to be Forgotten&quot;):</strong> Request immediate deletion of your account and all associated personal data.</li>
               <li className={styles.listItem}><strong>Right to Rectification:</strong> Correct any inaccurate data we hold about you.</li>
             </ul>
             <p className={styles.text}>
@@ -99,7 +119,7 @@ export default function PrivacyPolicy() {
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              5. Children's Privacy
+              5. Children&apos;s Privacy
             </h2>
             <p className={styles.text}>
               Scanterity is not directed at children under the age of 13 (or 16 in certain European jurisdictions). We do not knowingly collect personal information from children. If we become aware that we have inadvertently collected such data, we will take immediate steps to securely delete it in compliance with COPPA and GDPR.
@@ -108,7 +128,7 @@ export default function PrivacyPolicy() {
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              6. Policy Updates & Contact
+              6. Policy Updates &amp; Contact
             </h2>
             <p className={styles.text}>
               We reserve the right to update this Privacy Policy to reflect changes in legal requirements or our operational practices. Any material changes will be communicated via email or a prominent notice on our website.
@@ -117,6 +137,12 @@ export default function PrivacyPolicy() {
               If you have any questions or require legal assistance regarding this Privacy Policy, please contact our Data Protection Officer at:
               <br /><br />
               <strong>Email:</strong> <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a>
+            </p>
+            <p className={styles.text} style={{ marginTop: '1.25rem', fontSize: '14px' }}>
+              <strong>Related Legal Documents:</strong>{' '}
+              <Link href="/compliance" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>GDPR &amp; Compliance</Link> |{' '}
+              <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link> |{' '}
+              <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Contact Support</Link>
             </p>
           </section>
 
