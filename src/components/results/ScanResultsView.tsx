@@ -14,6 +14,7 @@ interface ScanResultsViewProps {
 }
 
 export default function ScanResultsView({ report, onNewScan, onExport, containerRef }: ScanResultsViewProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   // Plagiarism Risk assessment
   const isHighRisk = report.score > 40;
   const plagiarismBadgeStyle = isHighRisk ? 'bg-[#FF6B6B]' : report.score > 15 ? 'bg-[#FF9F43]' : 'bg-[#90FFD0]';
@@ -47,21 +48,35 @@ export default function ScanResultsView({ report, onNewScan, onExport, container
               className={styles.scanterityLogo}
             />
           </a>
-          <div className="hidden md:flex space-x-8 items-center" role="navigation" aria-label="Main navigation">
-            <button type="button" className="text-black hover:bg-[#B794F6] transition-colors font-semibold cursor-pointer text-[14px] bg-transparent border-0 px-3 py-1.5 rounded-full" aria-current="page">Scanner</button>
-            <button type="button" className="text-[#555] hover:bg-[#B794F6] hover:text-black transition-colors font-medium cursor-pointer text-[14px] bg-transparent border-0 px-3 py-1.5 rounded-full">Pricing</button>
-            <button type="button" className="text-[#555] hover:bg-[#B794F6] hover:text-black transition-colors font-medium cursor-pointer text-[14px] bg-transparent border-0 px-3 py-1.5 rounded-full">Enterprise</button>
-            <button type="button" className="text-[#555] hover:bg-[#B794F6] hover:text-black transition-colors font-medium cursor-pointer text-[14px] bg-transparent border-0 px-3 py-1.5 rounded-full">Resources</button>
+          <div className="hidden md:flex space-x-6 items-center" role="navigation" aria-label="Main navigation">
+            <button type="button" onClick={onNewScan} className="text-black hover:bg-[#B794F6] transition-colors font-semibold cursor-pointer text-[14px] bg-transparent border-0 px-3 py-1.5 rounded-full" aria-current="page">Scanner</button>
+            <Link href="/why-choose-us" className="text-[#333] hover:bg-[#B794F6] hover:text-black transition-colors font-medium cursor-pointer text-[14px] px-3 py-1.5 rounded-full no-underline">Why Scanterity</Link>
+            <Link href="/about" className="text-[#333] hover:bg-[#B794F6] hover:text-black transition-colors font-medium cursor-pointer text-[14px] px-3 py-1.5 rounded-full no-underline">About</Link>
+            <Link href="/compliance" className="text-[#333] hover:bg-[#B794F6] hover:text-black transition-colors font-medium cursor-pointer text-[14px] px-3 py-1.5 rounded-full no-underline">Compliance</Link>
+            <Link href="/contact" className="text-[#333] hover:bg-[#B794F6] hover:text-black transition-colors font-medium cursor-pointer text-[14px] px-3 py-1.5 rounded-full no-underline">Contact</Link>
           </div>
           <div className="hidden md:flex items-center space-x-4">
-            <button className={styles.customBtnPrimary} style={{ padding: '0.5rem 1.5rem' }}>
-              Get Started
+            <button onClick={onNewScan} className={styles.customBtnPrimary} style={{ padding: '0.5rem 1.5rem', cursor: 'pointer' }}>
+              New Scan
             </button>
           </div>
-          <button className={`${styles.customNavHamburger} md:hidden`}>
-            <span className="material-symbols-outlined">menu</span>
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className={`${styles.customNavHamburger} md:hidden`}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+          >
+            <span className="material-symbols-outlined">{mobileMenuOpen ? 'close' : 'menu'}</span>
           </button>
         </div>
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-black px-6 py-4 flex flex-col gap-3">
+            <button type="button" onClick={() => { setMobileMenuOpen(false); onNewScan(); }} className="text-left font-bold text-black py-1">New Scan</button>
+            <Link href="/why-choose-us" onClick={() => setMobileMenuOpen(false)} className="font-medium text-[#333] py-1 no-underline">Why Scanterity</Link>
+            <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="font-medium text-[#333] py-1 no-underline">About Us</Link>
+            <Link href="/compliance" onClick={() => setMobileMenuOpen(false)} className="font-medium text-[#333] py-1 no-underline">Compliance</Link>
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="font-medium text-[#333] py-1 no-underline">Contact Support</Link>
+          </div>
+        )}
       </nav>
 
       {/* Main Content */}

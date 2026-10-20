@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Outfit, JetBrains_Mono, Plus_Jakarta_Sans, Hanken_Grotesk } from "next/font/google";
 import Script from "next/script";
 import { HOME_DESCRIPTION, HOME_TITLE, HOME_KEYWORDS, SITE_NAME, SITE_URL, absoluteUrl, serializeJsonLd, siteJsonLd } from "@/lib/seo";
+import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
 
 const plusJakarta = Plus_Jakarta_Sans({
@@ -185,13 +186,14 @@ export default function RootLayout({
             gtag('config', 'G-WTK9E3WPSX');
           `}
         </Script>
-        {/* Google AdSense — loaded lazily to not block initial render */}
+        {/* Google AdSense — loaded afterInteractive so crawler immediately verifies account */}
         <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1479131350625812"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
           crossOrigin="anonymous"
         />
         {children}
+        <CookieConsent />
       </body>
     </html>
   );

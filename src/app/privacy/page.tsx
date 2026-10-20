@@ -1,7 +1,7 @@
 import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Shield, Database, Lock, Eye, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Shield, Database, Lock, Eye, AlertCircle, Cookie } from 'lucide-react';
 import styles from './PrivacyPolicy.module.css';
 import ScrollToTop from '@/components/ScrollToTop';
 
@@ -66,7 +66,7 @@ export default function PrivacyPolicy() {
               <li className={styles.listItem}><strong>Uploaded Content:</strong> Text or files you upload specifically for scanning. These are processed ephemerally in volatile memory (RAM).</li>
               <li className={styles.listItem}><strong>Technical &amp; Usage Data:</strong> Automatically collected information including IP addresses, browser types, device identifiers, and interaction metrics to optimize performance and prevent abuse.</li>
               <li className={styles.listItem}><strong>Account Information:</strong> If you register, we securely store your email address, encrypted authentication credentials, and billing history (if applicable) through secure third-party payment processors.</li>
-              <li className={styles.listItem}><strong>Cookies &amp; Local Storage:</strong> We use strictly necessary cookies to maintain session states and functional local storage for user preferences. We do not use intrusive third-party tracking cookies.</li>
+              <li className={styles.listItem}><strong>Cookies &amp; Local Storage:</strong> We use strictly necessary cookies to maintain session states and functional local storage for user preferences. Additionally, third-party partners (such as Google AdSense and Google Analytics) use cookies to analyze web traffic and deliver relevant advertising as described in Section 3.</li>
             </ul>
           </section>
 
@@ -87,14 +87,62 @@ export default function PrivacyPolicy() {
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
+              <div className={styles.sectionIcon}><Cookie size={18} strokeWidth={2.5} /></div>
+              3. Cookies, Advertising &amp; Google AdSense
+            </h2>
+            <p className={styles.text}>
+              To keep Scanterity 100% free with no subscription fees, no account barriers, and strict zero-data retention, we display advertisements served by Google AdSense and utilize Google Analytics for performance optimization:
+            </p>
+            <ul className={styles.list}>
+              <li className={styles.listItem}>
+                <strong>Third-Party Ad Serving:</strong> Third-party vendors, including Google, use cookies to serve ads based on a user&apos;s prior visits to this website or other websites on the Internet.
+              </li>
+              <li className={styles.listItem}>
+                <strong>Advertising Cookies:</strong> Google&apos;s use of advertising cookies (such as the DoubleClick cookie) enables it and its partners to serve ads to our users based on their visits to Scanterity and/or other sites across the Internet.
+              </li>
+              <li className={styles.listItem}>
+                <strong>Personalized Ads Opt-Out:</strong> Users may opt out of personalized advertising by visiting{' '}
+                <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
+                  Google Ads Settings
+                </a>.
+              </li>
+              <li className={styles.listItem}>
+                <strong>Industry Opt-Out Resources:</strong> Alternatively, users can opt out of a third-party vendor&apos;s use of cookies for personalized advertising by visiting{' '}
+                <a href="https://optout.aboutads.info/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
+                  www.aboutads.info
+                </a>{' '}
+                or the Network Advertising Initiative at{' '}
+                <a href="https://www.networkadvertising.org/choices/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
+                  www.networkadvertising.org/choices/
+                </a>{' '}
+                or the European Interactive Digital Advertising Alliance at{' '}
+                <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
+                  www.youronlinechoices.eu
+                </a>.
+              </li>
+              <li className={styles.listItem}>
+                <strong>Google Analytics:</strong> We use Google Analytics to collect aggregated, non-personally identifiable metrics (such as page speed, browser types, and general geographic distribution) to ensure site reliability. Google Analytics uses cookies to analyze user interactions. You can opt out via the{' '}
+                <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
+                  Google Analytics Opt-Out Browser Add-on
+                </a>.
+              </li>
+              <li className={styles.listItem}>
+                <strong>Document Isolation Guarantee:</strong> Your uploaded documents and text submissions are strictly isolated from all advertising networks. Content submitted for plagiarism or AI scanning is NEVER shared with Google AdSense, advertisers, or third-party marketing entities.
+              </li>
+            </ul>
+          </section>
+
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Eye size={18} strokeWidth={2.5} /></div>
-              3. Data Sharing &amp; Third Parties
+              4. Data Sharing &amp; Third Parties
             </h2>
             <p className={styles.text}>
               We maintain absolute confidentiality over your submissions. We have never sold, and will never sell, your personal data or your scanned content to data brokers or third parties. We only share data with:
             </p>
             <ul className={styles.list}>
               <li className={styles.listItem}><strong>Secure Infrastructure Partners:</strong> Cloud providers (e.g., AWS, Vercel) necessary to host and scale our forensic engines. All partners are bound by strict Data Processing Agreements (DPAs).</li>
+              <li className={styles.listItem}><strong>Advertising &amp; Analytics Partners:</strong> As described in Section 3, Google AdSense and Google Analytics process anonymous technical data in accordance with their respective privacy policies and your consent choices.</li>
               <li className={styles.listItem}><strong>Legal Compliance:</strong> Law enforcement agencies, but strictly only if mandated by a valid, legally binding court order or subpoena.</li>
             </ul>
           </section>
@@ -102,7 +150,7 @@ export default function PrivacyPolicy() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><AlertCircle size={18} strokeWidth={2.5} /></div>
-              4. Global Privacy Rights (GDPR &amp; CCPA)
+              5. Global Privacy Rights (GDPR &amp; CCPA)
             </h2>
             <p className={styles.text}>
               Depending on your jurisdiction, including the European Economic Area (GDPR) and California (CCPA), you are granted comprehensive rights regarding your personal data:
@@ -111,6 +159,7 @@ export default function PrivacyPolicy() {
               <li className={styles.listItem}><strong>Right to Access &amp; Portability:</strong> Request a copy of the personal data we hold about you.</li>
               <li className={styles.listItem}><strong>Right to Erasure (&quot;Right to be Forgotten&quot;):</strong> Request immediate deletion of your account and all associated personal data.</li>
               <li className={styles.listItem}><strong>Right to Rectification:</strong> Correct any inaccurate data we hold about you.</li>
+              <li className={styles.listItem}><strong>Right to Withdraw Consent:</strong> Withdraw consent for non-essential cookies and personalized advertising at any time.</li>
             </ul>
             <p className={styles.text}>
               Because we do not store scanned content for anonymous users, there is no uploaded content to delete. Registered users can permanently delete their account and history instantly from their dashboard settings.
@@ -119,7 +168,7 @@ export default function PrivacyPolicy() {
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              5. Children&apos;s Privacy
+              6. Children&apos;s Privacy
             </h2>
             <p className={styles.text}>
               Scanterity is not directed at children under the age of 13 (or 16 in certain European jurisdictions). We do not knowingly collect personal information from children. If we become aware that we have inadvertently collected such data, we will take immediate steps to securely delete it in compliance with COPPA and GDPR.
@@ -128,7 +177,7 @@ export default function PrivacyPolicy() {
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              6. Policy Updates &amp; Contact
+              7. Policy Updates &amp; Contact
             </h2>
             <p className={styles.text}>
               We reserve the right to update this Privacy Policy to reflect changes in legal requirements or our operational practices. Any material changes will be communicated via email or a prominent notice on our website.
@@ -140,6 +189,7 @@ export default function PrivacyPolicy() {
             </p>
             <p className={styles.text} style={{ marginTop: '1.25rem', fontSize: '14px' }}>
               <strong>Related Legal Documents:</strong>{' '}
+              <Link href="/about" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>About Us</Link> |{' '}
               <Link href="/compliance" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>GDPR &amp; Compliance</Link> |{' '}
               <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link> |{' '}
               <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Contact Support</Link>

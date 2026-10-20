@@ -79,7 +79,7 @@ export default function CompliancePage() {
               <li className={styles.listItem}><strong>Right to Know:</strong> Request disclosure of the categories and specific pieces of personal information we have collected, the sources of collection, the business purposes, and the categories of third parties with whom we share it.</li>
               <li className={styles.listItem}><strong>Right to Delete:</strong> Request deletion of personal information we have collected from you, subject to certain exceptions (legal obligations, security, etc.).</li>
               <li className={styles.listItem}><strong>Right to Correct:</strong> Request correction of inaccurate personal information.</li>
-              <li className={styles.listItem}><strong>Right to Opt-Out of Sale/Sharing:</strong> We do <strong>NOT</strong> sell or share your personal information for cross-context behavioral advertising. There is no data to opt out of.</li>
+              <li className={styles.listItem}><strong>Right to Opt-Out of Sale/Sharing:</strong> We do not sell your personal data or document content. To the extent third-party advertising cookies (Google AdSense) may be classified as &quot;sharing&quot; or &quot;targeted advertising&quot; under California law, you can opt out via your browser settings or <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Google Ads Settings</a>.</li>
               <li className={styles.listItem}><strong>Right to Non-Discrimination:</strong> We will not discriminate against you for exercising any of your CCPA/CPRA rights. You will receive equal service and pricing.</li>
               <li className={styles.listItem}><strong>Right to Limit Use of Sensitive Data:</strong> You can direct us to limit use of sensitive personal information to purposes necessary to provide the Service.</li>
             </ul>
@@ -101,7 +101,7 @@ export default function CompliancePage() {
               <li className={styles.listItem}><strong>Contract Performance (Art. 6(1)(b)):</strong> Processing necessary to provide the plagiarism detection service you requested — including scanning submitted text and generating reports.</li>
               <li className={styles.listItem}><strong>Legitimate Interests (Art. 6(1)(f)):</strong> Processing for platform security (rate limiting, abuse prevention, DDoS protection), service improvement, and aggregate analytics. We have conducted a Legitimate Interest Assessment (LIA) confirming these interests do not override your fundamental rights.</li>
               <li className={styles.listItem}><strong>Legal Obligation (Art. 6(1)(c)):</strong> Processing required to comply with applicable laws, including tax reporting, fraud prevention, and responses to valid legal process.</li>
-              <li className={styles.listItem}><strong>Consent (Art. 6(1)(a)):</strong> Where specifically requested, such as for marketing communications. You may withdraw consent at any time without affecting the lawfulness of prior processing.</li>
+              <li className={styles.listItem}><strong>Consent (Art. 6(1)(a)):</strong> Where specifically requested, such as for non-essential cookies and personalized advertising under Google&apos;s EU User Consent Policy. You may withdraw consent at any time without affecting the lawfulness of prior processing.</li>
             </ul>
           </section>
 
@@ -120,7 +120,7 @@ export default function CompliancePage() {
               <li className={styles.listItem}><strong>Technical Logs (IP, User Agent):</strong> Retained for a maximum of 90 days for security monitoring and abuse prevention. Automatically purged thereafter.</li>
               <li className={styles.listItem}><strong>Account Data (if registered):</strong> Retained for the duration of your active account plus 30 days after account deletion request.</li>
               <li className={styles.listItem}><strong>Payment Records:</strong> Retained for 7 years as required by tax and financial regulation. Processed by PCI DSS-compliant third-party payment processors — we never store full payment card details.</li>
-              <li className={styles.listItem}><strong>Cookie Data:</strong> Session cookies expire when you close your browser. Functional cookies expire after 30 days maximum.</li>
+              <li className={styles.listItem}><strong>Cookie Data:</strong> Session cookies expire when you close your browser. Functional cookies expire after 30 days maximum. Third-party advertising cookies expire according to Google&apos;s standard data retention terms.</li>
             </ul>
           </section>
 
@@ -131,16 +131,16 @@ export default function CompliancePage() {
               5. Cookie &amp; ePrivacy Compliance
             </h2>
             <p className={styles.text}>
-              In compliance with the ePrivacy Directive (2002/58/EC) and its national implementations, we provide full transparency about our cookie usage:
+              In compliance with the ePrivacy Directive (2002/58/EC), the GDPR, and Google&apos;s EU User Consent Policy, we provide full transparency regarding all cookies and local storage mechanisms:
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Strictly Necessary Cookies:</strong> Required for the service to function (session management, CSRF protection). These do not require consent under Art. 5(3) of the ePrivacy Directive.</li>
-              <li className={styles.listItem}><strong>Functional Cookies:</strong> Store user preferences such as scan settings. These are set only with your consent.</li>
-              <li className={styles.listItem}><strong>Analytics Cookies:</strong> We do <strong>NOT</strong> use third-party analytics trackers (Google Analytics, Facebook Pixel, etc.). We use privacy-preserving, first-party aggregate analytics only.</li>
-              <li className={styles.listItem}><strong>Advertising Cookies:</strong> We do <strong>NOT</strong> use any advertising or tracking cookies. We do not participate in ad networks or retargeting programs.</li>
+              <li className={styles.listItem}><strong>Strictly Necessary Cookies:</strong> Required for the service to function securely (session management, rate limiting, CSRF protection). These do not require consent under Art. 5(3) of the ePrivacy Directive.</li>
+              <li className={styles.listItem}><strong>Functional Cookies:</strong> Store user preferences such as UI settings and cookie consent selections.</li>
+              <li className={styles.listItem}><strong>Performance &amp; Analytics Cookies:</strong> We utilize Google Analytics (with IP anonymization) to assess aggregate platform performance. You can opt out at any time using the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Google Analytics Opt-Out Browser Add-on</a>.</li>
+              <li className={styles.listItem}><strong>Advertising Cookies (Google AdSense):</strong> To sustain our free forensic scanning service without charging students and educators, we display ads via Google AdSense. Google and third-party vendors set advertising cookies (such as DoubleClick) to deliver relevant ads. For users located in the EEA and UK, cookies are set in strict accordance with Google&apos;s EU User Consent Policy. You can customize your preferences or opt out at <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Google Ads Settings</a> or <a href="https://optout.aboutads.info/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>aboutads.info</a>.</li>
             </ul>
             <p className={styles.text}>
-              You can manage cookies through your browser settings at any time. Disabling strictly necessary cookies may affect the functionality of the Service.
+              You can manage or disable cookies through your browser settings or our on-site cookie consent preferences at any time. Disabling strictly necessary cookies may affect the functionality of the Service.
             </p>
           </section>
 
@@ -251,6 +251,7 @@ export default function CompliancePage() {
                 Email: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
                 Privacy Inquiries: <Link href="/privacy" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Read Privacy Policy</Link><br />
                 Service Terms: <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link><br />
+                About Us: <Link href="/about" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>About Scanterity</Link><br />
                 Contact: <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Contact &amp; DPA Requests</Link>
               </div>
             </div>

@@ -155,7 +155,7 @@ export default function ContactPage() {
                 <strong>Scanterity Forensic Systems</strong><br />
                 Website: <Link href="/" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>www.scanterity.com</Link><br />
                 General: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
-                Policies: <Link href="/privacy" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Privacy Policy</Link> | <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link> | <Link href="/compliance" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>GDPR &amp; Compliance</Link>
+                Policies: <Link href="/about" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>About Us</Link> | <Link href="/privacy" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Privacy Policy</Link> | <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link> | <Link href="/compliance" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>GDPR &amp; Compliance</Link>
               </div>
             </div>
           </section>

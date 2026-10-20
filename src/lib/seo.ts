@@ -25,7 +25,7 @@ export const HOME_DESCRIPTION_LONG =
 // Public Routes
 // ────────────────────────────────────────────────────────────────────────────
 // Only indexable pages that actually exist belong in the sitemap.
-export const PUBLIC_PATHS = ['/', '/privacy', '/terms', '/compliance', '/contact', '/why-choose-us'] as const;
+export const PUBLIC_PATHS = ['/', '/about', '/privacy', '/terms', '/compliance', '/contact', '/why-choose-us'] as const;
 
 export function absoluteUrl(path: string): string {
   return new URL(path, `${SITE_URL}/`).href;
@@ -417,4 +417,15 @@ export const CONTACT_KEYWORDS = [
   'plagiarism scanner feedback',
   'report plagiarism bug',
 ];
+
+export const ABOUT_KEYWORDS = [
+  'about Scanterity',
+  'Scanterity mission',
+  'Scanterity team',
+  'Arbovane Scanterity',
+  'forensic plagiarism detection engineering',
+  'academic integrity mission',
+  'zero retention student privacy',
+];
+
 

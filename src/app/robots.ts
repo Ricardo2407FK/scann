@@ -23,6 +23,12 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/'],
       },
       {
+        // Google AdSense crawler
+        userAgent: 'Mediapartners-Google',
+        allow: '/',
+        disallow: ['/api/'],
+      },
+      {
         // Bing, Yahoo (which is powered by Bing)
         userAgent: 'Bingbot',
         allow: '/',

@@ -29,10 +29,17 @@ export default function PlagiarismChecker() {
   const [activeViewer, setActiveViewer] = useState<ActiveViewer | null>(null);
   const [, setPartialMatches] = useState(0);
   const [showExportModal, setShowExportModal] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  const scrollToScanner = useCallback(() => {
+    containerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const textarea = containerRef.current?.querySelector('textarea');
+    if (textarea) textarea.focus();
+  }, []);
 
   // Cleanup: abort any in-flight scan on unmount
   useEffect(() => {
@@ -843,21 +850,111 @@ export default function PlagiarismChecker() {
             </Link>
 
             <div className={styles.customNavLinks} role="navigation" aria-label="Main navigation">
-              <button type="button" className={`${styles.customNavLink} ${styles.active}`} aria-current="page">Scanner</button>
-              <button type="button" className={styles.customNavLink}>Pricing</button>
-              <button type="button" className={styles.customNavLink}>Enterprise</button>
-              <button type="button" className={styles.customNavLink}>Resources</button>
+              <Link href="/" className={`${styles.customNavLink} ${styles.active}`} aria-current="page">Scanner</Link>
+              <Link href="/why-choose-us" className={styles.customNavLink}>Why Scanterity</Link>
+              <a href="#how-it-works" className={styles.customNavLink}>How It Works</a>
+              <Link href="/about" className={styles.customNavLink}>About</Link>
+              <a href="#faq" className={styles.customNavLink}>FAQ</a>
+              <Link href="/contact" className={styles.customNavLink}>Contact</Link>
             </div>
 
             <div className={styles.customNavRight}>
-              <button className={`${styles.customBtnPrimary} ${styles.customNavGetStarted}`} style={{ padding: '0.5rem 1.5rem', fontSize: '14px' }}>
-                Get Started
+              <button
+                type="button"
+                onClick={scrollToScanner}
+                className={`${styles.customBtnPrimary} ${styles.customNavGetStarted}`}
+                style={{ padding: '0.5rem 1.5rem', fontSize: '14px', cursor: 'pointer' }}
+              >
+                Start Free Scan
               </button>
-              <button className={styles.customNavHamburger} aria-label="Open menu">
-                <span className="material-symbols-outlined">menu</span>
+              <button
+                type="button"
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className={styles.customNavHamburger}
+                aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                aria-expanded={mobileMenuOpen}
+              >
+                <span className="material-symbols-outlined">{mobileMenuOpen ? 'close' : 'menu'}</span>
               </button>
             </div>
           </div>
+
+          {/* Mobile Navigation Dropdown */}
+          {mobileMenuOpen && (
+            <div
+              style={{
+                background: '#FFFFFF',
+                borderTop: '1.5px solid #000',
+                padding: '1rem 1.5rem',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.5rem',
+              }}
+            >
+              <Link
+                href="/"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{ fontSize: '15px', fontWeight: 700, color: '#000', textDecoration: 'none', padding: '0.4rem 0' }}
+              >
+                Scanner
+              </Link>
+              <Link
+                href="/why-choose-us"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{ fontSize: '15px', fontWeight: 700, color: '#000', textDecoration: 'none', padding: '0.4rem 0' }}
+              >
+                Why Scanterity
+              </Link>
+              <a
+                href="#how-it-works"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{ fontSize: '15px', fontWeight: 700, color: '#000', textDecoration: 'none', padding: '0.4rem 0' }}
+              >
+                How It Works
+              </a>
+              <Link
+                href="/about"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{ fontSize: '15px', fontWeight: 700, color: '#000', textDecoration: 'none', padding: '0.4rem 0' }}
+              >
+                About Us
+              </Link>
+              <a
+                href="#faq"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{ fontSize: '15px', fontWeight: 700, color: '#000', textDecoration: 'none', padding: '0.4rem 0' }}
+              >
+                FAQ
+              </a>
+              <Link
+                href="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                style={{ fontSize: '15px', fontWeight: 700, color: '#000', textDecoration: 'none', padding: '0.4rem 0' }}
+              >
+                Contact Support
+              </Link>
+              <div style={{ paddingTop: '0.5rem', borderTop: '1px solid #eee' }}>
+                <button
+                  type="button"
+                  onClick={() => { setMobileMenuOpen(false); scrollToScanner(); }}
+                  style={{
+                    width: '100%',
+                    background: 'var(--nb-purple)',
+                    color: '#000',
+                    border: '1.5px solid #000',
+                    borderRadius: '6px',
+                    padding: '0.65rem 1rem',
+                    fontWeight: 700,
+                    fontSize: '14px',
+                    cursor: 'pointer',
+                    boxShadow: '2px 2px 0 0 #000',
+                  }}
+                >
+                  Start Free Scan →
+                </button>
+              </div>
+            </div>
+          )}
         </nav>
       )}
 

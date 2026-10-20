@@ -63,6 +63,7 @@ export function cosineSimilarity(vecA: Map<string, number>, vecB: Map<string, nu
 
 // ─── Jaccard Similarity (Stemmed) ───────────────────────────────────────────
 export function jaccardSimilarity(setA: Set<string>, setB: Set<string>): number {
+  if (!setA || !setB || !(setA instanceof Set) || !(setB instanceof Set)) return 0;
   if (setA.size === 0 || setB.size === 0) return 0;
   let intersection = 0;
   // Iterate the smaller set for speed

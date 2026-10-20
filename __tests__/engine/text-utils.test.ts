@@ -81,33 +81,33 @@ describe('countWords', () => {
 
 // ─── getStemmedWords ────────────────────────────────────────────────────────
 describe('getStemmedWords', () => {
-  test('returns a Set of stemmed words', () => {
-    const result = getStemmedWords('running jumping swimming');
+  test('returns a Set of stemmed words', async () => {
+    const result = await getStemmedWords('running jumping swimming');
     expect(result).toBeInstanceOf(Set);
     expect(result.size).toBeGreaterThan(0);
   });
 
-  test('filters out stopwords', () => {
-    const result = getStemmedWords('the is a an running');
+  test('filters out stopwords', async () => {
+    const result = await getStemmedWords('the is a an running');
     // Should contain stem of "running" but not "the", "is", "a", "an"
     expect(result.size).toBeLessThanOrEqual(2); // "run" stem + maybe "a"
   });
 
-  test('handles empty string', () => {
-    expect(getStemmedWords('').size).toBe(0);
+  test('handles empty string', async () => {
+    expect((await getStemmedWords('')).size).toBe(0);
   });
 });
 
 // ─── buildTfVector ──────────────────────────────────────────────────────────
 describe('buildTfVector', () => {
-  test('returns a Map of term frequencies', () => {
-    const result = buildTfVector('hello world hello');
+  test('returns a Map of term frequencies', async () => {
+    const result = await buildTfVector('hello world hello');
     expect(result).toBeInstanceOf(Map);
     expect(result.size).toBeGreaterThan(0);
   });
 
-  test('normalizes to TF values', () => {
-    const result = buildTfVector('test test test');
+  test('normalizes to TF values', async () => {
+    const result = await buildTfVector('test test test');
     // All values should be between 0 and 1 (or at least consistent)
     for (const [, v] of result) {
       expect(v).toBeGreaterThan(0);
@@ -147,25 +147,25 @@ describe('generateQueryVariants', () => {
 
 // ─── buildIdfMap ────────────────────────────────────────────────────────────
 describe('buildIdfMap', () => {
-  test('assigns higher IDF to rare terms', () => {
+  test('assigns higher IDF to rare terms', async () => {
     const docs = [
       ['the', 'cat', 'sat'],
       ['the', 'dog', 'ran'],
       ['the', 'bird', 'flew'],
     ];
-    const idf = buildIdfMap(docs);
+    const idf = await buildIdfMap(docs);
     // "the" appears in all docs → low IDF (log(3/3) = 0)
     // Others appear in 1 doc → higher IDF
     // Note: stems of "cat", "dog", "bird" should have higher IDF
     expect(idf.size).toBeGreaterThan(0);
   });
 
-  test('handles empty input', () => {
-    expect(buildIdfMap([]).size).toBe(0);
+  test('handles empty input', async () => {
+    expect((await buildIdfMap([])).size).toBe(0);
   });
 
-  test('handles single document', () => {
-    const idf = buildIdfMap([['hello', 'world']]);
+  test('handles single document', async () => {
+    const idf = await buildIdfMap([['hello', 'world']]);
     expect(idf.size).toBeGreaterThan(0);
   });
 });

@@ -219,6 +219,7 @@ export default function TermsOfService() {
                 <strong>Scanterity Legal Department</strong><br />
                 Email: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
                 Data Protection Officer: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
+                About Us: <Link href="/about" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>About Scanterity</Link><br />
                 Contact: <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Support &amp; Inquiries Form</Link>
               </div>
             </div>

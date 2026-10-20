@@ -63,24 +63,24 @@ describe('jaccardSimilarity', () => {
 
 // ─── idfWeightedOverlap ────────────────────────────────────────────────────
 describe('idfWeightedOverlap', () => {
-  test('identical word lists give high overlap', () => {
+  test('identical word lists give high overlap', async () => {
     const words = ['machine', 'learning', 'algorithms', 'neural', 'networks'];
-    const overlap = idfWeightedOverlap(words, words);
+    const overlap = await idfWeightedOverlap(words, words);
     expect(overlap).toBeCloseTo(1.0);
   });
 
-  test('disjoint words give zero overlap', () => {
+  test('disjoint words give zero overlap', async () => {
     const a = ['quantum', 'physics', 'particles'];
     const b = ['cooking', 'recipes', 'kitchen'];
-    expect(idfWeightedOverlap(a, b)).toBe(0);
+    expect(await idfWeightedOverlap(a, b)).toBe(0);
   });
 
-  test('respects IDF map weights', () => {
+  test('respects IDF map weights', async () => {
     const a = ['common', 'rare'];
     const b = ['common'];
     const idf = new Map([['common', 0.1], ['rare', 5.0]]);
     // Only "common" matches, which has low IDF weight
-    const overlap = idfWeightedOverlap(a, b, idf);
+    const overlap = await idfWeightedOverlap(a, b, idf);
     expect(overlap).toBeLessThan(0.5);
   });
 });
@@ -146,19 +146,19 @@ describe('normalizedEditDistance', () => {
 
 // ─── slidingWindowMatch ─────────────────────────────────────────────────────
 describe('slidingWindowMatch', () => {
-  test('returns no match for short source', () => {
-    const result = slidingWindowMatch('test sentence', new Set(['test', 'sentenc']), ['only one sentence']);
+  test('returns no match for short source', async () => {
+    const result = await slidingWindowMatch('test sentence', new Set(['test', 'sentenc']), ['only one sentence']);
     expect(result.matched).toBe(false);
   });
 
-  test('detects cross-boundary matches with sufficient overlap', () => {
-    const stems = getStemmedWords('machine learning algorithms are powerful tools for data analysis');
+  test('detects cross-boundary matches with sufficient overlap', async () => {
+    const stems = await getStemmedWords('machine learning algorithms are powerful tools for data analysis');
     const sources = [
       'machine learning algorithms are incredibly',
       'powerful tools for data analysis and processing',
       'completely unrelated sentence here',
     ];
-    const result = slidingWindowMatch(
+    const result = await slidingWindowMatch(
       'machine learning algorithms are powerful tools for data analysis',
       stems, sources,
     );
@@ -193,21 +193,21 @@ describe('ensembleScore', () => {
 
 // ─── matchSentenceToSource ──────────────────────────────────────────────────
 describe('matchSentenceToSource', () => {
-  const buildMatchArgs = (sentence: string, sourceText: string) => {
+  const buildMatchArgs = async (sentence: string, sourceText: string) => {
     const lower = sentence.toLowerCase();
-    const tf = buildTfVector(lower);
-    const stems = getStemmedWords(lower);
+    const tf = await buildTfVector(lower);
+    const stems = await getStemmedWords(lower);
     const srcSentences = sourceText.split('.').map(s => s.trim()).filter(Boolean);
-    const srcStems = srcSentences.map(s => getStemmedWords(s));
-    const srcTf = srcSentences.map(s => buildTfVector(s));
+    const srcStems = await Promise.all(srcSentences.map(s => getStemmedWords(s)));
+    const srcTf = await Promise.all(srcSentences.map(s => buildTfVector(s)));
     return { lower, tf, stems, sourceText, srcSentences, srcStems, srcTf };
   };
 
-  test('detects exact substring match', () => {
+  test('detects exact substring match', async () => {
     const sentence = 'The quick brown fox jumps over the lazy dog';
     const source = 'In a story, the quick brown fox jumps over the lazy dog was the main character.';
-    const args = buildMatchArgs(sentence, source);
-    const result = matchSentenceToSource(
+    const args = await buildMatchArgs(sentence, source);
+    const result = await matchSentenceToSource(
       args.lower, args.tf, args.stems, source,
       args.srcSentences, args.srcStems, args.srcTf,
     );
@@ -216,36 +216,36 @@ describe('matchSentenceToSource', () => {
     expect(result.confidence).toBe(CONFIDENCE.EXACT);
   });
 
-  test('returns no match for unrelated content', () => {
+  test('returns no match for unrelated content', async () => {
     const sentence = 'quantum entanglement allows instantaneous communication between particles';
     const source = 'Baking a chocolate cake requires flour, sugar, eggs, and cocoa powder. Mix the ingredients well.';
-    const args = buildMatchArgs(sentence, source);
-    const result = matchSentenceToSource(
+    const args = await buildMatchArgs(sentence, source);
+    const result = await matchSentenceToSource(
       args.lower, args.tf, args.stems, source,
       args.srcSentences, args.srcStems, args.srcTf,
     );
     expect(result.matched).toBe(false);
   });
 
-  test('returns NO_MATCH for very short source text', () => {
-    const args = buildMatchArgs('test sentence here', 'short');
-    const result = matchSentenceToSource(
+  test('returns NO_MATCH for very short source text', async () => {
+    const args = await buildMatchArgs('test sentence here', 'short');
+    const result = await matchSentenceToSource(
       args.lower, args.tf, args.stems, 'short',
       args.srcSentences, args.srcStems, args.srcTf,
     );
     expect(result.matched).toBe(false);
   });
 
-  test('accepts optional idfMap parameter', () => {
+  test('accepts optional idfMap parameter', async () => {
     const sentence = 'test sentence with optional parameter';
     const source = 'This is a completely different text about cooking recipes and ingredients in the kitchen.';
-    const args = buildMatchArgs(sentence, source);
+    const args = await buildMatchArgs(sentence, source);
     const idfMap = new Map([['test', 3.0], ['sentenc', 2.5]]);
     // Should not throw
-    expect(() => matchSentenceToSource(
+    await expect(matchSentenceToSource(
       args.lower, args.tf, args.stems, source,
       args.srcSentences, args.srcStems, args.srcTf, idfMap,
-    )).not.toThrow();
+    )).resolves.not.toThrow();
   });
 });
 
