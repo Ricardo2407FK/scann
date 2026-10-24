@@ -171,6 +171,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteJsonLd) }}
         />
+        {/* Google AdSense — rendered as a plain <script> in <head> so the
+            AdSense verification crawler sees it in the raw server-rendered HTML.
+            next/script with afterInteractive injects client-side only, which
+            the crawler cannot detect. */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4767507523459649"
+          crossOrigin="anonymous"
+        />
       </head>
       <body>
         {/* Google Analytics — loaded AFTER interactive via next/script to avoid blocking FCP/LCP */}
@@ -186,12 +195,7 @@ export default function RootLayout({
             gtag('config', 'G-WTK9E3WPSX');
           `}
         </Script>
-        {/* Google AdSense — loaded afterInteractive so crawler immediately verifies account */}
-        <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4767507523459649"
-          strategy="afterInteractive"
-          crossOrigin="anonymous"
-        />
+
         {children}
         <CookieConsent />
       </body>
