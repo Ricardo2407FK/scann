@@ -116,7 +116,7 @@ export const metadata: Metadata = {
   other: {
     'mobile-web-app-capable': 'yes',
     'msapplication-TileColor': '#000000',
-    'google-adsense-account': 'ca-pub-1479131350625812',
+    'google-adsense-account': 'ca-pub-4767507523459649',
     // Additional SEO hints
     'rating': 'general',
     'distribution': 'global',
@@ -188,7 +188,7 @@ export default function RootLayout({
         </Script>
         {/* Google AdSense — loaded afterInteractive so crawler immediately verifies account */}
         <Script
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1479131350625812"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4767507523459649"
           strategy="afterInteractive"
           crossOrigin="anonymous"
         />
