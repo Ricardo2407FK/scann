@@ -1,4 +1,4 @@
-import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, COMPLIANCE_KEYWORDS } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Shield, Globe, Database, Lock, Eye, FileCheck, Bell, Users, Scale, Cookie, Clock, Server } from 'lucide-react';
@@ -8,7 +8,6 @@ export const metadata = createPageMetadata({
   title: 'GDPR & Compliance',
   description: 'Learn about Scanterity\'s data processing, privacy rights, security measures and international data transfers in our GDPR and CCPA documentation.',
   path: '/compliance',
-  keywords: COMPLIANCE_KEYWORDS,
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -17,7 +16,7 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 
 export default function CompliancePage() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
@@ -258,6 +257,6 @@ export default function CompliancePage() {
           </section>
         </article>
       </div>
-    </div>
+    </main>
   );
 }

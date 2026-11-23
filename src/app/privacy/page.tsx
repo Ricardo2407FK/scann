@@ -6,19 +6,9 @@ import styles from './PrivacyPolicy.module.css';
 import ScrollToTop from '@/components/ScrollToTop';
 
 export const metadata = createPageMetadata({
-  title: 'Privacy Policy — How Scanterity Protects Your Data',
-  description: 'Learn how Scanterity protects your privacy. Zero data retention, no document storage, ephemeral RAM processing, GDPR & CCPA compliant. Your documents stay yours.',
+  title: 'Privacy Policy',
+  description: 'Read Scanterity\'s privacy policy to understand document processing, data retention, cookies, third-party services and your privacy rights.',
   path: '/privacy',
-  keywords: [
-    'Scanterity privacy policy',
-    'plagiarism checker privacy',
-    'data protection',
-    'zero data retention',
-    'GDPR compliant plagiarism checker',
-    'CCPA compliant',
-    'document security',
-    'Scanterity data policy',
-  ],
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -27,7 +17,7 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 
 export default function PrivacyPolicy() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <ScrollToTop />
       <script
         type="application/ld+json"
@@ -198,6 +188,6 @@ export default function PrivacyPolicy() {
 
         </article>
       </div>
-    </div>
+    </main>
   );
 }

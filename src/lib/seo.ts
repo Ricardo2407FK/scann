@@ -10,16 +10,35 @@ export const SITE_URL = 'https://www.scanterity.com';
 export const SITE_NAME = 'Scanterity';
 export const HOME_TITLE = 'Free Plagiarism Checker & AI Detector';
 
-// Keyword-saturated meta description — hits the top 8 high-intent queries:
-// "free plagiarism checker", "plagiarism checker online", "plagiarism detector",
-// "check plagiarism", "AI detector", "AI writing detector", "plagiarism checker for students",
-// "Turnitin alternative"
+// Describe the actual service clearly; search engines may choose their own snippet.
 export const HOME_DESCRIPTION =
-  'Scanterity is a free plagiarism checker & AI detector trusted by students, teachers, and writers. Check plagiarism online instantly — upload PDF, DOCX, or paste text. Detect AI-generated content from ChatGPT, GPT-4 & Claude. Download forensic PDF reports. No sign-up. Free Turnitin alternative.';
+  'Check text for plagiarism and AI writing with Scanterity. Upload PDF, DOCX or TXT files, review matching sources and download a PDF report. Free, with no sign-up.';
 
 // Extended description for OG / social sharing (longer allowed)
 export const HOME_DESCRIPTION_LONG =
-  'Scanterity is the best free plagiarism checker and AI content detector online. Check your essays, research papers, and articles for plagiarism against billions of web pages and academic sources. Detect AI-generated writing from ChatGPT, GPT-4, Gemini & Claude with our 16-signal forensic engine. Upload PDF, DOCX, or TXT files up to 15,000 words. Get detailed source attributions, match percentages, and downloadable forensic PDF reports — all with no account, no paywall, and no credit card. A powerful free alternative to Turnitin, Grammarly, and Copyscape.';
+  'Scanterity is a free online plagiarism checker and AI writing detector. Paste text or upload PDF, DOCX or TXT files, compare passages with available web and academic sources, and review similarity scores and AI writing signals. Download a PDF report without creating an account. Results support human review and do not establish plagiarism or authorship on their own.';
+
+export const SOCIAL_IMAGE = {
+  url: absoluteUrl('/opengraph-image'),
+  width: 1200,
+  height: 630,
+  alt: 'Scanterity — Free Plagiarism Checker & AI Detector',
+  type: 'image/png',
+};
+
+// Scope index directives to known public pages. Error pages must be able to
+// emit Next.js's noindex without an inherited Googlebot index directive.
+export const PUBLIC_ROBOTS: Metadata['robots'] = {
+  index: true,
+  follow: true,
+  googleBot: {
+    index: true,
+    follow: true,
+    'max-video-preview': -1,
+    'max-image-preview': 'large',
+    'max-snippet': -1,
+  },
+};
 
 // ────────────────────────────────────────────────────────────────────────────
 // Public Routes
@@ -40,12 +59,10 @@ export function createPageMetadata({
   title,
   description,
   path,
-  keywords,
 }: {
   title: string;
   description: string;
   path: (typeof PUBLIC_PATHS)[number];
-  keywords?: string[];
 }): Metadata {
   const url = absoluteUrl(path);
   const pageTitle = `${title} | ${SITE_NAME}`;
@@ -55,14 +72,10 @@ export function createPageMetadata({
     // An absolute title keeps the homepage and child routes consistent.
     title: { absolute: pageTitle },
     description,
-    keywords: keywords?.join(', '),
     alternates: {
       canonical: url,
-      languages: {
-        'en': url,
-        'x-default': url,
-      },
     },
+    robots: PUBLIC_ROBOTS,
     // Next.js replaces nested metadata rather than merging it. Supply complete
     // social metadata on each page to prevent homepage values leaking through.
     openGraph: {
@@ -72,22 +85,13 @@ export function createPageMetadata({
       url,
       title: pageTitle,
       description,
-      images: [{
-        url: absoluteUrl('/Scanterity.png'),
-        width: 2172,
-        height: 724,
-        alt: `${SITE_NAME} — Free Online Plagiarism Checker & AI Content Detector Tool`,
-        type: 'image/png',
-      }],
+      images: [SOCIAL_IMAGE],
     },
     twitter: {
       card: 'summary_large_image',
       title: pageTitle,
       description,
-      images: [{
-        url: absoluteUrl('/Scanterity.png'),
-        alt: `${SITE_NAME} — Free Online Plagiarism Checker & AI Content Detector Tool`,
-      }],
+      images: [SOCIAL_IMAGE],
     },
   };
 }
@@ -104,7 +108,7 @@ export const siteJsonLd = {
       '@type': 'Organization',
       '@id': absoluteUrl('/#organization'),
       name: 'Scanterity Forensic Systems',
-      alternateName: [SITE_NAME, 'Scanterity Plagiarism Checker', 'Scanterity AI Detector', 'Scanterity Free Plagiarism Checker'],
+      alternateName: SITE_NAME,
       url: absoluteUrl('/'),
       logo: {
         '@type': 'ImageObject',
@@ -124,13 +128,6 @@ export const siteJsonLd = {
       '@type': 'WebSite',
       '@id': absoluteUrl('/#website'),
       name: SITE_NAME,
-      alternateName: [
-        'Scanterity Plagiarism Checker',
-        'Scanterity AI Detector',
-        'Scanterity Free Plagiarism Checker',
-        'Free Plagiarism Checker Online',
-        'Best Free Plagiarism Checker',
-      ],
       url: absoluteUrl('/'),
       inLanguage: 'en',
       publisher: { '@id': absoluteUrl('/#organization') },
@@ -203,10 +200,6 @@ export const homeJsonLd = {
       isPartOf: { '@id': absoluteUrl('/#website') },
       about: { '@id': absoluteUrl('/#webapp') },
       mainEntity: { '@id': absoluteUrl('/#webapp') },
-      speakable: {
-        '@type': 'SpeakableSpecification',
-        cssSelector: ['h1', 'h2', '.customHeroDesc'],
-      },
     },
     // ── WebApplication / SoftwareApplication ──────────────────────────────
     {
@@ -223,26 +216,20 @@ export const homeJsonLd = {
       isAccessibleForFree: true,
       featureList: [
         'Free plagiarism checking with no sign-up or account required',
-        'AI writing detection for ChatGPT, GPT-4, Gemini, and Claude',
+        'Statistical and linguistic AI writing signals for human review',
         'PDF, DOCX and TXT file upload support',
         'Up to 15,000 words per scan',
         '15-algorithm forensic analysis cascade',
         'Matched source links with direct URLs and confidence scores',
         'Downloadable forensic PDF reports with source attributions',
         'Plagiarism percentage scoring with heatmap visualization',
-        '7-engine parallel web and academic database search',
+        'Web and academic source search, subject to provider availability',
         'MinHash, SimHash, and Winnowing document fingerprinting',
         'Paraphrase and conceptual similarity detection',
         'Real-time streaming results during scan',
         'Rate limiting and queue management for fair access',
         'SSRF protection and security hardening',
-        'No data retention — documents processed in RAM only',
       ],
-      screenshot: {
-        '@type': 'ImageObject',
-        url: absoluteUrl('/Scanterity.png'),
-        caption: 'Scanterity free plagiarism checker interface',
-      },
       image: {
         '@type': 'ImageObject',
         url: absoluteUrl('/Scanterity.png'),
@@ -343,89 +330,3 @@ export function createBreadcrumbJsonLd(crumbs: { name: string; path: string }[])
 export function serializeJsonLd(data: unknown): string {
   return JSON.stringify(data).replace(/</g, '\\u003c');
 }
-
-// ────────────────────────────────────────────────────────────────────────────
-// High-Intent Keywords Registry (used by pages for meta keywords)
-// ────────────────────────────────────────────────────────────────────────────
-
-export const HOME_KEYWORDS = [
-  'free plagiarism checker',
-  'plagiarism checker online',
-  'plagiarism checker',
-  'plagiarism detector',
-  'check plagiarism',
-  'plagiarism checker free',
-  'AI detector',
-  'AI writing detector',
-  'AI content detector',
-  'ChatGPT detector',
-  'plagiarism checker for students',
-  'free plagiarism checker for students',
-  'plagiarism checker online free',
-  'Turnitin alternative',
-  'free Turnitin alternative',
-  'Grammarly plagiarism checker alternative',
-  'plagiarism checker no sign up',
-  'plagiarism checker without login',
-  'check for plagiarism free',
-  'paraphrase detector',
-  'duplicate content checker',
-  'free AI detector',
-  'plagiarism scanner',
-  'online plagiarism checker',
-  'best free plagiarism checker',
-  'plagiarism percentage checker',
-  'essay plagiarism checker',
-  'research paper plagiarism checker',
-  'academic plagiarism checker',
-  'plagiarism report',
-  'Scanterity',
-];
-
-export const PRIVACY_KEYWORDS = [
-  'Scanterity privacy policy',
-  'zero data retention plagiarism checker',
-  'safe plagiarism checker',
-  'plagiarism checker that does not save documents',
-  'private plagiarism checker',
-  'plagiarism checker GDPR compliance',
-  'secure AI detector',
-  'anonymous plagiarism checker',
-];
-
-export const TERMS_KEYWORDS = [
-  'Scanterity terms of service',
-  'plagiarism checker terms',
-  'content ownership plagiarism detection',
-  'acceptable use policy',
-  'free plagiarism scanner terms',
-];
-
-export const COMPLIANCE_KEYWORDS = [
-  'Scanterity GDPR compliance',
-  'CCPA compliance plagiarism detector',
-  'FERPA compliance student plagiarism',
-  'academic integrity data privacy',
-  'zero retention architecture',
-  'educational software data protection',
-];
-
-export const CONTACT_KEYWORDS = [
-  'contact Scanterity',
-  'Scanterity customer support',
-  'plagiarism checker enterprise inquiries',
-  'plagiarism scanner feedback',
-  'report plagiarism bug',
-];
-
-export const ABOUT_KEYWORDS = [
-  'about Scanterity',
-  'Scanterity mission',
-  'Scanterity team',
-  'Arbovane Scanterity',
-  'forensic plagiarism detection engineering',
-  'academic integrity mission',
-  'zero retention student privacy',
-];
-
-

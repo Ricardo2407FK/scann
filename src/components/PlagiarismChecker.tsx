@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react'
 import { jsPDF } from 'jspdf';
 import { saveAs } from 'file-saver';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './PlagiarismChecker.module.css';
 
 import type { Report, ActiveViewer } from '@/lib/engine/types';
@@ -838,11 +839,13 @@ export default function PlagiarismChecker() {
         <nav className={styles.customNav}>
           <div className={styles.customNavInner}>
             <Link href="/" className={styles.navLogo} aria-label="Scanterity Home">
-              <img
+              <Image
                 src="/Scanterity.png"
                 alt="Scanterity Logo — Free Plagiarism Checker & AI Detector"
                 width={144}
                 height={48}
+                sizes="(max-width: 480px) 96px, (max-width: 768px) 108px, 144px"
+                loading="eager"
                 fetchPriority="high"
                 decoding="async"
                 className={styles.scanterityLogo}
@@ -968,7 +971,7 @@ export default function PlagiarismChecker() {
 
       {showHero ? (
         /* ─── Idle: Hero Layout ─────────────────────────────────────────── */
-        <main className={styles.customMain}>
+        <div className={styles.customMain}>
           <section className={styles.customHeroSection}>
             <h1 className={styles.customHeroTitle}>Free Plagiarism Checker & AI Detector</h1>
             <h2 className={styles.customHeroSubtitle}>Forensic-grade accuracy.</h2>
@@ -1020,11 +1023,34 @@ export default function PlagiarismChecker() {
                 onNewScan={handleNewScan}
                 onExport={openExportModal}
               />
+
+              {/* ── Doodle Ad Section ─────────────────────────────────── */}
+              <div className={styles.doodleAdSection}>
+                <div className={styles.doodleAdMegaphone} aria-hidden="true">📢</div>
+                <div className={styles.doodleAdContent}>
+                  <h3 className={styles.doodleAdHeadline}>
+                    Your Ad Here
+                    <span className={styles.doodleAdSwoosh}>↗</span>
+                  </h3>
+                  <p className={styles.doodleAdSubtext}>
+                    <span className={styles.doodleAdStarIcon}>☆</span>
+                    Start placing your bid for just
+                    <span className={styles.doodleAdPrice}>$1</span>
+                  </p>
+                </div>
+                <a
+                  href="mailto:advertise@arbovane.com?subject=Ad%20Bid%20Inquiry%20-%20Scanterity&body=Hi%2C%20I%27d%20like%20to%20place%20a%20bid%20for%20advertising%20on%20Scanterity."
+                  className={styles.doodleAdCta}
+                  aria-label="Place a bid to advertise on Scanterity"
+                >
+                  Place Bid →
+                </a>
+              </div>
             </div>
           </section>
 
 
-        </main>
+        </div>
       ) : (
         /* ─── Active: Results Layout ────────────────────────────────────── */
         (status === 'completed' && report) ? (
@@ -1036,7 +1062,7 @@ export default function PlagiarismChecker() {
           />
         ) : status === 'error' ? (
           /* ─── Error State ─────────────────────────────────────────────── */
-          <main className={styles.customMain}>
+          <div className={styles.customMain}>
             <section className={styles.scanningView}>
               <div className={styles.scanningErrorBox}>
                 <span className="material-symbols-outlined" style={{ fontSize: '18px', color: 'var(--red)' }}>error</span>
@@ -1047,7 +1073,7 @@ export default function PlagiarismChecker() {
                 </button>
               </div>
             </section>
-          </main>
+          </div>
         ) : (
           /* ─── Scanning: Immersive 3D Animation ───────────────────────── */
           <div className={styles.scanCanvas}>
@@ -1109,6 +1135,18 @@ export default function PlagiarismChecker() {
               </p>
             </div>
 
+              {/* ── Scanning Ad Section ──────────────────────────────── */}
+              <a
+                href="mailto:advertise@arbovane.com?subject=Ad%20Bid%20Inquiry%20-%20Scanterity&body=Hi%2C%20I%27d%20like%20to%20place%20a%20bid%20for%20advertising%20on%20Scanterity."
+                className={styles.scanningAdBanner}
+                aria-label="Place a bid to advertise on Scanterity"
+              >
+                <span className={styles.scanningAdIcon} aria-hidden="true">📢</span>
+                <span className={styles.scanningAdText}>
+                  <strong>Your Ad Here</strong> — Start placing your bid for just <span className={styles.scanningAdPrice}>$1</span>
+                </span>
+                <span className={styles.scanningAdCta}>Place Bid →</span>
+              </a>
 
           </div>
         )

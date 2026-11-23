@@ -4,27 +4,9 @@ import Link from 'next/link';
 import { ArrowLeft, ShieldCheck, Zap, FileText, Search, Globe, Cpu, Lock, Award, Clock, BarChart3, GraduationCap, Briefcase, PenTool, CheckCircle, Target, Users, BookOpen, Database, Brain } from 'lucide-react';
 
 export const metadata = createPageMetadata({
-  title: 'Why Choose Scanterity — Best Free Plagiarism Checker 2026',
-  description: 'Discover why Scanterity is the best free plagiarism checker and AI detector in 2026. 15 detection algorithms, 7 search engines, AI detection, no sign-up. Free Turnitin & Grammarly alternative for students, teachers, and writers.',
+  title: 'Plagiarism Checker Features & Benefits',
+  description: 'Explore Scanterity\'s plagiarism checks, AI writing signals, file uploads and PDF reports for students, teachers and writers. Free to use without an account.',
   path: '/why-choose-us',
-  keywords: [
-    'best free plagiarism checker',
-    'best plagiarism checker 2026',
-    'free plagiarism checker for students',
-    'Turnitin alternative free',
-    'Grammarly alternative free',
-    'plagiarism checker online free',
-    'AI content detector free',
-    'ChatGPT detector',
-    'plagiarism checker no sign up',
-    'best online plagiarism checker',
-    'free plagiarism detector',
-    'plagiarism checker for teachers',
-    'academic plagiarism checker free',
-    'essay plagiarism checker',
-    'research paper plagiarism checker',
-    'Scanterity',
-  ],
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -36,15 +18,15 @@ const whyChooseJsonLd = {
   '@type': 'WebPage',
   '@id': absoluteUrl('/why-choose-us#webpage'),
   url: absoluteUrl('/why-choose-us'),
-  name: 'Why Choose Scanterity — Best Free Plagiarism Checker 2026',
-  description: 'Discover why Scanterity is the best free plagiarism checker and AI detector. 15 algorithms, 7 search engines, AI detection, no sign-up required.',
+  name: 'Plagiarism Checker Features & Benefits | Scanterity',
+  description: metadata.description,
   inLanguage: 'en',
   isPartOf: { '@id': absoluteUrl('/#website') },
 };
 
 export default function WhyChooseUsPage() {
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
+    <main className="min-h-screen bg-[#FAFAFA]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
@@ -271,6 +253,6 @@ export default function WhyChooseUsPage() {
           </div>
         </div>
       </footer>
-    </div>
+    </main>
   );
 }

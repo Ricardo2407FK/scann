@@ -2,13 +2,12 @@ import PlagiarismChecker from "@/components/PlagiarismChecker";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ShieldCheck, Zap, FileText, Search, Target, Users, BookOpen, AlertTriangle, Globe, Cpu, Lock, Award, Clock, BarChart3, GraduationCap, Briefcase, PenTool, CheckCircle } from "lucide-react";
 import Link from "next/link";
-import { createPageMetadata, HOME_DESCRIPTION, HOME_TITLE, HOME_KEYWORDS, homeJsonLd, serializeJsonLd, FAQS } from "@/lib/seo";
+import { createPageMetadata, HOME_DESCRIPTION, HOME_TITLE, homeJsonLd, serializeJsonLd, FAQS } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
   title: HOME_TITLE,
   description: HOME_DESCRIPTION,
   path: '/',
-  keywords: HOME_KEYWORDS,
 });
 
 export default function Home() {

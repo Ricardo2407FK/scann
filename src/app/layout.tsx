@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Outfit, JetBrains_Mono, Plus_Jakarta_Sans, Hanken_Grotesk } from "next/font/google";
 import Script from "next/script";
-import { HOME_DESCRIPTION, HOME_TITLE, HOME_KEYWORDS, SITE_NAME, SITE_URL, absoluteUrl, serializeJsonLd, siteJsonLd } from "@/lib/seo";
+import { HOME_DESCRIPTION, HOME_TITLE, SITE_NAME, SITE_URL, SOCIAL_IMAGE, serializeJsonLd, siteJsonLd } from "@/lib/seo";
 import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
 
@@ -15,6 +15,8 @@ const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
+  // This is a fallback family, not an initial-render font.
+  preload: false,
 });
 
 const outfit = Outfit({
@@ -26,6 +28,8 @@ const outfit = Outfit({
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
+  // Used in scan results; keep it available without competing with hero fonts.
+  preload: false,
 });
 
 const hankenGrotesk = Hanken_Grotesk({
@@ -45,38 +49,17 @@ export const metadata: Metadata = {
     template: '%s | ' + SITE_NAME,
   },
   description: HOME_DESCRIPTION,
-  keywords: HOME_KEYWORDS.join(', '),
   applicationName: SITE_NAME,
   authors: [{ name: "Scanterity Forensic Systems", url: SITE_URL }],
   creator: SITE_NAME,
   publisher: "Scanterity Forensic Systems",
   category: "Education Technology",
-  // Canonicals belong to individual pages. A global homepage canonical would
-  // otherwise leak onto missing pages and future routes without metadata.
-  alternates: {
-    languages: {
-      'en': SITE_URL,
-      'x-default': SITE_URL,
-    },
-  },
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  robots: {
-    index: true,
-    follow: true,
-    nocache: false,
-    googleBot: {
-      index: true,
-      follow: true,
-      noimageindex: false,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  // Public pages opt into indexing in createPageMetadata(). Do not override 404s.
   // Emit verification tags only when real tokens are supplied at build time.
   verification: {
     ...(googleVerification ? { google: googleVerification } : {}),
@@ -91,22 +74,13 @@ export const metadata: Metadata = {
     url: SITE_URL,
     title: `${HOME_TITLE} | ${SITE_NAME}`,
     description: HOME_DESCRIPTION,
-    images: [{
-      url: absoluteUrl('/Scanterity.png'),
-      width: 2172,
-      height: 724,
-      alt: `${SITE_NAME} — Free Online Plagiarism Checker & AI Content Detector Tool`,
-      type: 'image/png',
-    }],
+    images: [SOCIAL_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
     title: `${HOME_TITLE} | ${SITE_NAME}`,
     description: HOME_DESCRIPTION,
-    images: [{
-      url: absoluteUrl('/Scanterity.png'),
-      alt: `${SITE_NAME} — Free Online Plagiarism Checker & AI Content Detector Tool`,
-    }],
+    images: [SOCIAL_IMAGE],
   },
   appleWebApp: {
     capable: true,
@@ -117,13 +91,6 @@ export const metadata: Metadata = {
     'mobile-web-app-capable': 'yes',
     'msapplication-TileColor': '#000000',
     'google-adsense-account': 'ca-pub-4767507523459649',
-    // Additional SEO hints
-    'rating': 'general',
-    'distribution': 'global',
-    'revisit-after': '3 days',
-    'language': 'English',
-    'coverage': 'Worldwide',
-    'target': 'all',
   },
   icons: {
     icon: [
@@ -161,11 +128,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font -- Material Symbols is not available via next/font; App Router layout applies to all routes */}
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-        {/* DNS prefetch for search engines used by scanner */}
-        <link rel="dns-prefetch" href="https://html.duckduckgo.com" />
-        <link rel="dns-prefetch" href="https://en.wikipedia.org" />
-        <link rel="dns-prefetch" href="https://api.crossref.org" />
-        <link rel="dns-prefetch" href="https://api.semanticscholar.org" />
         {/* JSON-LD Structured Data for Google rich results */}
         <script
           type="application/ld+json"

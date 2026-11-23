@@ -1,4 +1,4 @@
-import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, absoluteUrl, ABOUT_KEYWORDS } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, absoluteUrl } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Shield, Users, Award, Cpu, Globe, CheckCircle, Mail, Sparkles, Lock, BookOpen } from 'lucide-react';
@@ -6,10 +6,9 @@ import styles from '../privacy/PrivacyPolicy.module.css';
 import ScrollToTop from '@/components/ScrollToTop';
 
 export const metadata = createPageMetadata({
-  title: 'About Us — Scanterity Forensic Systems',
+  title: 'About Us',
   description: 'Learn about Scanterity, our mission in academic integrity, our 15-algorithm forensic detection engine, zero-retention privacy standards, and team.',
   path: '/about',
-  keywords: ABOUT_KEYWORDS,
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -39,7 +38,7 @@ const aboutJsonLd = {
 
 export default function AboutPage() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <ScrollToTop />
       <script
         type="application/ld+json"
@@ -165,6 +164,6 @@ export default function AboutPage() {
           </section>
         </article>
       </div>
-    </div>
+    </main>
   );
 }

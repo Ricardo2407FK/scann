@@ -1,4 +1,4 @@
-import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, TERMS_KEYWORDS } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Scale, Shield, AlertTriangle, Users, Ban, RefreshCw, Globe, Gavel } from 'lucide-react';
@@ -8,7 +8,6 @@ export const metadata = createPageMetadata({
   title: 'Terms of Service',
   description: 'Read the terms for using Scanterity\'s free plagiarism checker and AI detector, including acceptable use, content ownership and service limitations.',
   path: '/terms',
-  keywords: TERMS_KEYWORDS,
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -17,7 +16,7 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 
 export default function TermsOfService() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
@@ -226,6 +225,6 @@ export default function TermsOfService() {
           </section>
         </article>
       </div>
-    </div>
+    </main>
   );
 }

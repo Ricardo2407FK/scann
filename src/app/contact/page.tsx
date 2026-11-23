@@ -1,4 +1,4 @@
-import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, CONTACT_KEYWORDS } from '@/lib/seo';
+import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Mail, Shield, Building2, MessageCircle, Scale, FileText } from 'lucide-react';
@@ -8,7 +8,6 @@ export const metadata = createPageMetadata({
   title: 'Contact Us',
   description: 'Contact Scanterity for plagiarism checker support, AI detector questions, bug reports, privacy requests, legal inquiries or enterprise partnerships.',
   path: '/contact',
-  keywords: CONTACT_KEYWORDS,
 });
 
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
@@ -17,7 +16,7 @@ const breadcrumbJsonLd = createBreadcrumbJsonLd([
 
 export default function ContactPage() {
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }}
@@ -161,6 +160,6 @@ export default function ContactPage() {
           </section>
         </article>
       </div>
-    </div>
+    </main>
   );
 }
