@@ -1,6 +1,7 @@
 import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd, absoluteUrl } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
+import CookiePreferencesTrigger from '@/components/CookiePreferencesTrigger';
 import { ArrowLeft, ShieldCheck, Zap, FileText, Search, Globe, Cpu, Lock, Award, Clock, BarChart3, GraduationCap, Briefcase, PenTool, CheckCircle, Target, Users, BookOpen, Database, Brain } from 'lucide-react';
 
 export const metadata = createPageMetadata({
@@ -51,7 +52,7 @@ export default function WhyChooseUsPage() {
               Why Scanterity Is the Best Free Plagiarism Checker in 2026
             </h1>
             <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl">
-              Scanterity is a <strong>free plagiarism checker and AI detector</strong> that uses forensic-grade technology to scan your documents against billions of web pages and academic sources. No sign-up, no credit card, no limits — just paste your text and get instant results.
+              Scanterity is a <strong>free plagiarism checker and AI detector</strong> designed to compare your text against publicly accessible web pages and academic sources. No sign-up, no credit card — up to 15,000 words per scan under fair-use limits.
             </p>
           </header>
 
@@ -104,7 +105,7 @@ export default function WhyChooseUsPage() {
                   <div>
                     <h3 className="text-2xl font-bold mb-3">True Privacy — Zero Data Retention</h3>
                     <p className="text-gray-800 text-lg leading-relaxed">
-                      Unlike Turnitin, which adds every submitted paper to its proprietary database, Scanterity processes all documents in volatile memory (RAM) and immediately purges them after the scan. Your essays, research papers, and assignments are <strong>never stored, never indexed, and never shared</strong>. We operate on a strict zero-retention architecture, meaning your intellectual property remains yours. This makes Scanterity the safest <strong>plagiarism checker for students</strong> who are concerned about their work being added to a database.
+                      Unlike institutional systems that archive every submitted paper in a permanent repository, Scanterity processes documents ephemerally in volatile memory (RAM) and does not store them in a submission database. Short query phrases are transmitted over HTTPS solely to locate online matches — your intellectual property stays yours.
                     </p>
                   </div>
                 </div>
@@ -116,7 +117,7 @@ export default function WhyChooseUsPage() {
                   <div>
                     <h3 className="text-2xl font-bold mb-3">Comprehensive Forensic PDF Reports</h3>
                     <p className="text-gray-800 text-lg leading-relaxed">
-                      Every scan generates a downloadable forensic <strong>plagiarism report</strong> in PDF format — completely free. Reports include: overall plagiarism percentage, AI detection score, originality score, sentence-by-sentence analysis with highlighted matches, direct links to matched sources, confidence scores for each match, algorithm contribution breakdown, document fingerprint hash, heatmap visualization, and match type classification (exact, paraphrased, or conceptual). No other free tool provides this level of detail.
+                      Every scan generates a downloadable <strong>plagiarism report</strong> in PDF format completely free. Reports include overall similarity percentage, AI indicator score, originality percentage, sentence-by-sentence highlighted matches, direct links to matched sources, confidence indicators, document fingerprint hash, heatmap visualization, and match classification &mdash; designed for transparent human review.
                     </p>
                   </div>
                 </div>
@@ -149,13 +150,13 @@ export default function WhyChooseUsPage() {
               </div>
               <div className="neumorphic-extruded p-8 bg-white">
                 <BookOpen className="w-12 h-12 text-[#FF9F43] mb-4" strokeWidth={2} />
-                <h3 className="text-xl font-bold mb-3">High School Students</h3>
-                <p className="text-gray-700 text-[15px] leading-relaxed">Submit original homework and assignments with confidence. Our <strong>plagiarism checker for students</strong> is simple enough for anyone to use — just paste your text and click scan.</p>
+                <h3 className="text-xl font-bold mb-3">Secondary &amp; High School Students</h3>
+                <p className="text-gray-700 text-[15px] leading-relaxed">For students meeting the applicable digital consent age (13+, or with parent/educator authorization where required), verify draft assignments for proper citations and accidental overlap before submission.</p>
               </div>
               <div className="neumorphic-extruded p-8 bg-white">
                 <Users className="w-12 h-12 text-[#23C4A7] mb-4" strokeWidth={2} />
                 <h3 className="text-xl font-bold mb-3">Teachers &amp; Professors</h3>
-                <p className="text-gray-700 text-[15px] leading-relaxed">Verify student submissions for originality. Catch AI-generated assignments from ChatGPT. Our <strong>AI content detector</strong> uses 16 signals to flag machine-written text with high accuracy.</p>
+                <p className="text-gray-700 text-[15px] leading-relaxed">Review student submissions for text overlap and statistical AI indicators. Our <strong>AI content detector</strong> evaluates 16 linguistic signals as a probabilistic decision-support aid alongside instructor judgment.</p>
               </div>
               <div className="neumorphic-extruded p-8 bg-white">
                 <Briefcase className="w-12 h-12 text-[#FF6B6B] mb-4" strokeWidth={2} />
@@ -232,13 +233,14 @@ export default function WhyChooseUsPage() {
               <Link href="/terms" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Terms</Link>
               <Link href="/compliance" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Compliance</Link>
               <Link href="/contact" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Contact</Link>
+              <CookiePreferencesTrigger label="Privacy Choices" style={{ fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap' }} />
             </nav>
           </div>
           <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <p style={{ fontSize: '13px', fontWeight: 600, color: '#888', margin: 0 }}>
+            <p style={{ fontSize: '13px', fontWeight: 600, color: '#555555', margin: 0 }}>
               &copy; {new Date().getFullYear()} Scanterity Forensic Systems. All rights reserved.
             </p>
-            <p style={{ fontSize: '12px', fontWeight: 600, color: '#888', margin: 0 }}>
+            <p style={{ fontSize: '12px', fontWeight: 600, color: '#555555', margin: 0 }}>
               An{' '}
               <a
                 href="https://arbovane.com"

@@ -38,10 +38,14 @@ export default function SourceList({ sources }: SourceListProps) {
         <div key={idx} className={styles.sourceItem} role="listitem">
           <div className={styles.sourceItemHeader}>
             <LetterAvatar domain={src.domain} />
-            <a href={src.url} target="_blank" rel="noreferrer"
-              aria-label={`Visit source: ${src.domain}`}>
-              {src.domain}
-            </a>
+            {/^https?:\/\//i.test(src.url) ? (
+              <a href={src.url} target="_blank" rel="noopener noreferrer"
+                aria-label={`Visit source: ${src.domain}`}>
+                {src.domain}
+              </a>
+            ) : (
+              <span>{src.domain}</span>
+            )}
             <span className={styles.reliabilityBadge}>{src.reliability}</span>
           </div>
           <div className={styles.sourceMatchBar}

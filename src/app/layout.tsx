@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Outfit, JetBrains_Mono, Plus_Jakarta_Sans, Hanken_Grotesk } from "next/font/google";
-import Script from "next/script";
 import { HOME_DESCRIPTION, HOME_TITLE, SITE_NAME, SITE_URL, SOCIAL_IMAGE, serializeJsonLd, siteJsonLd } from "@/lib/seo";
 import CookieConsent from "@/components/CookieConsent";
 import "./globals.css";
@@ -133,10 +132,17 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteJsonLd) }}
         />
+        {/* Google Consent Mode v2 + Global Privacy Control (GPC) default state.
+            Defaults ad/analytics storage to denied until explicit user consent,
+            while allowing non-personalized AdSense fallback when declined. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){window.dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',analytics_storage:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});gtag('set','ads_data_redaction',true);try{var gpc=navigator.globalPrivacyControl===true;var saved=localStorage.getItem('scanterity_cookie_consent');if(saved==='all'&&!gpc){gtag('consent','update',{ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted',analytics_storage:'granted'});gtag('set','ads_data_redaction',false);}else{window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.requestNonPersonalizedAds=1;}}catch(e){window.adsbygoogle=window.adsbygoogle||[];window.adsbygoogle.requestNonPersonalizedAds=1;}`,
+          }}
+        />
         {/* Google AdSense — rendered as a plain <script> in <head> so the
             AdSense verification crawler sees it in the raw server-rendered HTML.
-            next/script with afterInteractive injects client-side only, which
-            the crawler cannot detect. */}
+            Respects Consent Mode v2 defaults set immediately above. */}
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4767507523459649"
@@ -144,20 +150,6 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {/* Google Analytics — loaded AFTER interactive via next/script to avoid blocking FCP/LCP */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-WTK9E3WPSX"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-WTK9E3WPSX');
-          `}
-        </Script>
-
         {children}
         <CookieConsent />
       </body>

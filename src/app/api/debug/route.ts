@@ -1,10 +1,15 @@
-// Minimal diagnostic endpoint — tests which packages work on Vercel
+// Minimal diagnostic endpoint — disabled in production to prevent info disclosure
+/* eslint-disable @typescript-eslint/no-require-imports */
 import { NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function GET() {
+  if (process.env.NODE_ENV === 'production') {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   const results: Record<string, string> = {};
 
   // Test each package individually

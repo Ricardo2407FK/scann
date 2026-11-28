@@ -96,8 +96,8 @@ export default function AboutPage() {
               Scanterity was built to champion two foundational principles:
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Uncompromising Privacy (Zero-Retention):</strong> Documents uploaded to Scanterity are processed exclusively in volatile memory (RAM) and wiped instantly after analysis. We never store, index, or sell your submissions. Your work remains 100% yours.</li>
-              <li className={styles.listItem}><strong>Forensic Multi-Signal Precision:</strong> Instead of relying on a single string-comparison algorithm, Scanterity deploys a 15-algorithm forensic cascade alongside a 16-signal AI linguistic analysis engine to catch verbatim duplication, deep paraphrasing, and machine generation.</li>
+              <li className={styles.listItem}><strong>Privacy-First Architecture:</strong> Documents submitted to Scanterity are processed ephemerally in volatile memory (RAM) and are never stored in a persistent submission repository or sold. Short representative search phrases are sent over HTTPS to external search and academic APIs strictly for source comparison.</li>
+              <li className={styles.listItem}><strong>Multi-Signal Analysis:</strong> Instead of relying on a single string-comparison check, Scanterity runs a 15-algorithm similarity cascade alongside a 16-signal probabilistic AI linguistic analyzer to help users review potential verbatim matches, paraphrasing, and machine-like patterns.</li>
             </ul>
           </section>
 
@@ -147,19 +147,19 @@ export default function AboutPage() {
               <Mail className={styles.highlightIcon} size={24} strokeWidth={2.5} />
               <div style={{ margin: 0 }}>
                 <strong>Scanterity Forensic Systems</strong><br />
-                Parent Organization: Arbovane (<a href="https://arbovane.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>arbovane.com</a>)<br />
-                General Inquiries &amp; Support: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
-                Website: <Link href="/" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>www.scanterity.com</Link>
+                Parent Organization: Arbovane (<a href="https://arbovane.com" target="_blank" rel="noopener noreferrer" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>arbovane.com</a>)<br />
+                General Inquiries &amp; Support: <a href="mailto:hello@scanterity.com" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>hello@scanterity.com</a><br />
+                Website: <Link href="/" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>www.scanterity.com</Link>
               </div>
             </div>
             <p className={styles.text} style={{ marginTop: '1.25rem', fontSize: '14px' }}>
               <strong>Explore Scanterity:</strong>{' '}
-              <Link href="/" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Scanner</Link> |{' '}
-              <Link href="/why-choose-us" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Why Scanterity</Link> |{' '}
-              <Link href="/privacy" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Privacy Policy</Link> |{' '}
-              <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link> |{' '}
-              <Link href="/compliance" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>GDPR &amp; Compliance</Link> |{' '}
-              <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Contact Us</Link>
+              <Link href="/" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>Scanner</Link> |{' '}
+              <Link href="/why-choose-us" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>Why Scanterity</Link> |{' '}
+              <Link href="/privacy" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>Privacy Policy</Link> |{' '}
+              <Link href="/terms" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>Terms of Service</Link> |{' '}
+              <Link href="/compliance" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>GDPR &amp; Compliance</Link> |{' '}
+              <Link href="/contact" style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}>Contact Us</Link>
             </p>
           </section>
         </article>

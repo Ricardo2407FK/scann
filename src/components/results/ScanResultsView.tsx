@@ -38,7 +38,7 @@ export default function ScanResultsView({ report, onNewScan, onExport, container
       {/* TopNavBar — Neo-Brutalist */}
       <nav className="fixed top-0 w-full z-50 bg-white border-b-[1.5px] border-black">
         <div className="flex justify-between items-center px-4 md:px-10 py-2.5 max-w-[1200px] mx-auto">
-          <a onClick={onNewScan} className="text-[22px] font-black text-black tracking-tight flex items-center gap-2 cursor-pointer" aria-label="Start new plagiarism scan">
+          <button type="button" onClick={onNewScan} className="text-[22px] font-black text-black tracking-tight flex items-center gap-2 cursor-pointer bg-transparent border-0 p-0" aria-label="Start new plagiarism scan">
             <img
               src="/Scanterity.png"
               alt="Scanterity Logo — Free Plagiarism Checker & AI Detector"
@@ -47,7 +47,7 @@ export default function ScanResultsView({ report, onNewScan, onExport, container
               decoding="async"
               className={styles.scanterityLogo}
             />
-          </a>
+          </button>
           <div className="hidden md:flex space-x-6 items-center" role="navigation" aria-label="Main navigation">
             <button type="button" onClick={onNewScan} className="text-black hover:bg-[#B794F6] transition-colors font-semibold cursor-pointer text-[14px] bg-transparent border-0 px-3 py-1.5 rounded-full" aria-current="page">Scanner</button>
             <Link href="/why-choose-us" className="text-[#333] hover:bg-[#B794F6] hover:text-black transition-colors font-medium cursor-pointer text-[14px] px-3 py-1.5 rounded-full no-underline">Why Scanterity</Link>
@@ -61,9 +61,11 @@ export default function ScanResultsView({ report, onNewScan, onExport, container
             </button>
           </div>
           <button
+            type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className={`${styles.customNavHamburger} md:hidden`}
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
           >
             <span className="material-symbols-outlined">{mobileMenuOpen ? 'close' : 'menu'}</span>
           </button>
@@ -126,6 +128,11 @@ export default function ScanResultsView({ report, onNewScan, onExport, container
                   } )
                 }}
               />
+
+              {/* Analytical Review Notice */}
+              <p className="text-[11px] text-[#555] leading-snug m-0 pt-1">
+                <strong>Analytical Notice:</strong> Similarity scores and AI indicators are probabilistic statistical aids designed to support human review and do not establish plagiarism or authorship on their own.
+              </p>
 
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row justify-end gap-3 md:gap-4 pt-3">

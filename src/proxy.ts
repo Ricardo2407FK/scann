@@ -84,11 +84,12 @@ export function proxy(request: NextRequest) {
   }
 
   // CSP: Allow self, inline styles, Google Fonts, AdSense, and Google Analytics
+  const isDev = process.env.NODE_ENV === 'development';
   response.headers.set(
     'Content-Security-Policy',
     [
       "default-src 'self' blob: data:",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://adservice.google.com https://partner.googleadservices.com https://tpc.googlesyndication.com",
+      `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://www.googletagmanager.com https://pagead2.googlesyndication.com https://adservice.google.com https://partner.googleadservices.com https://tpc.googlesyndication.com`,
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' https://fonts.gstatic.com",
       "img-src 'self' data: blob: https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://pagead2.googlesyndication.com https://*.doubleclick.net https://*.google.com",
@@ -96,7 +97,7 @@ export function proxy(request: NextRequest) {
       "worker-src 'self' blob:",
       "object-src 'self' blob:",
       "frame-src 'self' blob: https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.google.com https://*.googlesyndication.com",
-      "frame-ancestors 'none'",
+      "frame-ancestors 'self'",
       "base-uri 'self'",
       "form-action 'self'",
     ].join('; ')

@@ -1,7 +1,7 @@
 import { createPageMetadata, createBreadcrumbJsonLd, serializeJsonLd } from '@/lib/seo';
 import React from 'react';
 import Link from 'next/link';
-import { ArrowLeft, FileText, Scale, Shield, AlertTriangle, Users, Ban, RefreshCw, Globe, Gavel } from 'lucide-react';
+import { ArrowLeft, FileText, Scale, Shield, AlertTriangle, Users, Ban, RefreshCw, Globe, Gavel, Megaphone } from 'lucide-react';
 import styles from '../privacy/PrivacyPolicy.module.css';
 
 export const metadata = createPageMetadata({
@@ -13,6 +13,12 @@ export const metadata = createPageMetadata({
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
   { name: 'Terms of Service', path: '/terms' },
 ]);
+
+const linkStyle: React.CSSProperties = {
+  color: '#6d28d9',
+  fontWeight: 700,
+  textDecoration: 'underline',
+};
 
 export default function TermsOfService() {
   return (
@@ -31,14 +37,14 @@ export default function TermsOfService() {
 
         <div className={styles.header}>
           <h1 className={styles.title}>Terms of Service</h1>
-          <div className={styles.lastUpdated}>Effective: August 18, 2026</div>
+          <div className={styles.lastUpdated}>Effective: November 28, 2026</div>
         </div>
 
         <article className={styles.document}>
           <div className={styles.highlight}>
             <Scale className={styles.highlightIcon} size={24} strokeWidth={2.5} />
             <p style={{ margin: 0 }}>
-              <strong>Summary:</strong> By using Scanterity, you agree to these terms. We provide forensic plagiarism detection tools &ldquo;as is.&rdquo; You retain full ownership of all content you scan. We do not store, sell, or claim rights over your documents.
+              <strong>Summary:</strong> By using Scanterity, you agree to these terms. We provide automated text-similarity and AI-signal analysis &ldquo;as is&rdquo; as a decision-support aid. You retain full ownership of all content you submit.
             </p>
           </div>
 
@@ -49,10 +55,10 @@ export default function TermsOfService() {
               1. Acceptance of Terms
             </h2>
             <p className={styles.text}>
-              These Terms of Service (&ldquo;Terms&rdquo;) constitute a legally binding agreement between you (&ldquo;User,&rdquo; &ldquo;you,&rdquo; or &ldquo;your&rdquo;) and Scanterity Forensic Systems (&ldquo;Scanterity,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;). By accessing or using the Scanterity platform, including all associated websites, applications, APIs, and services (collectively, the &ldquo;Service&rdquo;), you acknowledge that you have read, understood, and agree to be bound by these Terms, our <Link href="/privacy" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Privacy Policy</Link>, and our <Link href="/compliance" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>GDPR &amp; Compliance Policy</Link>.
+              These Terms of Service (&ldquo;Terms&rdquo;) constitute a legally binding agreement between you (&ldquo;User,&rdquo; &ldquo;you,&rdquo; or &ldquo;your&rdquo;) and <strong>Scanterity Forensic Systems</strong>, operated by <strong>Arbovane</strong> (&ldquo;Scanterity,&rdquo; &ldquo;we,&rdquo; &ldquo;us,&rdquo; or &ldquo;our&rdquo;). By accessing or using Scanterity, you agree to these Terms, our <Link href="/privacy" style={linkStyle}>Privacy Policy</Link>, and our <Link href="/compliance" style={linkStyle}>GDPR &amp; Compliance Policy</Link>.
             </p>
             <p className={styles.text}>
-              If you do not agree to these Terms in their entirety, you must not access or use the Service. If you are using the Service on behalf of an organization, you represent and warrant that you have the authority to bind that organization to these Terms.
+              You must be at least 13 years of age (or 16, or the applicable age of digital consent in your jurisdiction, unless used under authorized parent, guardian, or school supervision) to use the Service. If you do not agree to these Terms, you must not use the Service.
             </p>
           </section>
 
@@ -60,19 +66,18 @@ export default function TermsOfService() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Shield size={18} strokeWidth={2.5} /></div>
-              2. Description of Service
+              2. Description of Service &amp; Fair-Use Limits
             </h2>
             <p className={styles.text}>
-              Scanterity provides forensic plagiarism detection, AI-generated content analysis, and document originality verification services. The Service operates through a multi-algorithm engine that analyzes submitted text against publicly accessible online sources. Key capabilities include:
+              Scanterity provides automated text-similarity detection, probabilistic AI-writing pattern analysis, and client-side PDF reporting against publicly reachable web and academic search indices.
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Exact Match Detection:</strong> Identification of verbatim content duplication against web-accessible sources.</li>
-              <li className={styles.listItem}><strong>Paraphrase Detection:</strong> Semantic analysis to identify rephrased or restructured content derived from existing sources.</li>
-              <li className={styles.listItem}><strong>AI Content Detection:</strong> Probabilistic analysis of text patterns to identify content likely generated by large language models (LLMs).</li>
-              <li className={styles.listItem}><strong>Forensic Reporting:</strong> Generation of comprehensive PDF reports with source attributions, confidence scores, and algorithmic breakdowns.</li>
+              <li className={styles.listItem}><strong>Exact &amp; Paraphrase Similarity:</strong> Multi-signal string, n-gram, fingerprinting, and semantic overlap comparison against external search and academic source results.</li>
+              <li className={styles.listItem}><strong>AI Writing Indicators:</strong> Statistical evaluation of 16 linguistic signals to provide probabilistic human vs. LLM likelihood scores.</li>
+              <li className={styles.listItem}><strong>Fair-Use Technical Limits:</strong> Scans currently support up to 15,000 words per document (15 MB max file upload for PDF, DOCX, and TXT) and are protected by per-IP rate limits and concurrency queuing to preserve shared server availability.</li>
             </ul>
             <p className={styles.text}>
-              The Service is intended as an analytical tool to assist in originality assessment. Results should be interpreted by qualified individuals and should not be the sole basis for academic, legal, or employment decisions.
+              <strong>Human Review Required:</strong> Results are analytical aids only and must be reviewed by a qualified human assessor. Automated scores do not independently prove plagiarism, copyright infringement, or AI authorship and should never serve as the sole basis for academic discipline, grading, termination, or legal action.
             </p>
           </section>
 
@@ -83,83 +88,74 @@ export default function TermsOfService() {
               3. User Obligations &amp; Acceptable Use
             </h2>
             <p className={styles.text}>
-              You agree to use the Service only for lawful purposes and in compliance with all applicable local, national, and international laws and regulations. You shall NOT:
+              You agree to use the Service lawfully and in compliance with all applicable laws. You shall NOT:
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}>Submit content that you do not have the legal right to scan or analyze.</li>
-              <li className={styles.listItem}>Use the Service to facilitate academic fraud, content theft, or any other form of intellectual dishonesty.</li>
-              <li className={styles.listItem}>Attempt to reverse-engineer, decompile, disassemble, or otherwise extract the source code or algorithms of the Service.</li>
-              <li className={styles.listItem}>Use automated scripts, bots, or scrapers to access the Service in a manner that exceeds reasonable personal or organizational use.</li>
-              <li className={styles.listItem}>Interfere with, disrupt, or impose an unreasonable burden on the Service infrastructure.</li>
-              <li className={styles.listItem}>Resell, sublicense, or redistribute the Service or its outputs without prior written consent.</li>
-              <li className={styles.listItem}>Submit content containing malware, viruses, or other harmful code.</li>
+              <li className={styles.listItem}>Submit content you do not have the right or authorization to check, or upload confidential third-party records in violation of applicable privacy or contractual duties.</li>
+              <li className={styles.listItem}>Use automated bots, scripts, or scrapers to bypass rate limits or impose excessive load on our infrastructure.</li>
+              <li className={styles.listItem}>Upload malformed files intended to exploit parsers, inject malicious code, or disrupt the Service.</li>
+              <li className={styles.listItem}>Resell, frame, or redistribute the Service without prior written authorization.</li>
             </ul>
-            <p className={styles.text}>
-              We reserve the right to suspend or terminate access for any user who violates these obligations, with or without prior notice.
-            </p>
           </section>
 
           {/* Section 4 */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><FileText size={18} strokeWidth={2.5} /></div>
-              4. Intellectual Property &amp; Content Ownership
+              4. Intellectual Property &amp; DMCA Copyright Notice
             </h2>
             <p className={styles.text}>
-              <strong>Your Content:</strong> You retain all ownership rights, copyright, and intellectual property rights in and to any content you submit to the Service for analysis. Scanterity does not claim any ownership, license, or rights over your submitted content. Content is processed ephemerally in volatile memory (RAM) and is not persistently stored, indexed, or added to any database.
+              <strong>Your Content:</strong> You retain full copyright and ownership of all text and files you submit. Scanterity processes uploaded text ephemerally in volatile memory and sends only short search queries to external providers to find matching URLs; we do not claim ownership over your documents or store them in a submission database.
             </p>
             <p className={styles.text}>
-              <strong>Our Platform:</strong> The Scanterity platform, including its algorithms, user interface, branding, source code, documentation, and all associated intellectual property, is owned exclusively by Scanterity Forensic Systems and is protected by applicable copyright, trademark, and trade secret laws. Unauthorized reproduction, modification, or distribution of any part of the platform is strictly prohibited.
+              <strong>Third-Party Sources &amp; DMCA (17 U.S.C. &sect; 512):</strong> Scanterity acts solely as an analytical search interface linking to publicly accessible third-party websites and academic indices (CrossRef, Semantic Scholar, Wikipedia, and search providers) and does not permanently host third-party copyrighted content. If you believe any displayed excerpt or reference raises an intellectual property concern, please email our designated contact at <a href="mailto:hello@scanterity.com" style={linkStyle}>hello@scanterity.com</a> with complete identification details and supporting authorization.
             </p>
             <p className={styles.text}>
-              <strong>Scan Reports:</strong> The forensic reports generated by the Service are derivative works based on your input and our algorithms. You are granted a non-exclusive, royalty-free license to use, distribute, and reproduce these reports for your internal purposes.
+              <strong>Trademarks Disclaimer:</strong> Any third-party product names mentioned for comparison (such as Turnitin, Grammarly, or Copyscape) remain the property of their respective trademark owners. Scanterity is independent and not endorsed by or affiliated with them.
             </p>
           </section>
 
           {/* Section 5 */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <div className={styles.sectionIcon}><AlertTriangle size={18} strokeWidth={2.5} /></div>
-              5. Disclaimers &amp; Limitation of Liability
+              <div className={styles.sectionIcon}><Megaphone size={18} strokeWidth={2.5} /></div>
+              5. Advertising &amp; Direct Sponsorship Inquiries
             </h2>
             <p className={styles.text}>
-              THE SERVICE IS PROVIDED &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS, IMPLIED, STATUTORY, OR OTHERWISE, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR ACCURACY.
+              Scanterity may display Google AdSense advertisements as well as direct sponsorship placements (such as &ldquo;Your Ad Here — Place Bid&rdquo; inquiries directed to <a href="mailto:advertise@arbovane.com" style={linkStyle}>advertise@arbovane.com</a>):
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>No Guarantee of Accuracy:</strong> Scanterity uses probabilistic algorithms and heuristic analysis. Results may contain false positives or false negatives. We do not guarantee 100% detection accuracy.</li>
-              <li className={styles.listItem}><strong>Not Legal Advice:</strong> Scan results do not constitute legal opinions, definitive proof of plagiarism, or certification of originality. They are analytical tools to assist human judgment.</li>
-              <li className={styles.listItem}><strong>AI Detection Limitations:</strong> AI content detection is inherently probabilistic and may not accurately identify all AI-generated content, particularly after human editing.</li>
+              <li className={styles.listItem}><strong>Non-Binding Inquiries:</strong> Mentioned starting bid figures (e.g., &ldquo;for just $1&rdquo;) are invitations to submit an advertising inquiry and do not constitute an automatic binding offer, guaranteed inventory, or fixed pricing. Final placement terms, pricing, and duration require written approval by Arbovane / Scanterity.</li>
+              <li className={styles.listItem}><strong>Ad Standards:</strong> All sponsored content must comply with applicable advertising disclosure laws and must not promote illegal goods/services, malware, phishing, academic essay-writing mills, deceptive claims, or adult content. We reserve the right to reject or remove any advertisement at our discretion.</li>
             </ul>
-            <p className={styles.text}>
-              TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL SCANTERITY, ITS OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, OR AFFILIATES BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING BUT NOT LIMITED TO LOSS OF PROFITS, DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, ARISING OUT OF OR RELATING TO YOUR USE OF OR INABILITY TO USE THE SERVICE, REGARDLESS OF THE THEORY OF LIABILITY.
-            </p>
-            <p className={styles.text}>
-              OUR TOTAL AGGREGATE LIABILITY FOR ALL CLAIMS ARISING OUT OF OR RELATING TO THESE TERMS OR THE SERVICE SHALL NOT EXCEED THE GREATER OF (A) THE AMOUNT YOU PAID TO SCANTERITY IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR (B) ONE HUNDRED U.S. DOLLARS ($100).
-            </p>
           </section>
 
           {/* Section 6 */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <div className={styles.sectionIcon}><Ban size={18} strokeWidth={2.5} /></div>
-              6. Indemnification
+              <div className={styles.sectionIcon}><AlertTriangle size={18} strokeWidth={2.5} /></div>
+              6. Disclaimers &amp; Limitation of Liability
             </h2>
             <p className={styles.text}>
-              You agree to indemnify, defend, and hold harmless Scanterity and its officers, directors, employees, agents, and affiliates from and against any and all claims, liabilities, damages, losses, costs, and expenses (including reasonable attorneys&rsquo; fees) arising out of or relating to: (a) your use of the Service; (b) your violation of these Terms; (c) your violation of any rights of a third party; or (d) any content you submit to the Service.
+              THE SERVICE IS PROVIDED &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, OR COMPLETENESS.
+            </p>
+            <ul className={styles.list}>
+              <li className={styles.listItem}><strong>Probabilistic Results:</strong> Search availability depends on third-party search providers, and both similarity and AI-detection scores may produce false positives or false negatives.</li>
+              <li className={styles.listItem}><strong>Not Legal or Academic Advice:</strong> Scan outputs do not constitute legal advice or definitive proof of misconduct.</li>
+            </ul>
+            <p className={styles.text}>
+              TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL SCANTERITY, ARBOVANE, OR THEIR PERSONNEL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF YOUR USE OF THE SERVICE. OUR TOTAL AGGREGATE LIABILITY FOR ALL CLAIMS SHALL NOT EXCEED THE GREATER OF (A) AMOUNTS PAID BY YOU TO US IN THE PRECEDING 12 MONTHS, OR (B) ONE HUNDRED U.S. DOLLARS ($100), EXCEPT WHERE LIABILITY CANNOT BE EXCLUDED BY MANDATORY LAW.
             </p>
           </section>
 
           {/* Section 7 */}
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              <div className={styles.sectionIcon}><RefreshCw size={18} strokeWidth={2.5} /></div>
-              7. Termination
+              <div className={styles.sectionIcon}><Ban size={18} strokeWidth={2.5} /></div>
+              7. Indemnification &amp; Termination
             </h2>
             <p className={styles.text}>
-              We may suspend or terminate your access to the Service at any time, with or without cause, and with or without notice. Upon termination, your right to use the Service immediately ceases. Sections 4 (Intellectual Property), 5 (Disclaimers), 6 (Indemnification), and 9 (Governing Law) shall survive termination.
-            </p>
-            <p className={styles.text}>
-              You may discontinue your use of the Service at any time. If you have a paid subscription, cancellation policies and refund eligibility will be governed by the specific terms of your subscription plan.
+              You agree to indemnify and hold harmless Scanterity Forensic Systems and Arbovane from claims arising out of your misuse of the Service, your violation of these Terms, or your violation of third-party rights. We may suspend or restrict access to protect infrastructure integrity or prevent abuse without prior notice.
             </p>
           </section>
 
@@ -170,7 +166,7 @@ export default function TermsOfService() {
               8. Modifications to Terms
             </h2>
             <p className={styles.text}>
-              We reserve the right to modify these Terms at any time. Material changes will be communicated via email notification (for registered users) or a prominent notice on the Service at least thirty (30) days before the changes take effect. Your continued use of the Service after the effective date of any modifications constitutes your acceptance of the revised Terms. If you do not agree to the revised Terms, you must discontinue use of the Service.
+              We may revise these Terms periodically by updating the effective date above. Continued use of the Service after updated Terms are posted constitutes acceptance of the revised Terms.
             </p>
           </section>
 
@@ -178,13 +174,10 @@ export default function TermsOfService() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Globe size={18} strokeWidth={2.5} /></div>
-              9. Governing Law &amp; Dispute Resolution
+              9. Governing Law &amp; Consumer Protections
             </h2>
             <p className={styles.text}>
-              These Terms shall be governed by and construed in accordance with the laws of the State of Delaware, United States, without regard to its conflict of law provisions. For users in the European Economic Area (EEA), these Terms do not affect your rights under mandatory consumer protection laws of your country of residence.
-            </p>
-            <p className={styles.text}>
-              Any dispute arising out of or relating to these Terms shall first be attempted to be resolved through good-faith negotiation. If negotiation fails, disputes shall be submitted to binding arbitration under the rules of the American Arbitration Association (AAA), except that either party may seek injunctive or equitable relief in a court of competent jurisdiction.
+              These Terms are governed by the laws of the State of Delaware, United States, excluding conflict-of-law principles. For consumers in the European Economic Area (EEA), the United Kingdom, or other jurisdictions with mandatory consumer-protection statutes, nothing in these Terms overrides mandatory protections or statutory forum rights under the laws of your country of residence.
             </p>
           </section>
 
@@ -192,34 +185,18 @@ export default function TermsOfService() {
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Gavel size={18} strokeWidth={2.5} /></div>
-              10. General Provisions
+              10. General Provisions &amp; Contact
             </h2>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Severability:</strong> If any provision of these Terms is held to be unenforceable, the remaining provisions shall continue in full force and effect.</li>
-              <li className={styles.listItem}><strong>Waiver:</strong> Failure to enforce any right or provision of these Terms shall not constitute a waiver of such right or provision.</li>
-              <li className={styles.listItem}><strong>Entire Agreement:</strong> These Terms, together with our <Link href="/privacy" style={{ color: 'var(--nb-purple)', textDecoration: 'underline' }}>Privacy Policy</Link> and <Link href="/compliance" style={{ color: 'var(--nb-purple)', textDecoration: 'underline' }}>Compliance Policy</Link>, constitute the entire agreement between you and Scanterity regarding the Service.</li>
-              <li className={styles.listItem}><strong>Assignment:</strong> You may not assign or transfer these Terms without our prior written consent. We may assign our rights and obligations without restriction.</li>
-              <li className={styles.listItem}><strong>Force Majeure:</strong> Scanterity shall not be liable for any failure or delay in performance resulting from circumstances beyond our reasonable control, including natural disasters, war, terrorism, pandemics, or government actions.</li>
+              <li className={styles.listItem}><strong>Severability &amp; Entire Agreement:</strong> If any clause is held unenforceable, the remaining provisions remain valid. These Terms, together with our <Link href="/privacy" style={linkStyle}>Privacy Policy</Link> and <Link href="/compliance" style={linkStyle}>GDPR &amp; Compliance Policy</Link>, constitute the entire agreement regarding the Service.</li>
             </ul>
-          </section>
-
-          {/* Contact */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>
-              <div className={styles.sectionIcon}><FileText size={18} strokeWidth={2.5} /></div>
-              11. Contact Information
-            </h2>
-            <p className={styles.text}>
-              For questions regarding these Terms of Service or to submit legal inquiries, please visit our <Link href="/contact" style={{ color: 'var(--nb-purple)', textDecoration: 'underline' }}>Contact Page</Link> or reach out directly:
-            </p>
             <div className={styles.highlight}>
               <Shield className={styles.highlightIcon} size={24} strokeWidth={2.5} />
               <div style={{ margin: 0 }}>
-                <strong>Scanterity Legal Department</strong><br />
-                Email: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
-                Data Protection Officer: <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a><br />
-                About Us: <Link href="/about" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>About Scanterity</Link><br />
-                Contact: <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Support &amp; Inquiries Form</Link>
+                <strong>Scanterity Forensic Systems (Arbovane)</strong><br />
+                Legal &amp; Support Email: <a href="mailto:hello@scanterity.com" style={linkStyle}>hello@scanterity.com</a><br />
+                Advertising Inquiries: <a href="mailto:advertise@arbovane.com" style={linkStyle}>advertise@arbovane.com</a><br />
+                About Us: <Link href="/about" style={linkStyle}>About Scanterity</Link> | <Link href="/contact" style={linkStyle}>Contact Page</Link>
               </div>
             </div>
           </section>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export type ExportOptions = {
   includePlagiarism: boolean;
@@ -20,6 +20,14 @@ export default function ExportModal({ onClose, onGenerate }: ExportModalProps) {
     includeStats: true,
   });
 
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [onClose]);
+
   const toggle = (key: keyof ExportOptions) => {
     setOptions(prev => ({ ...prev, [key]: !prev[key] }));
   };
@@ -34,26 +42,32 @@ export default function ExportModal({ onClose, onGenerate }: ExportModalProps) {
 
   return (
     <div className="export-modal-backdrop" onClick={onClose}>
-      <div className="export-modal" onClick={e => e.stopPropagation()}>
+      <div
+        className="export-modal"
+        onClick={e => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="export-modal-title"
+      >
         {/* Header */}
         <div className="export-modal-header">
           <div className="export-modal-title-row">
             <div className="export-modal-icon-wrap">
-              <span className="material-symbols-outlined" style={{ fontSize: '22px', color: '#000' }}>picture_as_pdf</span>
+              <span className="material-symbols-outlined" style={{ fontSize: '22px', color: '#000' }} aria-hidden="true">picture_as_pdf</span>
             </div>
             <div>
-              <h2 className="export-modal-title">Export Report</h2>
+              <h2 id="export-modal-title" className="export-modal-title">Export Report</h2>
               <p className="export-modal-subtitle">Choose what to include in your PDF</p>
             </div>
           </div>
-          <button className="export-modal-close" onClick={onClose} aria-label="Close export modal">
-            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>close</span>
+          <button type="button" className="export-modal-close" onClick={onClose} aria-label="Close export modal">
+            <span className="material-symbols-outlined" style={{ fontSize: '20px' }} aria-hidden="true">close</span>
           </button>
         </div>
 
         {/* Always-included summary notice */}
         <div className="export-modal-always">
-          <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#000' }}>verified</span>
+          <span className="material-symbols-outlined" style={{ fontSize: '16px', color: '#000' }} aria-hidden="true">verified</span>
           <span><strong>Score Overview</strong> is always included (score cards + executive summary)</span>
         </div>
 
@@ -71,7 +85,7 @@ export default function ExportModal({ onClose, onGenerate }: ExportModalProps) {
             >
               <div className="export-modal-section-left">
                 <div className={`export-modal-section-icon ${options[s.key] ? 'checked' : ''}`}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>{s.icon}</span>
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px' }} aria-hidden="true">{s.icon}</span>
                 </div>
                 <div className="export-modal-section-text">
                   <span className="export-modal-section-label">{s.label}</span>
@@ -89,9 +103,9 @@ export default function ExportModal({ onClose, onGenerate }: ExportModalProps) {
         <div className="export-modal-footer">
           <span className="export-modal-footer-hint">{enabledCount + 1} section{enabledCount + 1 !== 1 ? 's' : ''} selected</span>
           <div className="export-modal-footer-actions">
-            <button className="export-modal-cancel" onClick={onClose}>Cancel</button>
-            <button className="export-modal-generate" onClick={() => onGenerate(options)}>
-              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>download</span>
+            <button type="button" className="export-modal-cancel" onClick={onClose}>Cancel</button>
+            <button type="button" className="export-modal-generate" onClick={() => onGenerate(options)}>
+              <span className="material-symbols-outlined" style={{ fontSize: '18px' }} aria-hidden="true">download</span>
               Generate PDF
             </button>
           </div>

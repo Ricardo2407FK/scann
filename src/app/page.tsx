@@ -1,5 +1,6 @@
 import PlagiarismChecker from "@/components/PlagiarismChecker";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import CookiePreferencesTrigger from "@/components/CookiePreferencesTrigger";
 import { ShieldCheck, Zap, FileText, Search, Target, Users, BookOpen, AlertTriangle, Globe, Cpu, Lock, Award, Clock, BarChart3, GraduationCap, Briefcase, PenTool, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { createPageMetadata, HOME_DESCRIPTION, HOME_TITLE, homeJsonLd, serializeJsonLd, FAQS } from "@/lib/seo";
@@ -131,13 +132,12 @@ export default function Home() {
             </div>
             <div className="neumorphic-extruded p-6 bg-white">
               <Lock className="w-10 h-10 text-[#FF6B6B] mb-4" strokeWidth={2} />
-              <h3 className="text-xl font-bold mb-2">Zero Data Retention</h3>
-              <p className="text-[15px] text-gray-700">Your privacy matters. All documents are processed in volatile memory (RAM) and immediately wiped after analysis. We never store, index, or share your text with third parties. Unlike Turnitin, which adds your work to its database, Scanterity operates on a strict <strong>zero-retention policy</strong>.</p>
-              <div className="mt-3">
-                <Link href="/privacy" className="text-[#9333ea] underline font-bold text-[14px] hover:opacity-80 inline-flex items-center gap-1">
-                  Read our privacy &amp; security architecture &rarr;
+              <h3 className="text-xl font-bold mb-2">No Submission Database</h3>
+              <p className="text-[15px] text-gray-700">Your privacy matters. Documents are processed in volatile memory (RAM) and are never added to a submission repository or sold. Only short representative queries are sent over HTTPS to search providers to identify matching public sources. Learn more in our{' '}
+                <Link href="/privacy" className="text-[#6d28d9] underline font-bold hover:opacity-80">
+                  privacy &amp; security architecture &rarr;
                 </Link>
-              </div>
+              </p>
             </div>
           </div>
         </section>
@@ -188,66 +188,66 @@ export default function Home() {
               <tbody className="text-gray-700">
                 <tr className="border-b border-gray-200">
                   <td className="py-3 pr-4 font-semibold">Price</td>
-                  <td className="py-3 px-4 bg-[#B794F6]/10 font-bold text-[#9333ea]">100% Free</td>
-                  <td className="py-3 px-4">$3/student (institutional)</td>
-                  <td className="py-3 px-4">$30/month (Premium)</td>
-                  <td className="py-3 px-4">$0.05/search</td>
+                  <td className="py-3 px-4 bg-[#B794F6]/10 font-bold text-[#6d28d9]">Free (ad-supported)</td>
+                  <td className="py-3 px-4">Institutional license</td>
+                  <td className="py-3 px-4">Paid subscription</td>
+                  <td className="py-3 px-4">Per-search credits</td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <td className="py-3 pr-4 font-semibold">AI Detection</td>
-                  <td className="py-3 px-4 bg-[#B794F6]/10">✅ 16 signals</td>
-                  <td className="py-3 px-4">✅ Basic</td>
-                  <td className="py-3 px-4">❌ No</td>
-                  <td className="py-3 px-4">❌ No</td>
+                  <td className="py-3 px-4 bg-[#B794F6]/10">16 signals (decision aid)</td>
+                  <td className="py-3 px-4">Available (institution)</td>
+                  <td className="py-3 px-4">Varies by plan</td>
+                  <td className="py-3 px-4">Not primary focus</td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <td className="py-3 pr-4 font-semibold">Algorithms</td>
-                  <td className="py-3 px-4 bg-[#B794F6]/10">15 algorithms</td>
+                  <td className="py-3 px-4 bg-[#B794F6]/10">15-signal cascade</td>
                   <td className="py-3 px-4">Proprietary</td>
-                  <td className="py-3 px-4">Basic matching</td>
-                  <td className="py-3 px-4">Fingerprinting</td>
+                  <td className="py-3 px-4">Proprietary</td>
+                  <td className="py-3 px-4">Web indexing</td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <td className="py-3 pr-4 font-semibold">Sign-up Required</td>
-                  <td className="py-3 px-4 bg-[#B794F6]/10">❌ No</td>
-                  <td className="py-3 px-4">✅ Yes (institutional)</td>
-                  <td className="py-3 px-4">✅ Yes</td>
-                  <td className="py-3 px-4">✅ Yes</td>
+                  <td className="py-3 px-4 bg-[#B794F6]/10">No</td>
+                  <td className="py-3 px-4">Yes (institutional)</td>
+                  <td className="py-3 px-4">Yes</td>
+                  <td className="py-3 px-4">Yes (for premium checks)</td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <td className="py-3 pr-4 font-semibold">PDF Reports</td>
-                  <td className="py-3 px-4 bg-[#B794F6]/10">✅ Free</td>
-                  <td className="py-3 px-4">✅ Paid</td>
-                  <td className="py-3 px-4">❌ No</td>
-                  <td className="py-3 px-4">✅ Paid</td>
+                  <td className="py-3 px-4 bg-[#B794F6]/10">Free download</td>
+                  <td className="py-3 px-4">Included in license</td>
+                  <td className="py-3 px-4">Varies by tier</td>
+                  <td className="py-3 px-4">Paid / API</td>
                 </tr>
                 <tr className="border-b border-gray-200">
-                  <td className="py-3 pr-4 font-semibold">Document Storage</td>
-                  <td className="py-3 px-4 bg-[#B794F6]/10">Zero retention</td>
-                  <td className="py-3 px-4">Adds to database</td>
-                  <td className="py-3 px-4">Cloud stored</td>
-                  <td className="py-3 px-4">Not stored</td>
+                  <td className="py-3 pr-4 font-semibold">Document Repository</td>
+                  <td className="py-3 px-4 bg-[#B794F6]/10">Not stored</td>
+                  <td className="py-3 px-4">Institution-configured</td>
+                  <td className="py-3 px-4">Account-based</td>
+                  <td className="py-3 px-4">See provider policy</td>
                 </tr>
                 <tr className="border-b border-gray-200">
                   <td className="py-3 pr-4 font-semibold">Word Limit</td>
-                  <td className="py-3 px-4 bg-[#B794F6]/10">15,000 words</td>
-                  <td className="py-3 px-4">Unlimited</td>
-                  <td className="py-3 px-4">100,000 chars</td>
-                  <td className="py-3 px-4">10,000 words</td>
+                  <td className="py-3 px-4 bg-[#B794F6]/10">15,000 words / scan</td>
+                  <td className="py-3 px-4">High institutional limit</td>
+                  <td className="py-3 px-4">Plan-dependent</td>
+                  <td className="py-3 px-4">Plan-dependent</td>
                 </tr>
                 <tr>
-                  <td className="py-3 pr-4 font-semibold">Academic Databases</td>
-                  <td className="py-3 px-4 bg-[#B794F6]/10">✅ CrossRef, Semantic Scholar</td>
-                  <td className="py-3 px-4">✅ Extensive</td>
-                  <td className="py-3 px-4">✅ Limited</td>
-                  <td className="py-3 px-4">❌ Web only</td>
+                  <td className="py-3 pr-4 font-semibold">Academic Indexes</td>
+                  <td className="py-3 px-4 bg-[#B794F6]/10">CrossRef, Semantic Scholar</td>
+                  <td className="py-3 px-4">Proprietary academic corpus</td>
+                  <td className="py-3 px-4">ProQuest / scholarly sources</td>
+                  <td className="py-3 px-4">Web index focus</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div className="mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <p className="text-[14px] text-gray-500 italic m-0">
-              Comparison based on publicly available information as of October 2026. Features and pricing may vary.
+            <p className="text-[13px] text-gray-600 italic m-0">
+              Turnitin, Grammarly, and Copyscape are trademarks of their respective owners; Scanterity is independent and not affiliated with them. Feature summaries reflect general public tiers as of November 2026 and are subject to change by each provider.
             </p>
             <Link
               href="/why-choose-us"
@@ -276,8 +276,8 @@ export default function Home() {
             </div>
             <div className="neumorphic-extruded p-6 text-center bg-white">
               <Clock className="w-10 h-10 mx-auto mb-3 text-[#FF9F43]" strokeWidth={2} />
-              <div className="text-3xl md:text-4xl font-black text-black">30s</div>
-              <p className="text-[13px] text-gray-600 mt-1 font-semibold">Average Scan Time</p>
+              <div className="text-3xl md:text-4xl font-black text-black">15K</div>
+              <p className="text-[13px] text-gray-600 mt-1 font-semibold">Words Per Scan</p>
             </div>
             <div className="neumorphic-extruded p-6 text-center bg-white">
               <Award className="w-10 h-10 mx-auto mb-3 text-[#FF6B6B]" strokeWidth={2} />
@@ -317,7 +317,7 @@ export default function Home() {
             <div className="neumorphic-extruded p-6 bg-white">
               <CheckCircle className="w-8 h-8 text-[#FF6B6B] mb-3" strokeWidth={2.5} />
               <h3 className="text-xl font-bold mb-2">Direct Plagiarism</h3>
-              <p className="text-[15px] text-gray-700">Word-for-word copying of another&apos;s work without quotation marks or attribution. Our <strong>exact substring matching</strong> algorithm catches this with 100% confidence.</p>
+              <p className="text-[15px] text-gray-700">Word-for-word copying of another&apos;s work without quotation marks or attribution. Our <strong>exact substring matching</strong> algorithm flags verbatim overlaps against matched source passages.</p>
             </div>
             <div className="neumorphic-extruded p-6 bg-white">
               <CheckCircle className="w-8 h-8 text-[#FF9F43] mb-3" strokeWidth={2.5} />
@@ -359,7 +359,7 @@ export default function Home() {
           <div className="neumorphic-extruded p-10 md:p-16 bg-[#B794F6]/10">
             <h2 className="text-[28px] md:text-[40px] font-black mb-4">Ready to Check Your Document?</h2>
             <p className="text-lg text-gray-700 mb-6 max-w-2xl mx-auto">
-              Join thousands of students, teachers, and writers who trust Scanterity as their go-to <strong>free plagiarism checker</strong> and <strong>AI detector</strong>. No sign-up, no credit card, no limits.
+              Check essays, research papers, and drafts using Scanterity&apos;s <strong>free plagiarism checker</strong> and <strong>AI detector</strong>. No sign-up, no credit card — up to 15,000 words per scan.
             </p>
             <Link href="/" className="inline-block bg-black text-white px-8 py-4 font-bold text-lg border-[3px] border-black shadow-[4px_4px_0_0_#B794F6] hover:shadow-[6px_6px_0_0_#B794F6] transition-shadow cursor-pointer" style={{ borderRadius: '8px', textDecoration: 'none' }}>
               Start Free Plagiarism Check →
@@ -410,6 +410,7 @@ export default function Home() {
               <Link href="/terms" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Terms of Service</Link>
               <Link href="/compliance" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Compliance</Link>
               <Link href="/contact" style={{ cursor: 'pointer', whiteSpace: 'nowrap', textDecoration: 'none', color: 'inherit' }}>Contact</Link>
+              <CookiePreferencesTrigger label="Privacy Choices" style={{ fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap' }} />
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <a href="mailto:hello@scanterity.com" style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }} aria-label="Contact us via Email">
                   <svg style={{ width: '22px', height: '22px' }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
@@ -421,10 +422,10 @@ export default function Home() {
             </nav>
           </div>
           <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-            <p style={{ fontSize: '13px', fontWeight: 600, color: '#888', margin: 0 }}>
-              &copy; {new Date().getFullYear()} Scanterity Forensic Systems. All rights reserved. | Free Plagiarism Checker &amp; AI Detector
+            <p style={{ fontSize: '13px', fontWeight: 600, color: '#555555', margin: 0 }}>
+              &copy; {new Date().getFullYear()} Scanterity Forensic Systems. All rights reserved. | Automated analysis supports human review.
             </p>
-            <p style={{ fontSize: '12px', fontWeight: 600, color: '#888', margin: 0 }}>
+            <p style={{ fontSize: '12px', fontWeight: 600, color: '#555555', margin: 0 }}>
               An{' '}
               <a
                 href="https://arbovane.com"

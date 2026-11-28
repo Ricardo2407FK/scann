@@ -166,6 +166,19 @@ const ALGO_COLORS: Record<string, string> = {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 
+function redactIp(ip: string): string {
+  if (!ip || ip === 'unknown') return 'unknown';
+  if (ip.includes('.')) {
+    const parts = ip.split('.');
+    return parts.length === 4 ? `${parts[0]}.${parts[1]}.x.x` : 'redacted';
+  }
+  if (ip.includes(':')) {
+    const parts = ip.split(':');
+    return parts.slice(0, 2).join(':') + ':xxxx';
+  }
+  return 'redacted';
+}
+
 export async function POST(req: Request) {
   const requestId = generateRequestId();
   const log = logger.child({ requestId });
@@ -174,7 +187,7 @@ export async function POST(req: Request) {
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('x-real-ip') || 'unknown';
   const { limited, retryAfterMs } = checkRateLimit(ip, config.RATE_LIMIT_SCAN_MAX, config.RATE_LIMIT_SCAN_WINDOW_MS);
   if (limited) {
-    log.warn('Rate limit exceeded', { ip });
+    log.warn('Rate limit exceeded', { ipPrefix: redactIp(ip) });
     return new Response(JSON.stringify({ type: 'error', message: 'Rate limit exceeded. Please wait and try again.' }), {
       status: 429,
       headers: { 'Content-Type': 'application/json', 'Retry-After': String(Math.ceil(retryAfterMs / 1000)), 'X-Request-Id': requestId },
@@ -774,8 +787,7 @@ export async function POST(req: Request) {
         if (!aborted) {
           log.error('Engine error during analysis', { error: err instanceof Error ? err.message : String(err), stack: err instanceof Error ? err.stack : undefined });
           try {
-            const errMsg = err instanceof Error ? err.message : String(err);
-            send({ type: 'error', message: `Internal server error during analysis: ${errMsg}` });
+            send({ type: 'error', message: 'Internal server error during analysis. Please try again.' });
             controller.close();
           } catch { /* stream already closed */ }
         }

@@ -90,9 +90,9 @@ export default function ForensicViewer({ viewer, onClose }: ForensicViewerProps)
             {viewer.snippets.map((snippet, idx) => (
               <div key={idx} style={{ marginBottom: '0.85rem' }}>
                 <p>{snippet}</p>
-                {viewer.urls[idx] && (
-                  <a href={viewer.urls[idx]} target="_blank" rel="noreferrer"
-                    style={{ fontSize: '0.72rem', color: 'var(--accent)', marginTop: '0.3rem', display: 'block', wordBreak: 'break-all' }}>
+                {viewer.urls[idx] && /^https?:\/\//i.test(viewer.urls[idx]) && (
+                  <a href={viewer.urls[idx]} target="_blank" rel="noopener noreferrer"
+                    style={{ fontSize: '0.72rem', color: '#6d28d9', marginTop: '0.3rem', display: 'block', wordBreak: 'break-all' }}>
                     {viewer.urls[idx]}
                   </a>
                 )}

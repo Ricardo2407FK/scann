@@ -76,8 +76,11 @@ export const config = {
   LOG_LEVEL: envStr('Scanterity_LOG_LEVEL', 'info') as 'debug' | 'info' | 'warn' | 'error',
 
   // Identity (for ethical API access)
-  USER_AGENT: envStr('Scanterity_USER_AGENT', 'Scanterity/6.0 (Plagiarism Checker; +https://github.com/Scanterity)'),
+  USER_AGENT: envStr('Scanterity_USER_AGENT', 'Scanterity/6.0 (Plagiarism Checker; +https://www.scanterity.com)'),
   CONTACT_EMAIL: envStr('Scanterity_CONTACT_EMAIL', 'hello@scanterity.com'),
+  // Optional official Google Custom Search JSON API credentials
+  GOOGLE_CSE_API_KEY: envStr('GOOGLE_CSE_API_KEY', ''),
+  GOOGLE_CSE_CX: envStr('GOOGLE_CSE_CX', ''),
 } as const;
 
 export type AppConfig = typeof config;

@@ -81,7 +81,7 @@ export async function POST(req: Request) {
     const requestId = generateRequestId();
     const log = logger.child({ requestId, handler: 'parse-pdf' });
 
-    log.info('Processing file', { extension, fileName: fileValue.name, sizeKB: (fileValue.size / 1024).toFixed(1) });
+    log.info('Processing file', { extension, sizeKB: (fileValue.size / 1024).toFixed(1) });
 
     let text = '';
 
@@ -115,11 +115,10 @@ export async function POST(req: Request) {
     // Clean up common artefacts from pdf2json
     text = text.replace(/----------------Page \(\d+\) Break----------------/g, '\n').trim();
     
-    log.info('Text extraction complete', { fileName: fileValue.name, chars: text.length });
+    log.info('Text extraction complete', { extension, chars: text.length });
     return NextResponse.json({ text }, { headers: { 'X-Request-Id': requestId } });
   } catch (error) {
     logger.error('File parse error', { error: error instanceof Error ? error.message : String(error) });
-    const msg = error instanceof Error ? error.message : 'Failed to parse document';
-    return NextResponse.json({ error: msg }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to parse document. Please ensure the file is not encrypted or corrupted.' }, { status: 500 });
   }
 }

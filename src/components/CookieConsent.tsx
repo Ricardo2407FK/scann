@@ -4,34 +4,166 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Cookie, X, Check } from 'lucide-react';
 
+const GA_MEASUREMENT_ID = 'G-WTK9E3WPSX';
+const CONSENT_STORAGE_KEY = 'scanterity_cookie_consent';
+
+type ConsentChoice = 'all' | 'essential' | null;
+
+type GtagFn = (...args: unknown[]) => void;
+
+declare global {
+  interface Window {
+    dataLayer?: unknown[];
+    gtag?: GtagFn;
+    adsbygoogle?: unknown[] & { requestNonPersonalizedAds?: number };
+    [key: string]: unknown;
+  }
+}
+
+function getGpcSignal(): boolean {
+  if (typeof navigator === 'undefined') return false;
+  return (navigator as Navigator & { globalPrivacyControl?: boolean }).globalPrivacyControl === true;
+}
+
+function readStoredConsent(): ConsentChoice {
+  try {
+    const val = localStorage.getItem(CONSENT_STORAGE_KEY);
+    return val === 'all' || val === 'essential' ? val : null;
+  } catch {
+    return null;
+  }
+}
+
+function ensureGtagStub(): GtagFn {
+  window.dataLayer = window.dataLayer || [];
+  if (typeof window.gtag !== 'function') {
+    window.gtag = function gtag(...args: unknown[]) {
+      window.dataLayer!.push(args);
+    };
+  }
+  return window.gtag;
+}
+
+function clearNonEssentialCookies() {
+  if (typeof document === 'undefined') return;
+  const cookies = document.cookie ? document.cookie.split(';') : [];
+  const hostname = window.location.hostname;
+  const parts = hostname.split('.');
+  const domains = ['', hostname];
+  if (parts.length >= 2) {
+    domains.push('.' + parts.slice(-2).join('.'));
+  }
+
+  for (const raw of cookies) {
+    const eqPos = raw.indexOf('=');
+    const name = (eqPos > -1 ? raw.slice(0, eqPos) : raw).trim();
+    if (/^(_ga|_gid|_gat|_gcl|__gads|__gpi|_gac_)/.test(name)) {
+      for (const domain of domains) {
+        const domainAttr = domain ? `; domain=${domain}` : '';
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/${domainAttr}; SameSite=Lax`;
+      }
+    }
+  }
+}
+
+function loadGoogleAnalyticsOnce() {
+  if (typeof document === 'undefined') return;
+  window[`ga-disable-${GA_MEASUREMENT_ID}`] = false;
+  if (document.getElementById('scanterity-ga-script')) return;
+
+  const gtag = ensureGtagStub();
+  const script = document.createElement('script');
+  script.id = 'scanterity-ga-script';
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  document.head.appendChild(script);
+
+  gtag('js', new Date());
+  gtag('config', GA_MEASUREMENT_ID);
+}
+
+function applyConsentState(choice: 'all' | 'essential') {
+  if (typeof window === 'undefined') return;
+  const gtag = ensureGtagStub();
+
+  if (choice === 'all') {
+    window.adsbygoogle = window.adsbygoogle || [];
+    window.adsbygoogle.requestNonPersonalizedAds = 0;
+    gtag('consent', 'update', {
+      ad_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted',
+      analytics_storage: 'granted',
+    });
+    gtag('set', 'ads_data_redaction', false);
+    loadGoogleAnalyticsOnce();
+  } else {
+    window[`ga-disable-${GA_MEASUREMENT_ID}`] = true;
+    window.adsbygoogle = window.adsbygoogle || [];
+    window.adsbygoogle.requestNonPersonalizedAds = 1;
+    gtag('consent', 'update', {
+      ad_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+      analytics_storage: 'denied',
+    });
+    gtag('set', 'ads_data_redaction', true);
+    clearNonEssentialCookies();
+  }
+}
+
 export default function CookieConsent() {
   const [show, setShow] = useState(false);
+  const [savedChoice, setSavedChoice] = useState<ConsentChoice>(null);
+  const [gpcActive, setGpcActive] = useState(false);
 
   useEffect(() => {
-    // Check if user has already made a choice
-    try {
-      const consent = localStorage.getItem('scanterity_cookie_consent');
-      if (!consent) {
-        // Small delay to prevent layout pop
-        const timer = setTimeout(() => setShow(true), 800);
-        return () => clearTimeout(timer);
-      }
-    } catch {
-      // Ignore localStorage errors (e.g. incognito restrictions)
+    const gpc = getGpcSignal();
+    const consent = readStoredConsent();
+
+    if (consent === 'all' && !gpc) {
+      applyConsentState('all');
+    } else {
+      applyConsentState('essential');
     }
+
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    if (!consent) {
+      timer = setTimeout(() => {
+        setGpcActive(getGpcSignal());
+        setSavedChoice(readStoredConsent());
+        setShow(true);
+      }, 800);
+    }
+
+    const handleOpenSettings = () => {
+      setSavedChoice(readStoredConsent());
+      setGpcActive(getGpcSignal());
+      setShow(true);
+    };
+
+    window.addEventListener('scanterity:open-cookie-settings', handleOpenSettings);
+    return () => {
+      if (timer) clearTimeout(timer);
+      window.removeEventListener('scanterity:open-cookie-settings', handleOpenSettings);
+    };
   }, []);
 
   const handleAcceptAll = () => {
     try {
-      localStorage.setItem('scanterity_cookie_consent', 'all');
+      localStorage.setItem(CONSENT_STORAGE_KEY, 'all');
     } catch {}
+    setSavedChoice('all');
+    applyConsentState('all');
     setShow(false);
   };
 
   const handleEssentialOnly = () => {
     try {
-      localStorage.setItem('scanterity_cookie_consent', 'essential');
+      localStorage.setItem(CONSENT_STORAGE_KEY, 'essential');
     } catch {}
+    setSavedChoice('essential');
+    applyConsentState('essential');
     setShow(false);
   };
 
@@ -39,7 +171,7 @@ export default function CookieConsent() {
 
   return (
     <aside
-      aria-label="Cookie consent banner"
+      aria-label="Cookie and privacy preferences"
       role="region"
       style={{
         position: 'fixed',
@@ -71,7 +203,7 @@ export default function CookieConsent() {
             boxShadow: '2px 2px 0px 0px #000',
           }}
         >
-          <Cookie size={22} strokeWidth={2.5} color="#000" />
+          <Cookie size={22} strokeWidth={2.5} color="#000" aria-hidden="true" />
         </div>
 
         <div style={{ flex: 1 }}>
@@ -80,33 +212,52 @@ export default function CookieConsent() {
               Cookie &amp; Privacy Preferences
             </h2>
             <button
+              type="button"
               onClick={handleEssentialOnly}
-              aria-label="Close cookie consent banner"
+              aria-label="Use essential cookies only and close banner"
               style={{
                 background: 'transparent',
                 border: 'none',
                 cursor: 'pointer',
                 padding: '4px',
                 display: 'flex',
-                color: '#666',
+                color: '#444',
               }}
             >
-              <X size={18} />
+              <X size={18} aria-hidden="true" />
             </button>
           </div>
 
-          <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#333', margin: '0 0 1rem 0' }}>
-            We use strictly necessary cookies to keep our forensic scanner running securely. We also partner with Google AdSense and Google Analytics to serve relevant ads that keep Scanterity 100% free with zero document retention. Learn more in our{' '}
+          <p style={{ fontSize: '13px', lineHeight: 1.5, color: '#333', margin: '0 0 0.75rem 0' }}>
+            We use essential browser storage for security and preferences. With your consent, Google AdSense and Google Analytics help keep Scanterity free without storing your uploaded documents.{' '}
             <Link
               href="/privacy"
-              style={{ color: '#7c3aed', fontWeight: 700, textDecoration: 'underline' }}
+              style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}
             >
               Privacy Policy
+            </Link>{' '}
+            &middot;{' '}
+            <Link
+              href="/compliance"
+              style={{ color: '#6d28d9', fontWeight: 700, textDecoration: 'underline' }}
+            >
+              Your Privacy Rights
             </Link>.
           </p>
 
+          {(gpcActive || savedChoice) && (
+            <p style={{ fontSize: '11.5px', lineHeight: 1.4, color: '#555', margin: '0 0 0.75rem 0', fontWeight: 600 }}>
+              {gpcActive
+                ? 'Global Privacy Control (GPC) signal detected — analytics and personalized ads stay off unless you explicitly allow all.'
+                : savedChoice === 'all'
+                ? 'Current preference: All cookies accepted.'
+                : 'Current preference: Essential only (analytics & personalized ads off).'}
+            </p>
+          )}
+
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <button
+              type="button"
               onClick={handleAcceptAll}
               style={{
                 background: 'var(--nb-purple, #B794F6)',
@@ -123,11 +274,12 @@ export default function CookieConsent() {
                 gap: '0.35rem',
               }}
             >
-              <Check size={14} strokeWidth={3} />
+              <Check size={14} strokeWidth={3} aria-hidden="true" />
               Accept All
             </button>
 
             <button
+              type="button"
               onClick={handleEssentialOnly}
               style={{
                 background: '#FFFFFF',

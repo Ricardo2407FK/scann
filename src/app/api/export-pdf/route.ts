@@ -9,12 +9,39 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 
+const MAX_BASE64_LENGTH = 25 * 1024 * 1024;
+const DEFAULT_FILENAME = 'Scanterity_Forensic_Report.pdf';
+
+function isAllowedOrigin(request: NextRequest): boolean {
+  const origin = request.headers.get('origin');
+  const host = request.headers.get('host');
+  if (!origin || !host) return true;
+  try {
+    const originUrl = new URL(origin);
+    const hostHostname = host.startsWith('[')
+      ? host.substring(0, host.indexOf(']') + 1)
+      : host.split(':')[0];
+    const loopbacks = ['localhost', '[::1]', '::1', '127.0.0.1'];
+    const bothLoopback =
+      process.env.NODE_ENV === 'development' &&
+      loopbacks.includes(originUrl.hostname) &&
+      loopbacks.includes(hostHostname);
+    return originUrl.hostname === hostHostname || bothLoopback;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
+  if (!isAllowedOrigin(request)) {
+    return NextResponse.json({ error: 'Cross-origin requests are not allowed.' }, { status: 403 });
+  }
+
   try {
     // Parse form data (submitted via hidden form, not JSON fetch)
     const contentType = request.headers.get('content-type') || '';
     let data: string | null = null;
-    let filename = 'Scanterity_Forensic_Report.pdf';
+    let filename = DEFAULT_FILENAME;
 
     if (contentType.includes('application/x-www-form-urlencoded')) {
       const formData = await request.formData();
@@ -35,9 +62,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing PDF data' }, { status: 400 });
     }
 
-    // Validate base64 — must be non-empty and decodable
+    // Validate base64 bounds — must be non-empty and within safe limit
     if (data.length < 100) {
       return NextResponse.json({ error: 'PDF data too small' }, { status: 400 });
+    }
+    if (data.length > MAX_BASE64_LENGTH) {
+      return NextResponse.json({ error: 'PDF payload too large' }, { status: 413 });
     }
 
     // Decode base64 to binary
@@ -45,13 +75,16 @@ export async function POST(request: NextRequest) {
 
     // Validate PDF magic bytes (%PDF-)
     if (pdfBuffer.length < 5 || pdfBuffer.toString('ascii', 0, 5) !== '%PDF-') {
-      console.error('[export-pdf] Invalid PDF: missing %PDF- header, got:', pdfBuffer.toString('ascii', 0, 10));
       return NextResponse.json({ error: 'Invalid PDF data' }, { status: 400 });
     }
 
-    const safeName = filename.replace(/[^a-zA-Z0-9._-]/g, '_');
-
-    console.log(`[export-pdf] Serving ${safeName} (${pdfBuffer.length} bytes)`);
+    let safeName = String(filename || DEFAULT_FILENAME).replace(/[^a-zA-Z0-9._-]/g, '_');
+    if (!safeName || safeName.startsWith('.')) {
+      safeName = DEFAULT_FILENAME;
+    }
+    if (!safeName.toLowerCase().endsWith('.pdf')) {
+      safeName += '.pdf';
+    }
 
     return new Response(pdfBuffer, {
       status: 200,
@@ -65,7 +98,7 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (err) {
-    console.error('[export-pdf] Error:', err);
+    console.error('[export-pdf] Error:', err instanceof Error ? err.message : String(err));
     return NextResponse.json(
       { error: 'Failed to process PDF export' },
       { status: 500 }

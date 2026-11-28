@@ -74,10 +74,75 @@ function isPrivateIPv4(addr: string) {
     (a === 192 && b === 168) || a >= 224;
 }
 
+function parseIPv6Hextets(addr: string): number[] | null {
+  let raw = stripBrackets(addr).toLowerCase().split('%')[0];
+  // Handle IPv4-embedded suffixes such as ::ffff:127.0.0.1 or 64:ff9b::10.0.0.1
+  if (raw.includes('.')) {
+    const lastColon = raw.lastIndexOf(':');
+    if (lastColon === -1) return null;
+    const v4Part = raw.slice(lastColon + 1);
+    const v4Nums = v4Part.split('.').map(Number);
+    if (v4Nums.length !== 4 || v4Nums.some(x => !Number.isInteger(x) || x < 0 || x > 255)) return null;
+    const high = ((v4Nums[0] << 8) | v4Nums[1]).toString(16);
+    const low = ((v4Nums[2] << 8) | v4Nums[3]).toString(16);
+    raw = raw.slice(0, lastColon + 1) + `${high}:${low}`;
+  }
+
+  const dblParts = raw.split('::');
+  if (dblParts.length > 2) return null;
+
+  const parseGroups = (s: string): number[] | null => {
+    if (!s) return [];
+    const groups = s.split(':');
+    const out: number[] = [];
+    for (const g of groups) {
+      if (!/^[0-9a-f]{1,4}$/.test(g)) return null;
+      out.push(parseInt(g, 16));
+    }
+    return out;
+  };
+
+  if (dblParts.length === 1) {
+    const groups = parseGroups(dblParts[0]);
+    return groups && groups.length === 8 ? groups : null;
+  }
+
+  const left = parseGroups(dblParts[0]);
+  const right = parseGroups(dblParts[1]);
+  if (!left || !right) return null;
+  const missing = 8 - (left.length + right.length);
+  if (missing < 1) return null;
+  return [...left, ...new Array<number>(missing).fill(0), ...right];
+}
+
 function isPrivateIPv6(addr: string) {
-  const n = stripBrackets(addr).toLowerCase();
-  return n === '::' || n === '::1' || n.startsWith('fc') || n.startsWith('fd') ||
-    n.startsWith('fe80:') || n.startsWith('ff');
+  const h = parseIPv6Hextets(addr);
+  if (!h) return true; // Fail closed on unparseable addresses
+  // :: (unspecified) and ::1 (loopback)
+  if (h[0] === 0 && h[1] === 0 && h[2] === 0 && h[3] === 0 && h[4] === 0 && h[5] === 0 && h[6] === 0 && (h[7] === 0 || h[7] === 1)) {
+    return true;
+  }
+  // IPv4-mapped IPv6 (::ffff:0:0/96) and IPv4-compatible IPv6 (::/96)
+  if (h[0] === 0 && h[1] === 0 && h[2] === 0 && h[3] === 0 && h[4] === 0 && (h[5] === 0xffff || h[5] === 0)) {
+    const v4 = `${h[6] >> 8}.${h[6] & 0xff}.${h[7] >> 8}.${h[7] & 0xff}`;
+    return isPrivateIPv4(v4);
+  }
+  // NAT64 prefix (64:ff9b::/96)
+  if (h[0] === 0x0064 && h[1] === 0xff9b && h[2] === 0 && h[3] === 0 && h[4] === 0 && h[5] === 0) {
+    const v4 = `${h[6] >> 8}.${h[6] & 0xff}.${h[7] >> 8}.${h[7] & 0xff}`;
+    return isPrivateIPv4(v4);
+  }
+  // Unique Local Addresses fc00::/7
+  if ((h[0] & 0xfe00) === 0xfc00) return true;
+  // Link-Local Addresses fe80::/10
+  if ((h[0] & 0xffc0) === 0xfe80) return true;
+  // Multicast ff00::/8
+  if ((h[0] & 0xff00) === 0xff00) return true;
+  // Discard-Only 100::/64
+  if (h[0] === 0x0100 && h[1] === 0 && h[2] === 0 && h[3] === 0) return true;
+  // Documentation 2001:db8::/32
+  if (h[0] === 0x2001 && h[1] === 0x0db8) return true;
+  return false;
 }
 
 function isPrivateAddr(addr: string) {
@@ -263,8 +328,23 @@ async function searchBing(query: string): Promise<SearchResult[]> {
   );
 }
 
-// 4. Google (HTML scraping with robust fallback)
+// 4. Google (Uses official Custom Search JSON API when configured; falls back to web search)
 async function searchGoogleRaw(query: string): Promise<SearchResult[]> {
+  if (config.GOOGLE_CSE_API_KEY && config.GOOGLE_CSE_CX) {
+    const res = await axios.get('https://www.googleapis.com/customsearch/v1', {
+      params: { key: config.GOOGLE_CSE_API_KEY, cx: config.GOOGLE_CSE_CX, q: query, num: 10, hl: 'en' },
+      headers: HEADERS,
+      timeout: 8000,
+    });
+    const results: SearchResult[] = [];
+    if (Array.isArray(res.data?.items)) {
+      for (const item of res.data.items) {
+        if (item?.link) pushResult(results, String(item.link), String(item.snippet || item.title || '').trim(), 'https://www.google.com');
+      }
+    }
+    return results;
+  }
+
   const res = await axios.get('https://www.google.com/search', {
     params: { q: query, num: 10, hl: 'en' },
     headers: { ...HEADERS, 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36' },

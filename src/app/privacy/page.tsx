@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowLeft, Shield, Database, Lock, Eye, AlertCircle, Cookie } from 'lucide-react';
 import styles from './PrivacyPolicy.module.css';
 import ScrollToTop from '@/components/ScrollToTop';
+import CookiePreferencesTrigger from '@/components/CookiePreferencesTrigger';
 
 export const metadata = createPageMetadata({
   title: 'Privacy Policy',
@@ -14,6 +15,12 @@ export const metadata = createPageMetadata({
 const breadcrumbJsonLd = createBreadcrumbJsonLd([
   { name: 'Privacy Policy', path: '/privacy' },
 ]);
+
+const linkStyle: React.CSSProperties = {
+  color: '#6d28d9',
+  fontWeight: 700,
+  textDecoration: 'underline',
+};
 
 export default function PrivacyPolicy() {
   return (
@@ -33,135 +40,131 @@ export default function PrivacyPolicy() {
 
         <div className={styles.header}>
           <h1 className={styles.title}>Privacy Policy</h1>
-          <div className={styles.lastUpdated}>Last Updated: August 13, 2026</div>
+          <div className={styles.lastUpdated}>Last Updated: November 28, 2026</div>
         </div>
 
         <article className={styles.document}>
           <div className={styles.highlight}>
             <Shield className={styles.highlightIcon} size={24} strokeWidth={2.5} />
             <p style={{ margin: 0 }}>
-              <strong>Our Core Promise:</strong> We are a forensic scanning tool, not a data broker. We do not store, sell, or claim ownership of any intellectual property you scan using Scanterity. Your documents remain yours.
+              <strong>Our Core Promise:</strong> Scanterity Forensic Systems (operated by Arbovane) is a forensic scanning utility, not a data broker or document repository. We do not persist submitted documents to a database, sell personal data, or claim ownership over your writing.
             </p>
           </div>
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Database size={18} strokeWidth={2.5} /></div>
-              1. Information We Collect
+              1. Information We Process
             </h2>
             <p className={styles.text}>
-              We collect only the minimal data strictly necessary to provide our forensic plagiarism detection services:
+              Scanterity operates without user registration or accounts. We process only the minimal data needed to deliver plagiarism and AI-signal analysis securely:
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Uploaded Content:</strong> Text or files you upload specifically for scanning. These are processed ephemerally in volatile memory (RAM).</li>
-              <li className={styles.listItem}><strong>Technical &amp; Usage Data:</strong> Automatically collected information including IP addresses, browser types, device identifiers, and interaction metrics to optimize performance and prevent abuse.</li>
-              <li className={styles.listItem}><strong>Account Information:</strong> If you register, we securely store your email address, encrypted authentication credentials, and billing history (if applicable) through secure third-party payment processors.</li>
-              <li className={styles.listItem}><strong>Cookies &amp; Local Storage:</strong> We use strictly necessary cookies to maintain session states and functional local storage for user preferences. Additionally, third-party partners (such as Google AdSense and Google Analytics) use cookies to analyze web traffic and deliver relevant advertising as described in Section 3.</li>
+              <li className={styles.listItem}><strong>Submitted Text &amp; Files:</strong> Text pasted into the editor or extracted from uploaded <code>.pdf</code>, <code>.docx</code>, or <code>.txt</code> files is processed ephemerally in volatile server memory (RAM) for analysis. Uploaded files are not written to persistent disk storage or added to any user-submission repository.</li>
+              <li className={styles.listItem}><strong>Technical &amp; Security Data:</strong> IP addresses (processed in-memory for sliding-window rate limiting and redacted in diagnostic logs), HTTP request metadata, and error diagnostics required to maintain stability and prevent automated abuse.</li>
+              <li className={styles.listItem}><strong>Direct Inquiries:</strong> If you email us at <a href="mailto:hello@scanterity.com" style={linkStyle}>hello@scanterity.com</a> or send an advertising sponsorship inquiry to <a href="mailto:advertise@arbovane.com" style={linkStyle}>advertise@arbovane.com</a>, we retain your message and email address only as needed to respond to your inquiry.</li>
+              <li className={styles.listItem}><strong>Browser Storage &amp; Optional Cookies:</strong> We store your cookie consent choice locally in your browser (<code>localStorage</code>). Non-essential cookies for Google Analytics and personalized Google AdSense ads are disabled by default and load only if you select &ldquo;Accept All&rdquo; and no Global Privacy Control (GPC) signal is active.</li>
             </ul>
           </section>
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Lock size={18} strokeWidth={2.5} /></div>
-              2. How We Process Your Data
+              2. How Your Documents Are Processed &amp; Cached
             </h2>
             <p className={styles.text}>
-              Scanterity operates on a rigorous &quot;process-and-discard&quot; architecture designed to protect intellectual property:
+              Scanterity is designed around ephemeral, database-free document handling:
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Ephemeral Scanning:</strong> Documents uploaded by anonymous users are processed exclusively in RAM and instantly purged from our servers the millisecond a report is generated.</li>
-              <li className={styles.listItem}><strong>Zero-Retention Policy:</strong> We explicitly do not add your scanned documents to any internal database to check against future submissions by other users.</li>
-              <li className={styles.listItem}><strong>Mathematical Fingerprinting:</strong> Our proprietary NLP engines create irreversible mathematical hashes of your text. These abstract hashes cannot be reverse-engineered to reconstruct your original document.</li>
+              <li className={styles.listItem}><strong>No Persistent Submission Storage:</strong> Your uploaded files and full documents are never saved to a persistent database, never indexed to check against future users&rsquo; submissions, and never retained on disk after parsing or scanning completes.</li>
+              <li className={styles.listItem}><strong>External Search Queries &amp; Transient In-Memory Caches:</strong> To identify online matches, our engine selects short representative search phrases (probes) from submitted text and sends those query strings over HTTPS to external search and academic lookup providers (Wikipedia, CrossRef, Semantic Scholar, and web search engines). Query lookups may stay in transient server RAM cache for up to 15 minutes (and public reference page extracts for up to 1 hour) purely for performance before automatic expiration.</li>
+              <li className={styles.listItem}><strong>Client-Side Report Generation:</strong> Your highlighted report and downloadable PDF export are generated directly in your browser. We do not store copies of generated reports on our servers.</li>
             </ul>
           </section>
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Cookie size={18} strokeWidth={2.5} /></div>
-              3. Cookies, Advertising &amp; Google AdSense
+              3. Cookies, Google AdSense, Analytics &amp; Consent Choices
             </h2>
             <p className={styles.text}>
-              To keep Scanterity 100% free with no subscription fees, no account barriers, and strict zero-data retention, we display advertisements served by Google AdSense and utilize Google Analytics for performance optimization:
+              To keep Scanterity free without sign-ups, we display ads via Google AdSense and (with your consent) use Google Analytics to measure site reliability. We implement Google Consent Mode v2 and honor browser privacy signals:
             </p>
             <ul className={styles.list}>
               <li className={styles.listItem}>
-                <strong>Third-Party Ad Serving:</strong> Third-party vendors, including Google, use cookies to serve ads based on a user&apos;s prior visits to this website or other websites on the Internet.
+                <strong>Opt-In Consent &amp; Essential Only Mode:</strong> Advertising storage, ad personalization, and analytics cookies default to <em>denied</em>. If you click &ldquo;Essential Only&rdquo; or have Global Privacy Control (GPC) enabled, Google Analytics does not load and Google AdSense is instructed to serve strictly non-personalized ads.
               </li>
               <li className={styles.listItem}>
-                <strong>Advertising Cookies:</strong> Google&apos;s use of advertising cookies (such as the DoubleClick cookie) enables it and its partners to serve ads to our users based on their visits to Scanterity and/or other sites across the Internet.
-              </li>
-              <li className={styles.listItem}>
-                <strong>Personalized Ads Opt-Out:</strong> Users may opt out of personalized advertising by visiting{' '}
-                <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
+                <strong>Third-Party Ad Serving &amp; Cookies:</strong> When you consent via &ldquo;Accept All,&rdquo; Google and third-party vendors may use cookies to serve relevant ads and measure usage. You can opt out of personalized advertising anytime via{' '}
+                <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer" style={linkStyle}>
                   Google Ads Settings
                 </a>.
               </li>
               <li className={styles.listItem}>
-                <strong>Industry Opt-Out Resources:</strong> Alternatively, users can opt out of a third-party vendor&apos;s use of cookies for personalized advertising by visiting{' '}
-                <a href="https://optout.aboutads.info/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
-                  www.aboutads.info
-                </a>{' '}
-                or the Network Advertising Initiative at{' '}
-                <a href="https://www.networkadvertising.org/choices/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
-                  www.networkadvertising.org/choices/
-                </a>{' '}
-                or the European Interactive Digital Advertising Alliance at{' '}
-                <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
-                  www.youronlinechoices.eu
+                <strong>Industry Opt-Out Resources:</strong> Opt out of participating third-party ad networks at{' '}
+                <a href="https://optout.aboutads.info/" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  aboutads.info
+                </a>,{' '}
+                <a href="https://www.networkadvertising.org/choices/" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  networkadvertising.org/choices
+                </a>, or{' '}
+                <a href="https://www.youronlinechoices.eu/" target="_blank" rel="noopener noreferrer" style={linkStyle}>
+                  youronlinechoices.eu
                 </a>.
               </li>
               <li className={styles.listItem}>
-                <strong>Google Analytics:</strong> We use Google Analytics to collect aggregated, non-personally identifiable metrics (such as page speed, browser types, and general geographic distribution) to ensure site reliability. Google Analytics uses cookies to analyze user interactions. You can opt out via the{' '}
-                <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--nb-purple)', fontWeight: 700, textDecoration: 'underline' }}>
+                <strong>Google Analytics Opt-Out:</strong> When active, you may also use the{' '}
+                <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style={linkStyle}>
                   Google Analytics Opt-Out Browser Add-on
                 </a>.
               </li>
               <li className={styles.listItem}>
-                <strong>Document Isolation Guarantee:</strong> Your uploaded documents and text submissions are strictly isolated from all advertising networks. Content submitted for plagiarism or AI scanning is NEVER shared with Google AdSense, advertisers, or third-party marketing entities.
+                <strong>Document Isolation Guarantee:</strong> Submitted document content is never sold or shared with Google AdSense, direct sponsorship advertisers, or marketing data brokers.
               </li>
             </ul>
+            <p className={styles.text}>
+              You can update or withdraw your consent at any time:{' '}
+              <CookiePreferencesTrigger style={{ color: '#6d28d9', fontWeight: 700 }} />
+            </p>
           </section>
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><Eye size={18} strokeWidth={2.5} /></div>
-              4. Data Sharing &amp; Third Parties
+              4. External Service Providers &amp; Data Recipients
             </h2>
             <p className={styles.text}>
-              We maintain absolute confidentiality over your submissions. We have never sold, and will never sell, your personal data or your scanned content to data brokers or third parties. We only share data with:
+              We do not sell your personal information or submitted documents. Categories of external entities that may receive limited technical or query data include:
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Secure Infrastructure Partners:</strong> Cloud providers (e.g., AWS, Vercel) necessary to host and scale our forensic engines. All partners are bound by strict Data Processing Agreements (DPAs).</li>
-              <li className={styles.listItem}><strong>Advertising &amp; Analytics Partners:</strong> As described in Section 3, Google AdSense and Google Analytics process anonymous technical data in accordance with their respective privacy policies and your consent choices.</li>
-              <li className={styles.listItem}><strong>Legal Compliance:</strong> Law enforcement agencies, but strictly only if mandated by a valid, legally binding court order or subpoena.</li>
+              <li className={styles.listItem}><strong>Search &amp; Academic API Providers:</strong> Short, selected text search queries (not full uploaded files) are sent to external search and academic databases (such as CrossRef, Semantic Scholar, Wikipedia, and web search providers) solely to locate matching public sources.</li>
+              <li className={styles.listItem}><strong>Hosting &amp; Infrastructure Providers:</strong> Cloud hosting and content delivery infrastructure providers (e.g., Vercel) that process HTTP traffic and runtime telemetry subject to standard provider security and privacy terms.</li>
+              <li className={styles.listItem}><strong>Advertising &amp; Analytics (Consent-Gated):</strong> Google AdSense and Google Analytics process browser telemetry in accordance with Google&rsquo;s privacy policies and your consent choices.</li>
+              <li className={styles.listItem}><strong>Legal Obligations:</strong> Authorities only if compelled by a valid, legally binding subpoena, court order, or statutory obligation.</li>
             </ul>
           </section>
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
               <div className={styles.sectionIcon}><AlertCircle size={18} strokeWidth={2.5} /></div>
-              5. Global Privacy Rights (GDPR &amp; CCPA)
+              5. Global Privacy Rights (GDPR, UK GDPR &amp; CCPA/CPRA)
             </h2>
             <p className={styles.text}>
-              Depending on your jurisdiction, including the European Economic Area (GDPR) and California (CCPA), you are granted comprehensive rights regarding your personal data:
+              Depending on your jurisdiction, including the EEA, UK, and California (CCPA/CPRA), you may have rights to access, correct, delete, restrict, or port personal data, object to processing, withdraw consent, and opt out of the &ldquo;sharing&rdquo; of personal information for cross-context behavioral advertising:
             </p>
             <ul className={styles.list}>
-              <li className={styles.listItem}><strong>Right to Access &amp; Portability:</strong> Request a copy of the personal data we hold about you.</li>
-              <li className={styles.listItem}><strong>Right to Erasure (&quot;Right to be Forgotten&quot;):</strong> Request immediate deletion of your account and all associated personal data.</li>
-              <li className={styles.listItem}><strong>Right to Rectification:</strong> Correct any inaccurate data we hold about you.</li>
-              <li className={styles.listItem}><strong>Right to Withdraw Consent:</strong> Withdraw consent for non-essential cookies and personalized advertising at any time.</li>
+              <li className={styles.listItem}><strong>No Document Accounts to Delete:</strong> Because Scanterity does not store uploaded documents or maintain user accounts, submitted papers are not retained for deletion.</li>
+              <li className={styles.listItem}><strong>Opt-Out / Consent Withdrawal:</strong> Use <CookiePreferencesTrigger style={{ color: '#6d28d9', fontWeight: 700 }} /> at any time or enable Global Privacy Control (GPC) in your browser to opt out of personalized advertising and analytics.</li>
+              <li className={styles.listItem}><strong>Non-Discrimination:</strong> Exercising any privacy right will never restrict access to Scanterity&rsquo;s free scanning features.</li>
             </ul>
-            <p className={styles.text}>
-              Because we do not store scanned content for anonymous users, there is no uploaded content to delete. Registered users can permanently delete their account and history instantly from their dashboard settings.
-            </p>
           </section>
 
           <section className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              6. Children&apos;s Privacy
+              6. Children&rsquo;s Privacy
             </h2>
             <p className={styles.text}>
-              Scanterity is not directed at children under the age of 13 (or 16 in certain European jurisdictions). We do not knowingly collect personal information from children. If we become aware that we have inadvertently collected such data, we will take immediate steps to securely delete it in compliance with COPPA and GDPR.
+              Scanterity is intended for users aged 13 and older (or aged 16 and older, or the applicable age of digital consent, in the EEA/UK unless used with verifiable parental, guardian, or institutional educator authorization). We do not knowingly collect personal information from children under applicable digital consent laws. If you believe a child has submitted personal contact information to us (for example via email), please contact us immediately so we can delete it.
             </p>
           </section>
 
@@ -170,19 +173,18 @@ export default function PrivacyPolicy() {
               7. Policy Updates &amp; Contact
             </h2>
             <p className={styles.text}>
-              We reserve the right to update this Privacy Policy to reflect changes in legal requirements or our operational practices. Any material changes will be communicated via email or a prominent notice on our website.
-            </p>
-            <p className={styles.text}>
-              If you have any questions or require legal assistance regarding this Privacy Policy, please contact our Data Protection Officer at:
+              We may update this Privacy Policy to reflect operational or legal changes, with the updated date reflected at the top of this page. For privacy inquiries or data rights requests, contact:
               <br /><br />
-              <strong>Email:</strong> <a href="mailto:hello@scanterity.com" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>hello@scanterity.com</a>
+              <strong>Operator:</strong> Scanterity Forensic Systems (Arbovane)<br />
+              <strong>Privacy &amp; Data Protection Email:</strong> <a href="mailto:hello@scanterity.com" style={linkStyle}>hello@scanterity.com</a><br />
+              <strong>Direct Advertising Inquiries:</strong> <a href="mailto:advertise@arbovane.com" style={linkStyle}>advertise@arbovane.com</a>
             </p>
             <p className={styles.text} style={{ marginTop: '1.25rem', fontSize: '14px' }}>
               <strong>Related Legal Documents:</strong>{' '}
-              <Link href="/about" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>About Us</Link> |{' '}
-              <Link href="/compliance" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>GDPR &amp; Compliance</Link> |{' '}
-              <Link href="/terms" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Terms of Service</Link> |{' '}
-              <Link href="/contact" style={{ color: 'var(--nb-purple)', fontWeight: 700 }}>Contact Support</Link>
+              <Link href="/about" style={linkStyle}>About Us</Link> |{' '}
+              <Link href="/compliance" style={linkStyle}>GDPR &amp; Compliance</Link> |{' '}
+              <Link href="/terms" style={linkStyle}>Terms of Service</Link> |{' '}
+              <Link href="/contact" style={linkStyle}>Contact Support</Link>
             </p>
           </section>
 
